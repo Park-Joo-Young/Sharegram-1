@@ -11,8 +11,10 @@ import Firebase
 import UIKit
 
 class variable {
-    var ref : DatabaseReference?
-    var PasswordText : UITextField?
-    var EmailText : UITextField?
-    
+ // 공통적으로 쓰는 변수들 여따가 
 }
+
+//protocol Function {
+//    func
+//}
+

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Q9P-rh-sNn">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -20,13 +20,10 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <connections>
-                        <segue destination="Q9P-rh-sNn" kind="show" identifier="Loading" id="fII-sC-dir"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="34" y="117"/>
+            <point key="canvasLocation" x="-18" y="146"/>
         </scene>
         <!--Create User View Controller-->
         <scene sceneID="ab4-O1-kyG">
@@ -50,16 +47,65 @@
                     <view key="view" contentMode="scaleToFill" id="HRz-QV-ALz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="KJF-cI-UxX">
+                                <rect key="frame" x="48" y="93" width="279" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Login"/>
+                                    <segment title="Create"/>
+                                    <segment title="Reset"/>
+                                </segments>
+                                <connections>
+                                    <action selector="ActSeg:" destination="Q9P-rh-sNn" eventType="valueChanged" id="Gex-2v-80W"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="gJO-Sp-Yrw"/>
                     </view>
                     <connections>
-                        <segue destination="PJw-c9-Ako" kind="show" id="VAW-X4-1hd"/>
+                        <outlet property="segment" destination="KJF-cI-UxX" id="4Si-eP-fqZ"/>
+                        <segue destination="PJw-c9-Ako" kind="show" identifier="Create" id="VAW-X4-1hd"/>
+                        <segue destination="E9R-7G-7Jc" kind="show" identifier="Login" id="gIg-bZ-b0b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k9L-Vd-fu4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="857" y="141"/>
+            <point key="canvasLocation" x="856.79999999999995" y="144.3778110944528"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="pSb-wi-zCa">
+            <objects>
+                <tabBarController id="E9R-7G-7Jc" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="7TM-WV-eew">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="DZZ-Lg-s6f" kind="relationship" relationship="viewControllers" id="gvr-uh-5du"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d9c-Qh-vXe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1748" y="145"/>
+        </scene>
+        <!--Main-->
+        <scene sceneID="C3n-6g-s38">
+            <objects>
+                <viewController id="DZZ-Lg-s6f" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gEk-Xj-erV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="jF3-fi-p88"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Main" id="FS0-YV-oDX"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iXt-I9-GAH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2636" y="145"/>
         </scene>
     </scenes>
 </document>

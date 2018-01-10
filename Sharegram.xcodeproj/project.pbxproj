@@ -11,6 +11,7 @@
 		186FDFEF2005E60D007A454C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDFEE2005E60D007A454C /* LoginViewController.swift */; };
 		186FDFF12005E61D007A454C /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDFF02005E61D007A454C /* CreateUserViewController.swift */; };
 		186FDFF32005E6B7007A454C /* Variable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDFF22005E6B7007A454C /* Variable.swift */; };
+		186FDFF82005F871007A454C /* ShareGram.png in Resources */ = {isa = PBXBuildFile; fileRef = 186FDFF72005F871007A454C /* ShareGram.png */; };
 		3A76C19120046761004253CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76C19020046761004253CF /* AppDelegate.swift */; };
 		3A76C19320046761004253CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76C19220046761004253CF /* ViewController.swift */; };
 		3A76C19620046761004253CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A76C19420046761004253CF /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 		186FDFEE2005E60D007A454C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		186FDFF02005E61D007A454C /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
 		186FDFF22005E6B7007A454C /* Variable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variable.swift; sourceTree = "<group>"; };
+		186FDFF72005F871007A454C /* ShareGram.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShareGram.png; sourceTree = "<group>"; };
 		3A76C18D20046761004253CF /* Sharegram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sharegram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A76C19020046761004253CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A76C19220046761004253CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -50,6 +52,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		186FDFF62005F871007A454C /* picture */ = {
+			isa = PBXGroup;
+			children = (
+				186FDFF72005F871007A454C /* ShareGram.png */,
+			);
+			path = picture;
+			sourceTree = "<group>";
+		};
 		3A76C18420046761004253CF = {
 			isa = PBXGroup;
 			children = (
@@ -75,8 +85,9 @@
 				3A76C19220046761004253CF /* ViewController.swift */,
 				3A76C19420046761004253CF /* Main.storyboard */,
 				186FDFEE2005E60D007A454C /* LoginViewController.swift */,
-				186FDFF22005E6B7007A454C /* Variable.swift */,
 				186FDFF02005E61D007A454C /* CreateUserViewController.swift */,
+				186FDFF62005F871007A454C /* picture */,
+				186FDFF22005E6B7007A454C /* Variable.swift */,
 				3A76C19A20046761004253CF /* Assets.xcassets */,
 				3A76C19C20046761004253CF /* LaunchScreen.storyboard */,
 				3A76C19F20046761004253CF /* Info.plist */,
@@ -165,6 +176,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				186FDFF82005F871007A454C /* ShareGram.png in Resources */,
 				3A76C19E20046761004253CF /* LaunchScreen.storyboard in Resources */,
 				186FDFED2005E497007A454C /* GoogleService-Info.plist in Resources */,
 				3A76C19B20046761004253CF /* Assets.xcassets in Resources */,
