@@ -1,0 +1,6 @@
+framework module Pods_Sharegram {
+  umbrella header "Pods-Sharegram-umbrella.h"
+
+  export *
+  module * { export * }
+}

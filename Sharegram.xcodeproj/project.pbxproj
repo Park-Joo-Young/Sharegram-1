@@ -7,15 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		186FDFED2005E497007A454C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186FDFEC2005E497007A454C /* GoogleService-Info.plist */; };
+		186FDFEF2005E60D007A454C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDFEE2005E60D007A454C /* LoginViewController.swift */; };
+		186FDFF12005E61D007A454C /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDFF02005E61D007A454C /* CreateUserViewController.swift */; };
+		186FDFF32005E6B7007A454C /* Variable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDFF22005E6B7007A454C /* Variable.swift */; };
 		3A76C19120046761004253CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76C19020046761004253CF /* AppDelegate.swift */; };
 		3A76C19320046761004253CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76C19220046761004253CF /* ViewController.swift */; };
 		3A76C19620046761004253CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A76C19420046761004253CF /* Main.storyboard */; };
 		3A76C19920046761004253CF /* Sharegram.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3A76C19720046761004253CF /* Sharegram.xcdatamodeld */; };
 		3A76C19B20046761004253CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A76C19A20046761004253CF /* Assets.xcassets */; };
 		3A76C19E20046761004253CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A76C19C20046761004253CF /* LaunchScreen.storyboard */; };
+		CA31797A1D22B7B4B2A5B24E /* Pods_Sharegram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C80C7A8F3875C069B9BA89 /* Pods_Sharegram.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		186FDFEC2005E497007A454C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		186FDFEE2005E60D007A454C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		186FDFF02005E61D007A454C /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
+		186FDFF22005E6B7007A454C /* Variable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variable.swift; sourceTree = "<group>"; };
 		3A76C18D20046761004253CF /* Sharegram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sharegram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A76C19020046761004253CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A76C19220046761004253CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -24,6 +33,9 @@
 		3A76C19A20046761004253CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3A76C19D20046761004253CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3A76C19F20046761004253CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		69C80C7A8F3875C069B9BA89 /* Pods_Sharegram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sharegram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1A04668B4D3F8297119E91E /* Pods-Sharegram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sharegram.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sharegram/Pods-Sharegram.release.xcconfig"; sourceTree = "<group>"; };
+		C904A152F4121E1B714F329E /* Pods-Sharegram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sharegram.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sharegram/Pods-Sharegram.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA31797A1D22B7B4B2A5B24E /* Pods_Sharegram.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +55,8 @@
 			children = (
 				3A76C18F20046761004253CF /* Sharegram */,
 				3A76C18E20046761004253CF /* Products */,
+				4F517A31223C49751A74938C /* Pods */,
+				D2939EF5E945A8028B3BC578 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -59,12 +74,33 @@
 				3A76C19020046761004253CF /* AppDelegate.swift */,
 				3A76C19220046761004253CF /* ViewController.swift */,
 				3A76C19420046761004253CF /* Main.storyboard */,
+				186FDFEE2005E60D007A454C /* LoginViewController.swift */,
+				186FDFF22005E6B7007A454C /* Variable.swift */,
+				186FDFF02005E61D007A454C /* CreateUserViewController.swift */,
 				3A76C19A20046761004253CF /* Assets.xcassets */,
 				3A76C19C20046761004253CF /* LaunchScreen.storyboard */,
 				3A76C19F20046761004253CF /* Info.plist */,
 				3A76C19720046761004253CF /* Sharegram.xcdatamodeld */,
+				186FDFEC2005E497007A454C /* GoogleService-Info.plist */,
 			);
 			path = Sharegram;
+			sourceTree = "<group>";
+		};
+		4F517A31223C49751A74938C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C904A152F4121E1B714F329E /* Pods-Sharegram.debug.xcconfig */,
+				A1A04668B4D3F8297119E91E /* Pods-Sharegram.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D2939EF5E945A8028B3BC578 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				69C80C7A8F3875C069B9BA89 /* Pods_Sharegram.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +110,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3A76C1A220046761004253CF /* Build configuration list for PBXNativeTarget "Sharegram" */;
 			buildPhases = (
+				118432CEA9CFEA88BAFCCD06 /* [CP] Check Pods Manifest.lock */,
 				3A76C18920046761004253CF /* Sources */,
 				3A76C18A20046761004253CF /* Frameworks */,
 				3A76C18B20046761004253CF /* Resources */,
+				73E97B5C94F314DCA4E1192B /* [CP] Embed Pods Frameworks */,
+				7F35DA4E3214728511B25443 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -127,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A76C19E20046761004253CF /* LaunchScreen.storyboard in Resources */,
+				186FDFED2005E497007A454C /* GoogleService-Info.plist in Resources */,
 				3A76C19B20046761004253CF /* Assets.xcassets in Resources */,
 				3A76C19620046761004253CF /* Main.storyboard in Resources */,
 			);
@@ -134,11 +174,62 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		118432CEA9CFEA88BAFCCD06 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		73E97B5C94F314DCA4E1192B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Sharegram/Pods-Sharegram-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7F35DA4E3214728511B25443 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Sharegram/Pods-Sharegram-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3A76C18920046761004253CF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				186FDFEF2005E60D007A454C /* LoginViewController.swift in Sources */,
+				186FDFF32005E6B7007A454C /* Variable.swift in Sources */,
+				186FDFF12005E61D007A454C /* CreateUserViewController.swift in Sources */,
 				3A76C19320046761004253CF /* ViewController.swift in Sources */,
 				3A76C19920046761004253CF /* Sharegram.xcdatamodeld in Sources */,
 				3A76C19120046761004253CF /* AppDelegate.swift in Sources */,
@@ -276,13 +367,14 @@
 		};
 		3A76C1A320046761004253CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C904A152F4121E1B714F329E /* Pods-Sharegram.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H7TRJX32A7;
+				DEVELOPMENT_TEAM = NF58AE9U4V;
 				INFOPLIST_FILE = Sharegram/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jookki.Sharegram;
+				PRODUCT_BUNDLE_IDENTIFIER = apple.Sharegram;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -291,13 +383,14 @@
 		};
 		3A76C1A420046761004253CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A1A04668B4D3F8297119E91E /* Pods-Sharegram.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H7TRJX32A7;
+				DEVELOPMENT_TEAM = NF58AE9U4V;
 				INFOPLIST_FILE = Sharegram/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jookki.Sharegram;
+				PRODUCT_BUNDLE_IDENTIFIER = apple.Sharegram;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
