@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SnapKit
+import Snapkit
 import Firebase
 
 class LoginViewController: UIViewController {
@@ -68,7 +68,16 @@ class LoginViewController: UIViewController {
         LoginBut.tintColor = UIColor.white
         LoginBut.addTarget(self, action: #selector(ActLogin), for: .touchUpInside)
         // Do any additional setup after loading the view.
+       
+            
     }
+        override func viewDidAppear(_ animated: Bool){
+            super.viewDidAppear(animated)
+            if FIRAuth.auth()?.currentUser != nil {
+                self.performSegue(withIdentifier: "Login", sender: nil)
+            }
+            
+        }
     @objc func ActLogin(sender : UIButton) {
         if segment.selectedSegmentIndex == 0 {
             if EmailText.text! != "" && PasswordText.text! != "" { //공백이 아닐 때
