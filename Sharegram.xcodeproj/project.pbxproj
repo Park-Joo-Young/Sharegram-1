@@ -23,6 +23,7 @@
 		3AA85BE6200738E300BAB348 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BE5200738E300BAB348 /* CameraViewController.swift */; };
 		3AA85BE8200738F100BAB348 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BE7200738F100BAB348 /* ActivityViewController.swift */; };
 		3AA85BEA2007390500BAB348 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BE92007390500BAB348 /* ProfileViewController.swift */; };
+		3AA85BED2007689900BAB348 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BEC2007689900BAB348 /* Post.swift */; };
 		CA31797A1D22B7B4B2A5B24E /* Pods_Sharegram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C80C7A8F3875C069B9BA89 /* Pods_Sharegram.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		3AA85BE5200738E300BAB348 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		3AA85BE7200738F100BAB348 /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		3AA85BE92007390500BAB348 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		3AA85BEC2007689900BAB348 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		69C80C7A8F3875C069B9BA89 /* Pods_Sharegram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sharegram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1A04668B4D3F8297119E91E /* Pods-Sharegram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sharegram.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sharegram/Pods-Sharegram.release.xcconfig"; sourceTree = "<group>"; };
 		C904A152F4121E1B714F329E /* Pods-Sharegram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sharegram.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sharegram/Pods-Sharegram.debug.xcconfig"; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 		3A76C18F20046761004253CF /* Sharegram */ = {
 			isa = PBXGroup;
 			children = (
+				3AA85BEB2007687E00BAB348 /* Model */,
 				3A76C19020046761004253CF /* AppDelegate.swift */,
 				3A76C19220046761004253CF /* ViewController.swift */,
 				3A76C19420046761004253CF /* Main.storyboard */,
@@ -110,6 +113,14 @@
 				186FDFEC2005E497007A454C /* GoogleService-Info.plist */,
 			);
 			path = Sharegram;
+			sourceTree = "<group>";
+		};
+		3AA85BEB2007687E00BAB348 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3AA85BEC2007689900BAB348 /* Post.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		4F517A31223C49751A74938C /* Pods */ = {
@@ -257,6 +268,7 @@
 				186FDFEF2005E60D007A454C /* LoginViewController.swift in Sources */,
 				186FDFF32005E6B7007A454C /* Variable.swift in Sources */,
 				3AA85BE4200738D500BAB348 /* SearchViewController.swift in Sources */,
+				3AA85BED2007689900BAB348 /* Post.swift in Sources */,
 				3AA85BE8200738F100BAB348 /* ActivityViewController.swift in Sources */,
 				186FDFF12005E61D007A454C /* CreateUserViewController.swift in Sources */,
 				3A76C19320046761004253CF /* ViewController.swift in Sources */,
@@ -403,7 +415,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = NF58AE9U4V;
+				DEVELOPMENT_TEAM = H7TRJX32A7;
 				INFOPLIST_FILE = Sharegram/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = apple.Sharegram;
@@ -419,7 +431,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = NF58AE9U4V;
+				DEVELOPMENT_TEAM = H7TRJX32A7;
 				INFOPLIST_FILE = Sharegram/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = apple.Sharegram;
