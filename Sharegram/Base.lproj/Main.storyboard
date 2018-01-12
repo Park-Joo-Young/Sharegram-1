@@ -10,21 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-18" y="146"/>
-        </scene>
         <!--Create User View Controller-->
         <scene sceneID="ab4-O1-kyG">
             <objects>
@@ -102,14 +87,71 @@
                     <view key="view" contentMode="scaleToFill" id="gKz-Nh-cbD" customClass="car">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zsh-m3-Ysx">
+                                <rect key="frame" x="0.0" y="64" width="375" height="280"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Jln-xa-sYF">
+                                <rect key="frame" x="0.0" y="352" width="375" height="266"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ffb-uW-1iA">
+                                    <size key="itemSize" width="100" height="85"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="KN4-z5-NYc">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="85"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="85"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y8S-Mt-eWG">
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="85"/>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="Y8S-Mt-eWG" firstAttribute="centerY" secondItem="KN4-z5-NYc" secondAttribute="centerY" id="6gE-oc-gmJ"/>
+                                            <constraint firstItem="Y8S-Mt-eWG" firstAttribute="height" secondItem="KN4-z5-NYc" secondAttribute="height" id="HpN-O3-LJL"/>
+                                            <constraint firstItem="Y8S-Mt-eWG" firstAttribute="centerX" secondItem="KN4-z5-NYc" secondAttribute="centerX" id="Zph-sQ-NZK"/>
+                                            <constraint firstItem="Y8S-Mt-eWG" firstAttribute="width" secondItem="KN4-z5-NYc" secondAttribute="width" id="gNI-jz-dCT"/>
+                                        </constraints>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="Rvv-tI-1uk" id="U0e-G3-yya"/>
+                                    <outlet property="delegate" destination="Rvv-tI-1uk" id="q23-tQ-yOz"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="qfc-f1-KZu"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Camera" id="UvH-KN-5SS"/>
+                    <navigationItem key="navigationItem" title="Camera" id="UvH-KN-5SS">
+                        <barButtonItem key="leftBarButtonItem" title="Photo" id="cYa-c5-YDM">
+                            <connections>
+                                <action selector="ActPhoto:" destination="Rvv-tI-1uk" id="Sq5-xb-2AW"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Camera" id="ERj-83-YDN">
+                            <connections>
+                                <action selector="ActCamera:" destination="Rvv-tI-1uk" id="9lt-gg-q1z"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="PhotoCollection" destination="Jln-xa-sYF" id="kWw-Jq-GBh"/>
+                        <outlet property="myImageView" destination="Zsh-m3-Ysx" id="zz7-4i-agQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O4F-wh-y8M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3801" y="444"/>
+            <point key="canvasLocation" x="3800.8000000000002" y="443.92803598200902"/>
         </scene>
         <!--Activity-->
         <scene sceneID="Fhs-WS-U4s">

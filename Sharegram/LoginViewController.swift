@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Snapkit
+import SnapKit
 import Firebase
 
 class LoginViewController: UIViewController {
@@ -73,7 +73,7 @@ class LoginViewController: UIViewController {
     }
         override func viewDidAppear(_ animated: Bool){
             super.viewDidAppear(animated)
-            if FIRAuth.auth()?.currentUser != nil {
+            if Auth.auth().currentUser != nil {
                 self.performSegue(withIdentifier: "Login", sender: nil)
             }
             
