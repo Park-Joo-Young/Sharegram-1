@@ -50,6 +50,7 @@ class HomeViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        print((Auth.auth().currentUser?.displayName)!)
         hometableView.dataSource = self
         ref = Database.database().reference()
         loadPosts()
