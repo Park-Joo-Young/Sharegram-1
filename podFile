@@ -11,4 +11,5 @@ target 'Sharegram' do
 	pod 'Firebase'
 	pod 'Firebase/Auth'
 	pod 'SnapKit', '~>4.0.0'
+	pod 'Firebase/Storage'
 end

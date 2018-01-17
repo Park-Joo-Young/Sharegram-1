@@ -109,6 +109,7 @@ class LoginViewController: UIViewController {
             print("fuck")
         }
     }
+    
     func displayErrorMessage(title : String , message : String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let confirm = UIAlertAction(title: "확인", style: .default) {

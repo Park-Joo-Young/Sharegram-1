@@ -7,8 +7,7 @@
 //
 
 import UIKit
-import FirebaseAuth
-import FirebaseDatabase
+import Firebase
 
 class HomeViewController: UIViewController {
     var ref : DatabaseReference?
@@ -48,11 +47,12 @@ class HomeViewController: UIViewController {
             }
         }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print((Auth.auth().currentUser?.displayName)!)
         hometableView.dataSource = self
         ref = Database.database().reference()
+        createProfile()
         loadPosts()
         
 //        var post = Post(captionText: "test", photoStrings:" stirng1")
@@ -60,7 +60,20 @@ class HomeViewController: UIViewController {
 //            print(post.photoString)
         // Do any additional setup after loading the view.
     }
-
+    func createProfile() {
+        //print("시발")
+        ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("UserProfile").observe(.value, with: { (snapshot) in
+            if snapshot.value is NSNull {
+                print("Null")
+            } else {
+                if let item = snapshot.value as? [String : String] {
+                    //print(item["사용자 명"]!)
+                    //Auth.auth().currentUser?.createProfileChangeRequest().
+                    print((Auth.auth().currentUser?.displayName)!)
+                }
+            }
+        })
+    }
   
 
 
