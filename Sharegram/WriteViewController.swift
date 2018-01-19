@@ -9,6 +9,14 @@
 import UIKit
 import Firebase
 import SnapKit
+struct HashtagTokenizer : TokenizerType, DefaultTokenizerType {
+    func tokenCanStart(with scalar: UnicodeScalar) -> Bool {
+        return scalar == UnicodeScalar(35)
+    }
+    public func tokenCanTake(_ scalar: UnicodeScalar) -> Bool {
+        return CharacterSet.letters.contains(scalar)
+    }
+}
 class WriteViewController: UIViewController, UITextViewDelegate {
     var writeImage : UIImage!
     var baseString : String! // 이미지 데이터 변환 포맷
@@ -16,6 +24,7 @@ class WriteViewController: UIViewController, UITextViewDelegate {
     var ref : DatabaseReference?
     var storageRef : StorageReference?
     var PostArray : [[String : String]] = []
+    var Hash : [AnyToken]!
     @IBOutlet weak var writeimageView: UIImageView!
     @IBOutlet weak var writeDescription: UITextView!
     @IBOutlet weak var label: UILabel!
@@ -40,7 +49,9 @@ class WriteViewController: UIViewController, UITextViewDelegate {
                     print(error)
                     return
                 }
-                self.PostArray.append(["image" : metadata!.downloadURL()!.absoluteString,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : "\(year)년 \(month)월 \(day)일\(hour)시\(min)분"])
+                self.Hash = self.writeDescription.text._tokens(from: HashtagTokenizer())
+                print(self.Hash[0].text)
+                //self.PostArray.append(["image" : metadata!.downloadURL()!.absoluteString,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : "\(year)년 \(month)월 \(day)일\(hour)시\(min)분"])
                 //print(metadata!.downloadURL()!.absoluteString)
             })
             //self.baseString = imageData.base64EncodedString(options: .init(rawValue: 0))
@@ -70,7 +81,7 @@ class WriteViewController: UIViewController, UITextViewDelegate {
         ref = Database.database().reference()
         storageRef = Storage.storage().reference()
         writeDescription.delegate = self
-        print((Auth.auth().currentUser?.displayName)!)
+        //print((Auth.auth().currentUser?.displayName)!)
         if object.lat == 0 { //즉 전 단계에서 라이브러리 사진을 갖고왔을 때 위치정보가 없으니까
             LocationSwitch.isEnabled = false
         }

@@ -1,4 +1,5 @@
 PODS:
+  - ActiveLabel (0.8.1)
   - Firebase (4.8.0):
     - Firebase/Core (= 4.8.0)
   - Firebase/Auth (4.8.0):
@@ -54,6 +55,7 @@ PODS:
   - SnapKit (4.0.0)
 
 DEPENDENCIES:
+  - ActiveLabel
   - Firebase
   - Firebase/Auth
   - Firebase/Core
@@ -62,6 +64,7 @@ DEPENDENCIES:
   - SnapKit (~> 4.0.0)
 
 SPEC CHECKSUMS:
+  ActiveLabel: e361127c355b911a467db3d5a897b3d7f902e568
   Firebase: 710decbbc6d9d48530e9a5dba3209740c3532e05
   FirebaseAnalytics: 5b02a63ead2c3f0259cfc7f15e053e440587ecf8
   FirebaseAuth: dc0dd403beca5b2b016aac89c2d0b8dad1c81926
@@ -75,6 +78,6 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
 
-PODFILE CHECKSUM: 67609cf51627e3529fe8a24bcb0dce850c5df9f2
+PODFILE CHECKSUM: 7356583b964d8ad0cd4328066c288532f2678a97
 
 COCOAPODS: 1.2.1

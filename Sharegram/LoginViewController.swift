@@ -23,6 +23,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
+        
         let su = self.view!
         su.addSubview(EmailText)
         su.addSubview(PasswordText)

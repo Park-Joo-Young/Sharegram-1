@@ -52,9 +52,9 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         hometableView.dataSource = self
         ref = Database.database().reference()
-        createProfile()
+        //createProfile()
         loadPosts()
-        
+        print((Auth.auth().currentUser?.displayName)!)
 //        var post = Post(captionText: "test", photoStrings:" stirng1")
 //            print(post.caption)
 //            print(post.photoString)
