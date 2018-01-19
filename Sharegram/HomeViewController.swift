@@ -18,6 +18,7 @@ class HomeViewController: UIViewController {
       // print(Auth.auth().currentUser)
         do {
             try Auth.auth().signOut()
+            dismiss(animated: true, completion: nil)
         } catch let logoutError{
             print(logoutError)
         }
@@ -52,27 +53,12 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         hometableView.dataSource = self
         ref = Database.database().reference()
-        //createProfile()
         loadPosts()
         print((Auth.auth().currentUser?.displayName)!)
 //        var post = Post(captionText: "test", photoStrings:" stirng1")
 //            print(post.caption)
 //            print(post.photoString)
         // Do any additional setup after loading the view.
-    }
-    func createProfile() {
-        //print("시발")
-        ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("UserProfile").observe(.value, with: { (snapshot) in
-            if snapshot.value is NSNull {
-                print("Null")
-            } else {
-                if let item = snapshot.value as? [String : String] {
-                    //print(item["사용자 명"]!)
-                    //Auth.auth().currentUser?.createProfileChangeRequest().
-                    print((Auth.auth().currentUser?.displayName)!)
-                }
-            }
-        })
     }
   
 

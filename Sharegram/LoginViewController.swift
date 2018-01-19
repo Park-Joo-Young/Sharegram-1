@@ -23,7 +23,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
-        
+        EmailText.text = ""
+        PasswordText.text = ""
         let su = self.view!
         su.addSubview(EmailText)
         su.addSubview(PasswordText)
@@ -50,7 +51,7 @@ class LoginViewController: UIViewController {
         EmailText.borderStyle = .roundedRect
         EmailText.autocapitalizationType = .none
         EmailText.autocorrectionType = .no
-         EmailText.placeholder = "이메일을 입력하시오."
+        EmailText.placeholder = "이메일을 입력하시오."
         
         PasswordText.borderStyle = .roundedRect
         PasswordText.autocapitalizationType = .none
@@ -74,9 +75,9 @@ class LoginViewController: UIViewController {
     }
         override func viewDidAppear(_ animated: Bool){
             super.viewDidAppear(animated)
-//            if Auth.auth().currentUser != nil {
-//                self.performSegue(withIdentifier: "Login", sender: nil)
-//            }
+            if Auth.auth().currentUser != nil {
+                self.performSegue(withIdentifier: "Login", sender: nil)
+            }
             
         }
     @objc func ActLogin(sender : UIButton) {

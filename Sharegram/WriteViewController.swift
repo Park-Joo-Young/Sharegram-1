@@ -25,6 +25,8 @@ class WriteViewController: UIViewController, UITextViewDelegate {
     var storageRef : StorageReference?
     var PostArray : [[String : String]] = []
     var Hash : [AnyToken]!
+    var HashTagArray : [String] = []
+    var str : String = ""
     @IBOutlet weak var writeimageView: UIImageView!
     @IBOutlet weak var writeDescription: UITextView!
     @IBOutlet weak var label: UILabel!
@@ -40,30 +42,43 @@ class WriteViewController: UIViewController, UITextViewDelegate {
         let day = components.day!
         let hour = components.hour!
         let min = components.minute!
-        //print((Auth.auth().currentUser?.displayName)!) 시발 오류
+        
         if LocationSwitch.isOn { //위치 공유 허용 상태이면 즉 On 상태일 때, 카메라로 사진을 찍어서 가져왔을 때
-            //let imageData : Data = UIImageJPEGRepresentation(writeImage, 0.9)!
-            let uploadImage = UIImagePNGRepresentation(writeImage)
-            storageRef?.child("PostImage/\((Auth.auth().currentUser?.email)!)/\(year)년\(month)월\(day)일\(hour)시\(min)분").putData(uploadImage!, metadata: nil, completion: { (metadata, error) in
+            let uploadImage = UIImageJPEGRepresentation(writeImage, 0.9)!
+            let metadata1 = StorageMetadata()
+            metadata1.contentType = "image/jpeg"
+            storageRef?.child("PostImage/\((Auth.auth().currentUser?.email)!)/\(year)년\(month)월\(day)일\(hour)시\(min)분.png").putData(uploadImage, metadata: metadata1, completion: { (metadata, error) in
                 if error != nil {
-                    print(error)
+                    print(error!.localizedDescription)
                     return
                 }
                 self.Hash = self.writeDescription.text._tokens(from: HashtagTokenizer())
-                print(self.Hash[0].text)
-                //self.PostArray.append(["image" : metadata!.downloadURL()!.absoluteString,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : "\(year)년 \(month)월 \(day)일\(hour)시\(min)분"])
-                //print(metadata!.downloadURL()!.absoluteString)
+                //var Post = self.NumberOfHasgTag(self.Hash)
+                self.NumberOfHasgTag(self.Hash)
+                print(self.PostArray)
+                //self.CountUpHasgTag(self.PostArray)
+                print(metadata!.downloadURL()!)
+                let ss = "PostImage/\((Auth.auth().currentUser?.email)!)/\(year)년\(month)월\(day)일\(hour)시\(min)분.png"
+                self.str = ss
+                
+                print(ss)
+                print(self.str)
+                self.PostArray.insert(["image" : metadata!.downloadURL()!.absoluteString,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : "\(year)년 \(month)월 \(day)일\(hour)시\(min)분"], at: 0)
+                self.performSegue(withIdentifier: "ii", sender: self)
             })
-            //self.baseString = imageData.base64EncodedString(options: .init(rawValue: 0))
-            //PostArray.append(["image" : self.baseString,"latitude" : "\(object.lat)", "longitude" : "\(object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : "\(year)년 \(month)월 \(day)일"])
-            //ref?.child("Location").child("\(object.lat)").setValue(PostArray)
-            //ref?.child("Posts").child(<#T##pathString: String##String#>)
-        } else { //단순히 라이브러리 사진을 게시글로 작성할 때
+            
+        } else { //단순히 라이브러리 사진을 게시글로 작성할 때, 아니면 자신의 위치를 공유하지 않을 때
             return
         }
     }
-    func loadUserName() {
+    func CountUpHasgTag(_ array : [[String : String]]) {
         
+    }
+    func NumberOfHasgTag(_ Token : [AnyToken]){
+        for i in 0..<Token.count {
+            self.HashTagArray.append(Token[i].text)
+            self.PostArray.append(["해쉬태그\(i+1)" : Token[i].text])
+        }
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if textView.text == "설명 입력..." {
@@ -81,7 +96,6 @@ class WriteViewController: UIViewController, UITextViewDelegate {
         ref = Database.database().reference()
         storageRef = Storage.storage().reference()
         writeDescription.delegate = self
-        //print((Auth.auth().currentUser?.displayName)!)
         if object.lat == 0 { //즉 전 단계에서 라이브러리 사진을 갖고왔을 때 위치정보가 없으니까
             LocationSwitch.isEnabled = false
         }
@@ -116,21 +130,29 @@ class WriteViewController: UIViewController, UITextViewDelegate {
         writeBut.setTitle("작성", for: .normal)
         // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func displayErrorMessage(title : String , message : String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확인", style: .default) {
+            (action : UIAlertAction) -> Void in
+        }
+        alert.addAction(confirm)
+        present(alert, animated: true, completion: nil)
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "ii" {
+            let destination = segue.destination as! ViewController
+            destination.image = str
+        }
     }
-    */
+    
 
 }
