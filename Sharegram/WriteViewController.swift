@@ -9,14 +9,7 @@
 import UIKit
 import Firebase
 import SnapKit
-struct HashtagTokenizer : TokenizerType, DefaultTokenizerType {
-    func tokenCanStart(with scalar: UnicodeScalar) -> Bool {
-        return scalar == UnicodeScalar(35)
-    }
-    public func tokenCanTake(_ scalar: UnicodeScalar) -> Bool {
-        return CharacterSet.letters.contains(scalar)
-    }
-}
+
 class WriteViewController: UIViewController, UITextViewDelegate {
     var writeImage : UIImage!
     var baseString : String! // 이미지 데이터 변환 포맷
@@ -53,31 +46,43 @@ class WriteViewController: UIViewController, UITextViewDelegate {
                     return
                 }
                 self.Hash = self.writeDescription.text._tokens(from: HashtagTokenizer())
-                //var Post = self.NumberOfHasgTag(self.Hash)
                 self.NumberOfHasgTag(self.Hash)
-                print(self.PostArray)
-                //self.CountUpHasgTag(self.PostArray)
-                print(metadata!.downloadURL()!)
                 let ss = "PostImage/\((Auth.auth().currentUser?.email)!)/\(year)년\(month)월\(day)일\(hour)시\(min)분.png"
                 self.str = ss
-                
-                print(ss)
-                print(self.str)
-                self.PostArray.insert(["image" : metadata!.downloadURL()!.absoluteString,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : "\(year)년 \(month)월 \(day)일\(hour)시\(min)분"], at: 0)
-                self.performSegue(withIdentifier: "ii", sender: self)
+                self.PostArray.append(["image" : ss,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : "\(year)년 \(month)월 \(day)일\(hour)시\(min)분"])
+                self.CountUpHasgTag()
+                self.ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("Posts").setValue(self.PostArray)
+                self.displayErrorMessage(title: "게시물이", message: "등록되었습니다!")
             })
             
         } else { //단순히 라이브러리 사진을 게시글로 작성할 때, 아니면 자신의 위치를 공유하지 않을 때
             return
         }
     }
-    func CountUpHasgTag(_ array : [[String : String]]) {
-        
+    func CountUpHasgTag() {
+        print(self.HashTagArray)
+        for i in 0..<self.HashTagArray.count {
+            print(self.HashTagArray[i])
+            let char = self.HashTagArray[i].replacingOccurrences(of: "#", with: "")
+            ref?.child("HashTagPosts").child(char).child("Count").observeSingleEvent(of: .value, with: { (snapshot) in
+                if snapshot.value is NSNull {
+                    print("존재하지 않습니다.")
+                    self.ref?.child("HashTagPosts").child(char).child("Count").setValue(["Count" : "1"])
+                    self.ref?.child("HashTagPosts").child(char).child("Posts").setValue(self.PostArray)
+                } else { //카운트가 1이상일시 즉 하나라도 게시물이 존재한다는 가정
+                    if let item = snapshot.value as? [String : String] {
+                        var count = Int(item["Count"]!)!
+                        count += 1
+                        self.ref?.child("HashTagPosts").child(char).child("Count").setValue(["Count" : "\(count)"])
+                        self.ref?.child("HashTagPosts").child(char).child("Posts").setValue(self.PostArray)
+                    }
+                }
+            })
+        }
     }
     func NumberOfHasgTag(_ Token : [AnyToken]){
         for i in 0..<Token.count {
             self.HashTagArray.append(Token[i].text)
-            self.PostArray.append(["해쉬태그\(i+1)" : Token[i].text])
         }
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
