@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		182C972A20107D8F002E5311 /* Mustard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182C972820107D8F002E5311 /* Mustard.swift */; };
+		1864A05F201722AF00A34F04 /* HashTagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */; };
 		186FDFED2005E497007A454C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186FDFEC2005E497007A454C /* GoogleService-Info.plist */; };
 		186FDFEF2005E60D007A454C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDFEE2005E60D007A454C /* LoginViewController.swift */; };
 		186FDFF12005E61D007A454C /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDFF02005E61D007A454C /* CreateUserViewController.swift */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		182C972720107D8F002E5311 /* Mustard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mustard.h; sourceTree = "<group>"; };
 		182C972820107D8F002E5311 /* Mustard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mustard.swift; sourceTree = "<group>"; };
+		1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTagTableViewController.swift; sourceTree = "<group>"; };
 		186FDFEC2005E497007A454C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		186FDFEE2005E60D007A454C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		186FDFF02005E61D007A454C /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				3A76C19020046761004253CF /* AppDelegate.swift */,
 				3A76C19220046761004253CF /* ViewController.swift */,
 				3A76C19420046761004253CF /* Main.storyboard */,
+				1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */,
 				3AA85BE1200738C100BAB348 /* HomeViewController.swift */,
 				3AA85BE3200738D500BAB348 /* SearchViewController.swift */,
 				3AA85BE5200738E300BAB348 /* CameraViewController.swift */,
@@ -281,6 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1864A05F201722AF00A34F04 /* HashTagTableViewController.swift in Sources */,
 				186FDFEF2005E60D007A454C /* LoginViewController.swift in Sources */,
 				186FDFF32005E6B7007A454C /* Variable.swift in Sources */,
 				3AA85BE4200738D500BAB348 /* SearchViewController.swift in Sources */,

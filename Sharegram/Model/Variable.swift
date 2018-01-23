@@ -15,7 +15,10 @@ class variable {
     var lat : Double = 0
     var lon : Double = 0
 }
-
+struct HashTag {
+    var name : String
+    var count : String
+}
 struct HashtagTokenizer : TokenizerType, DefaultTokenizerType {
     func tokenCanStart(with scalar: UnicodeScalar) -> Bool {
         return scalar == UnicodeScalar(35)
