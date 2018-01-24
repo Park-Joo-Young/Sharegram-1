@@ -10,7 +10,13 @@ import UIKit
 import Firebase
 import SnapKit
 
-class WriteViewController: UIViewController, UITextViewDelegate,UIPopoverPresentationControllerDelegate {
+class WriteViewController: UIViewController, UITextViewDelegate,UIPopoverPresentationControllerDelegate, dataDelegate {
+    
+    func TransferData(_ array : String) {
+        print("array")
+        self.writeDescription.text = array
+    }
+    
     var writeImage : UIImage!
     var baseString : String! // 이미지 데이터 변환 포맷
     var object = variable()
@@ -20,6 +26,7 @@ class WriteViewController: UIViewController, UITextViewDelegate,UIPopoverPresent
     var Hash : [AnyToken]!
     var HashTagArray : [String] = []
     var str : String = ""
+
     @IBOutlet weak var writeimageView: UIImageView!
     @IBOutlet weak var writeDescription: UITextView!
     @IBOutlet weak var label: UILabel!
@@ -110,9 +117,13 @@ class WriteViewController: UIViewController, UITextViewDelegate,UIPopoverPresent
     }
     func popOver(_ send : UITextView) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let transfer = storyboard.instantiateViewController(withIdentifier: "HashTag") as! HashTagTableViewController
+        transfer.delegate = self
+        transfer.saveText = self.writeDescription.text
         let vc = storyboard.instantiateViewController(withIdentifier: "HashTag")
         vc.modalPresentationStyle = .popover
         vc.preferredContentSize = CGSize(width: 200, height: 200)
+
         let popover = vc.popoverPresentationController!
         popover.delegate = self
         popover.permittedArrowDirections = .up

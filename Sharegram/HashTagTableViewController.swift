@@ -8,14 +8,18 @@
 
 import UIKit
 import Firebase
+protocol dataDelegate {
+    func TransferData(_ array : String)
+}
 class HashTagTableViewController: UITableViewController {
     var ref : DatabaseReference?
     var HashTagArray : [HashTag] = []
     var array : [String] = []
+    var delegate : dataDelegate?
+    var saveText : String!
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
-        
         ref?.child("HashTagPosts").observe(.value, with: { (snapshot) in
 
             if snapshot.value is NSNull {
@@ -78,7 +82,11 @@ class HashTagTableViewController: UITableViewController {
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { //선택시
-        <#code#>
+        if self.delegate != nil {
+            saveText.append(HashTagArray[indexPath.row].name)
+            delegate?.TransferData(saveText)
+            dismiss(animated: true, completion: nil)
+        }
     }
 
     /*

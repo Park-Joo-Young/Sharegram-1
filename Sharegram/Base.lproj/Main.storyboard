@@ -165,7 +165,7 @@
         <!--Write View Controller-->
         <scene sceneID="qvM-3k-Rvf">
             <objects>
-                <viewController id="k8S-XE-tha" customClass="WriteViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="camera" id="k8S-XE-tha" customClass="WriteViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Ns-EK-NBg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -247,7 +247,7 @@
         <!--Hash Tag Table View Controller-->
         <scene sceneID="3uI-1x-X5R">
             <objects>
-                <tableViewController storyboardIdentifier="HashTag" id="ISK-M9-Ly5" customClass="HashTagTableViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="HashTag" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ISK-M9-Ly5" customClass="HashTagTableViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EFL-YO-NR7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
