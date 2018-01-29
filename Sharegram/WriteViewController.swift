@@ -138,6 +138,18 @@ class WriteViewController: UIViewController, UITextViewDelegate,UIPopoverPresent
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
     }
+    func findUsers(text: String){
+        ref?.child("HashTagPosts").child(text).queryOrdered(byChild: "Name").queryEqual(toValue: text+"\u{f8ff}").observe(.value, with: { (snapshot) in
+            if snapshot.value is NSNull {
+                print("Null")
+            } else {
+                print(snapshot.value)
+                for i in snapshot.children {
+                    print(i)
+                }
+            }
+        })
+    }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "#" { //텍스트 뷰에 #이 적힐 때 마다
             print("HashTag!!!!!")
@@ -162,14 +174,14 @@ class WriteViewController: UIViewController, UITextViewDelegate,UIPopoverPresent
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         PostArray.removeAll()
         ref = Database.database().reference()
         storageRef = Storage.storage().reference()
         writeDescription.delegate = self
         writeimageView.image = writeImage
         writeDescription.tintColor = UIColor.lightGray
-
+        findUsers(text: "감")
         let Tap = UITapGestureRecognizer(target: self, action: #selector(dismisskeyboard))
         self.view.addGestureRecognizer(Tap)
         
@@ -195,9 +207,10 @@ class WriteViewController: UIViewController, UITextViewDelegate,UIPopoverPresent
         }
         writeDescription.snp.makeConstraints { (make) in
             make.width.equalTo(self.view.frame.width)
-            make.height.equalTo(self.view.frame.height/30)
+            make.height.equalTo(self.view.frame.height/25)
             make.top.equalTo(writeimageView.snp.bottom).offset(10)
         }
+        writeDescription.adjustsFontForContentSizeCategory = true
         label.snp.makeConstraints { (make) in
             make.width.equalTo(self.view.frame.width/2)
             make.height.equalTo(self.view.frame.height/30)

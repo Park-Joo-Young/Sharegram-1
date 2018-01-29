@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+
 protocol dataDelegate {
     func TransferData(_ array : String)
 }
