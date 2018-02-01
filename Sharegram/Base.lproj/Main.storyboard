@@ -195,7 +195,7 @@
                                 <color key="onTintColor" red="0.28785564245273765" green="0.42031945721326724" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rE6-lT-s1i">
-                                <rect key="frame" x="104" y="503" width="167" height="30"/>
+                                <rect key="frame" x="208" y="588" width="167" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Button"/>

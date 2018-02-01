@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0920"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BD9B67EBA67B704F35A51015F7FFE40F"
+               BlueprintIdentifier = "37D3F9AF6E1BE762E0E075B7D6CF77E4"
                BuildableName = "Pods_Sharegram.framework"
                BlueprintName = "Pods-Sharegram"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -47,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BD9B67EBA67B704F35A51015F7FFE40F"
+            BlueprintIdentifier = "37D3F9AF6E1BE762E0E075B7D6CF77E4"
             BuildableName = "Pods_Sharegram.framework"
             BlueprintName = "Pods-Sharegram"
             ReferencedContainer = "container:Pods.xcodeproj">
