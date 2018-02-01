@@ -92,8 +92,11 @@ class WriteViewController: UIViewController{
                 self.NumberOfHasgTag(self.Hash)
                 
                 if identifier == 0 { //위치 공유 할 시
+                    let latitude = String(self.object.lat)
+                    let LocationPath = latitude.replacingOccurrences(of: ".", with: "_")
+                    print(LocationPath)
                     self.PostArray = ["image" : Path,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!]
-                                self.ref?.child("LocationPosts").child(<#T##pathString: String##String#>)
+                    self.ref?.child("LocationPosts").child(LocationPath).childByAutoId().setValue(self.PostArray) //위치 공유 게시물 저장 지도에 띄우기 위한
                 } else { // 1
                     
                     self.PostArray = ["image" : Path, "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!]
@@ -113,15 +116,13 @@ class WriteViewController: UIViewController{
             ref?.child("HashTagPosts").child(char).child("Count").observeSingleEvent(of: .value, with: { (snapshot) in
                 if snapshot.value is NSNull {
                     print("존재하지 않습니다.")
-                    self.ref?.child("HashTagPosts").child(char).child("Count").updateChildValues(["Count" : "1"])
-                    self.ref?.child("HashTagPosts").child(char).child("Count").setValue(["Name" : char])
+                    self.ref?.child("HashTagPosts").child(char).child("Count").setValue(["Name" : char, "Count" : "1"])
                     self.ref?.child("HashTagPosts").child(char).child("Posts").childByAutoId().setValue(self.PostArray)
                 } else { //카운트가 1이상일시 즉 하나라도 게시물이 존재한다는 가정
                     if let item = snapshot.value as? [String : String] {
                         var count = Int(item["Count"]!)!
                         count += 1
-                        self.ref?.child("HashTagPosts").child(char).child("Count").updateChildValues(["Count" : "\(count)"])
-                        self.ref?.child("HashTagPosts").child(char).child("Count").setValue(["Name" : char])
+                        self.ref?.child("HashTagPosts").child(char).child("Count").setValue(["Name" : char, "Count" : "\(count)"])
                         self.ref?.child("HashTagPosts").child(char).child("Posts").childByAutoId().setValue(self.PostArray)
                     }
                 }
@@ -164,7 +165,7 @@ class WriteViewController: UIViewController{
         self.popover.didDismissHandler = {
             print("didDismissHandler")
         }
-        self.popover.show(self.HashTagview, fromView: self.writeDescription)
+       
     }
     
     override func viewDidLoad() {
@@ -273,12 +274,15 @@ extension WriteViewController : UITextViewDelegate {
             let array = (stringArray as NSArray).filtered(using: searchPredicate)
             result = array as! [String]
             if (result.isEmpty) == false {
-                
+                self.popover.show(self.HashTagview, fromView: self.writeDescription)
                 self.HashTagview.reloadData()
             }
         }
         if text.hasPrefix("#") {
             CreateAutoCompleteHashTable()
+            if result.isEmpty {
+                 self.popover.dismiss()
+            }
             print("HashTag!!!!!")
         }
         if textView.text == "설명 입력" {
