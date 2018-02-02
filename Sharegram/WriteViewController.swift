@@ -27,7 +27,6 @@ class WriteViewController: UIViewController{
     var HashTagview = UITableView()
     
     fileprivate var texts = ["Edit", "Delete", "Report"]
-    
     fileprivate var popover: Popover!
     fileprivate var popoverOptions: [PopoverOption] = [
         .type(.down),
@@ -102,9 +101,6 @@ class WriteViewController: UIViewController{
                     self.PostArray = ["image" : Path, "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!]
                 }
                 self.SubFuncDataSave()
-                //                self.CountUpHasgTag()
-                //                self.ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("Posts").childByAutoId().setValue(self.PostArray)
-                //                self.displayErrorMessage(title: "게시물이", message: "등록되었습니다!")
             }
         })
     }
@@ -168,14 +164,31 @@ class WriteViewController: UIViewController{
             print("didDismissHandler")
         }
         self.popover.willDismissHandler = {
+            self.result.removeAll()
             print("willDismissHandler")
         }
         self.popover.didDismissHandler = {
+            self.result.removeAll()
             print("didDismissHandler")
         }
         
     }
-    
+    func observerData() {
+        for key in 0..<result.count {
+            let str = result[key].replacingOccurrences(of: "#", with: "")
+            ref?.child("HashTagPosts").child(str).child("Count").observeSingleEvent(of: .childAdded, with: { (snapshot) in
+                if snapshot.value is NSNull {
+                    print("No")
+                } else {
+                    if let item = snapshot.value as? [String : String] {
+                        print(item)
+                        self.object.dic.append(item)
+                    }
+                    
+                }
+            })
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         stringArray.removeAll()
@@ -249,12 +262,11 @@ class WriteViewController: UIViewController{
     }
 }
 extension WriteViewController : UITableViewDataSource {
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.result.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        observerData()
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
         cell.textLabel?.text = self.result[indexPath.row]
         return cell
@@ -262,14 +274,16 @@ extension WriteViewController : UITableViewDataSource {
 }
 extension WriteViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("시발?")
-        print(self.writeDescription.text)
+        let item = self.writeDescription.text.components(separatedBy: "#")
         let selectedCell : UITableViewCell = tableView.cellForRow(at: indexPath)!
         let selectedText = selectedCell.textLabel?.text as String!
-        let trim = self.writeDescription.text.replacingOccurrences(of: resultString, with: "", options: .literal, range: nil)
-        let trimmingString = trim.replacingOccurrences(of: "#", with: "")
-        self.writeDescription.text = trimmingString + selectedText!
+        let selected = selectedText?.replacingOccurrences(of: "#", with: "")
+        let trim = self.writeDescription.text.replacingOccurrences(of: item.last!, with: "", options: .caseInsensitive, range: nil)
+        print(trim)
+        //let text = self.writeDescription.text!
+        self.writeDescription.text = trim + selected! + " "
         self.popover.dismiss()
+        self.result.removeAll()
     }
 }
 extension WriteViewController : UITextViewDelegate {

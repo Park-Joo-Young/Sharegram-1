@@ -14,6 +14,7 @@ class variable {
  // 공통적으로 쓰는 변수들 여따가
     var lat : Double = 0
     var lon : Double = 0
+    var dic :  [[String : String]] = [[:]]
 }
 struct HashTag {
     var name : String
