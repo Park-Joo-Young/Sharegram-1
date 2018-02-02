@@ -14,7 +14,7 @@ import MobileCoreServices
 import Photos
 
 class CameraViewController: UIViewController, UIImagePickerControllerDelegate, CLLocationManagerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
+    
     @IBAction func ActCamera(_ sender: UIBarButtonItem) {
         locationManager.startUpdatingLocation()
         if(UIImagePickerController.isSourceTypeAvailable(.camera)) {
@@ -27,7 +27,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, C
             present(imagepicker, animated: true, completion: nil)
         }
     }
-  
+    
     @IBAction func ActPhoto(_ sender: UIBarButtonItem) {
         flag = false
         if flag == false {
@@ -40,6 +40,10 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, C
     
     @IBAction func ActNext(_ sender: UIBarButtonItem) { // 다음화면 넘어가기
         performSegue(withIdentifier: "write", sender: self)
+        self.capture = nil
+        self.myImageView.image = nil
+        self.object.lat = 0
+        self.object.lon = 0
     }
     
     @IBOutlet weak var myImageView: UIImageView!
@@ -54,7 +58,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, C
     var flag = false
     
     var ref : DatabaseReference?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         isAuthorizedtoGetUserLocation()
@@ -81,11 +85,10 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, C
         let mediaType = info[UIImagePickerControllerMediaType] as! NSString
         if mediaType.isEqual(to: kUTTypeImage as NSString as String) {
             capture = info[UIImagePickerControllerOriginalImage] as! UIImage
-//            let imageData : Data = UIImageJPEGRepresentation(capture, 0.9)!
-//            self.baseString = imageData.base64EncodedString(options: .init(rawValue: 0))
+            
             
             if flag {
-                //UIImageWriteToSavedPhotosAlbum(capture, self, nil, nil) //사진 저장
+                UIImageWriteToSavedPhotosAlbum(capture, self, nil, nil) //사진 저장
                 if CLLocationManager.locationServicesEnabled() {
                     if location != nil {
                         print("\(object.lat) , \(object.lon)")
@@ -137,7 +140,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, C
         
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-
+        
         let fetchResult : PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         if fetchResult.count > 0 {
             for i in 0..<fetchResult.count {
@@ -147,8 +150,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, C
                 })
             }
         } else {
-                print("You got no Photos!")
-            }
+            print("You got no Photos!")
+        }
         print(imageArray.count)
         DispatchQueue.main.async {
             self.PhotoCollection.reloadData()
@@ -178,7 +181,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, C
     }
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
@@ -190,6 +193,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, C
             destination.object.lon = object.lon
         }
     }
- 
-
+    
+    
 }
+

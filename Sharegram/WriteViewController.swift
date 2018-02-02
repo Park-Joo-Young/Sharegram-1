@@ -54,7 +54,7 @@ class WriteViewController: UIViewController{
         let ImagePath = "PostImage/\((Auth.auth().currentUser?.email)!)/\(dateString).png"
         
         if LocationSwitch.isOn { //위치 공유 허용 상태이면 즉 On 상태일 때, 카메라로 사진을 찍어서 가져왔을 때
-
+            
             DataSave(ImagePath, dateString, identifier: 0)
         } else { //단순히 라이브러리 사진을 게시글로 작성할 때, 아니면 자신의 위치를 공유하지 않을 때
             if writeImage == nil { //그냥 글만 쓸 때
@@ -74,7 +74,7 @@ class WriteViewController: UIViewController{
         self.ref?.child("WholePosts").childByAutoId().setValue(self.PostArray) // 전체 게시물 등록
         self.ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("Posts").childByAutoId().setValue(self.PostArray) {(error, ref) -> Void in // 유저 자신의 게시물에 등록
             if error == nil { //완성 됐을 때
-                self.displayErrorMessage(title: "게시물이", message: "등록되었습니다!")
+                self.displayMessage(title: "게시물이", message: "등록되었습니다.")
             }
         }
     }
@@ -102,9 +102,9 @@ class WriteViewController: UIViewController{
                     self.PostArray = ["image" : Path, "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!]
                 }
                 self.SubFuncDataSave()
-//                self.CountUpHasgTag()
-//                self.ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("Posts").childByAutoId().setValue(self.PostArray)
-//                self.displayErrorMessage(title: "게시물이", message: "등록되었습니다!")
+                //                self.CountUpHasgTag()
+                //                self.ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("Posts").childByAutoId().setValue(self.PostArray)
+                //                self.displayErrorMessage(title: "게시물이", message: "등록되었습니다!")
             }
         })
     }
@@ -137,7 +137,15 @@ class WriteViewController: UIViewController{
     @objc func dismisskeyboard() {//디스미스
         writeDescription.resignFirstResponder()
     }
-
+    func displayMessage(title : String , message : String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확인", style: .default) {
+            (action : UIAlertAction) -> Void in
+            self.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(confirm)
+        present(alert, animated: true, completion: nil)
+    }
     func displayErrorMessage(title : String , message : String) { // 메시지 창
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let confirm = UIAlertAction(title: "확인", style: .default) {
@@ -148,7 +156,7 @@ class WriteViewController: UIViewController{
     }
     
     func CreateAutoCompleteHashTable() { // 해쉬태그 자동완성 팝업 뷰
-         self.HashTagview = UITableView(frame: CGRect(x: 0, y: 0, width: writeDescription.frame.width, height: self.view.frame.height/3))
+        self.HashTagview = UITableView(frame: CGRect(x: 0, y: 0, width: writeDescription.frame.width, height: self.view.frame.height/3))
         self.HashTagview.delegate = self
         self.HashTagview.dataSource = self
         self.HashTagview.isScrollEnabled = false
@@ -165,7 +173,7 @@ class WriteViewController: UIViewController{
         self.popover.didDismissHandler = {
             print("didDismissHandler")
         }
-       
+        
     }
     
     override func viewDidLoad() {
@@ -233,7 +241,7 @@ class WriteViewController: UIViewController{
     }
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
@@ -281,7 +289,7 @@ extension WriteViewController : UITextViewDelegate {
         if text.hasPrefix("#") {
             CreateAutoCompleteHashTable()
             if result.isEmpty {
-                 self.popover.dismiss()
+                self.popover.dismiss()
             }
             print("HashTag!!!!!")
         }
@@ -296,3 +304,4 @@ extension WriteViewController : UITextViewDelegate {
         return true
     }
 }
+
