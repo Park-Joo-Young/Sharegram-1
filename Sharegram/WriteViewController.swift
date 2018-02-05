@@ -279,8 +279,6 @@ extension WriteViewController : UITableViewDelegate {
         let selectedText = selectedCell.textLabel?.text as String!
         let selected = selectedText?.replacingOccurrences(of: "#", with: "")
         let trim = self.writeDescription.text.replacingOccurrences(of: item.last!, with: "", options: .caseInsensitive, range: nil)
-        print(trim)
-        //let text = self.writeDescription.text!
         self.writeDescription.text = trim + selected! + " "
         self.popover.dismiss()
         self.result.removeAll()

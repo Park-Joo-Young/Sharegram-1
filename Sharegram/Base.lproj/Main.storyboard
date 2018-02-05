@@ -213,36 +213,11 @@
                         <outlet property="writeBut" destination="rE6-lT-s1i" id="l9f-cv-IdY"/>
                         <outlet property="writeDescription" destination="Npc-MY-DyI" id="Wzi-BZ-MvK"/>
                         <outlet property="writeimageView" destination="UY3-u3-8Lk" id="oOX-A5-zKp"/>
-                        <segue destination="nDI-43-tfo" kind="show" identifier="ii" id="IQ5-Rk-fCb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VIu-8c-vz0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4725.6000000000004" y="443.92803598200902"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="FLb-MG-h4o">
-            <objects>
-                <viewController id="nDI-43-tfo" customClass="ViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="2CG-E9-8bG">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4dh-wP-KMg">
-                                <rect key="frame" x="0.0" y="164" width="375" height="207"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <viewLayoutGuide key="safeArea" id="sDc-Nk-g1T"/>
-                    </view>
-                    <connections>
-                        <outlet property="imageview" destination="4dh-wP-KMg" id="ygc-fT-UZR"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VdD-DY-t5g" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5796" y="444"/>
         </scene>
         <!--Hash Tag Table View Controller-->
         <scene sceneID="3uI-1x-X5R">
