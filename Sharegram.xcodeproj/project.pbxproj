@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04AD8E0E202C2B8E00FD1733 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD8E0C202C2B8E00FD1733 /* PostCell.swift */; };
+		04AD8E0F202C2B8E00FD1733 /* PostHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD8E0D202C2B8E00FD1733 /* PostHeaderCell.swift */; };
+		04AD8E12202C2BA200FD1733 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD8E10202C2BA200FD1733 /* Post.swift */; };
+		04AD8E13202C2BA200FD1733 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD8E11202C2BA200FD1733 /* User.swift */; };
 		182C972A20107D8F002E5311 /* Mustard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182C972820107D8F002E5311 /* Mustard.swift */; };
 		1864A05F201722AF00A34F04 /* HashTagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */; };
 		186FDFED2005E497007A454C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186FDFEC2005E497007A454C /* GoogleService-Info.plist */; };
@@ -26,11 +30,14 @@
 		3AA85BE6200738E300BAB348 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BE5200738E300BAB348 /* CameraViewController.swift */; };
 		3AA85BE8200738F100BAB348 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BE7200738F100BAB348 /* ActivityViewController.swift */; };
 		3AA85BEA2007390500BAB348 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BE92007390500BAB348 /* ProfileViewController.swift */; };
-		3AA85BED2007689900BAB348 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BEC2007689900BAB348 /* Post.swift */; };
 		CA31797A1D22B7B4B2A5B24E /* Pods_Sharegram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C80C7A8F3875C069B9BA89 /* Pods_Sharegram.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04AD8E0C202C2B8E00FD1733 /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
+		04AD8E0D202C2B8E00FD1733 /* PostHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostHeaderCell.swift; sourceTree = "<group>"; };
+		04AD8E10202C2BA200FD1733 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Post.swift; path = ../../../Model/Post.swift; sourceTree = "<group>"; };
+		04AD8E11202C2BA200FD1733 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		182C972720107D8F002E5311 /* Mustard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mustard.h; sourceTree = "<group>"; };
 		182C972820107D8F002E5311 /* Mustard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mustard.swift; sourceTree = "<group>"; };
 		1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTagTableViewController.swift; sourceTree = "<group>"; };
@@ -53,7 +60,6 @@
 		3AA85BE5200738E300BAB348 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		3AA85BE7200738F100BAB348 /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		3AA85BE92007390500BAB348 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		3AA85BEC2007689900BAB348 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		69C80C7A8F3875C069B9BA89 /* Pods_Sharegram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sharegram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1A04668B4D3F8297119E91E /* Pods-Sharegram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sharegram.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sharegram/Pods-Sharegram.release.xcconfig"; sourceTree = "<group>"; };
 		C904A152F4121E1B714F329E /* Pods-Sharegram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sharegram.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sharegram/Pods-Sharegram.debug.xcconfig"; sourceTree = "<group>"; };
@@ -71,6 +77,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04AD8E0B202C2B8E00FD1733 /* CustumCell */ = {
+			isa = PBXGroup;
+			children = (
+				04AD8E0C202C2B8E00FD1733 /* PostCell.swift */,
+				04AD8E0D202C2B8E00FD1733 /* PostHeaderCell.swift */,
+			);
+			path = CustumCell;
+			sourceTree = "<group>";
+		};
 		182C972520107D8F002E5311 /* Mustard */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +124,7 @@
 		3A76C18F20046761004253CF /* Sharegram */ = {
 			isa = PBXGroup;
 			children = (
+				04AD8E0B202C2B8E00FD1733 /* CustumCell */,
 				182C972520107D8F002E5311 /* Mustard */,
 				3AA85BEB2007687E00BAB348 /* Model */,
 				3A76C19020046761004253CF /* AppDelegate.swift */,
@@ -136,7 +152,8 @@
 		3AA85BEB2007687E00BAB348 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3AA85BEC2007689900BAB348 /* Post.swift */,
+				04AD8E10202C2BA200FD1733 /* Post.swift */,
+				04AD8E11202C2BA200FD1733 /* User.swift */,
 				186FDFF22005E6B7007A454C /* Variable.swift */,
 			);
 			path = Model;
@@ -284,11 +301,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04AD8E0F202C2B8E00FD1733 /* PostHeaderCell.swift in Sources */,
 				1864A05F201722AF00A34F04 /* HashTagTableViewController.swift in Sources */,
 				186FDFEF2005E60D007A454C /* LoginViewController.swift in Sources */,
 				186FDFF32005E6B7007A454C /* Variable.swift in Sources */,
 				3AA85BE4200738D500BAB348 /* SearchViewController.swift in Sources */,
-				3AA85BED2007689900BAB348 /* Post.swift in Sources */,
 				3AA85BE8200738F100BAB348 /* ActivityViewController.swift in Sources */,
 				188C042A200C92D800C4E697 /* WriteViewController.swift in Sources */,
 				182C972A20107D8F002E5311 /* Mustard.swift in Sources */,
@@ -298,7 +315,10 @@
 				3A76C19920046761004253CF /* Sharegram.xcdatamodeld in Sources */,
 				3AA85BE2200738C100BAB348 /* HomeViewController.swift in Sources */,
 				3A76C19120046761004253CF /* AppDelegate.swift in Sources */,
+				04AD8E12202C2BA200FD1733 /* Post.swift in Sources */,
 				3AA85BE6200738E300BAB348 /* CameraViewController.swift in Sources */,
+				04AD8E0E202C2B8E00FD1733 /* PostCell.swift in Sources */,
+				04AD8E13202C2BA200FD1733 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
