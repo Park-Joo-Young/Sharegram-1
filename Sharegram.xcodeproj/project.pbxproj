@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04A800B4202C3488003F0594 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A800B3202C3488003F0594 /* Post.swift */; };
 		04AD8E0E202C2B8E00FD1733 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD8E0C202C2B8E00FD1733 /* PostCell.swift */; };
 		04AD8E0F202C2B8E00FD1733 /* PostHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD8E0D202C2B8E00FD1733 /* PostHeaderCell.swift */; };
-		04AD8E12202C2BA200FD1733 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD8E10202C2BA200FD1733 /* Post.swift */; };
 		04AD8E13202C2BA200FD1733 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD8E11202C2BA200FD1733 /* User.swift */; };
 		182C972A20107D8F002E5311 /* Mustard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182C972820107D8F002E5311 /* Mustard.swift */; };
 		1864A05F201722AF00A34F04 /* HashTagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */; };
@@ -34,9 +34,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04A800B3202C3488003F0594 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		04AD8E0C202C2B8E00FD1733 /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		04AD8E0D202C2B8E00FD1733 /* PostHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostHeaderCell.swift; sourceTree = "<group>"; };
-		04AD8E10202C2BA200FD1733 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Post.swift; path = ../../../Model/Post.swift; sourceTree = "<group>"; };
 		04AD8E11202C2BA200FD1733 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		182C972720107D8F002E5311 /* Mustard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mustard.h; sourceTree = "<group>"; };
 		182C972820107D8F002E5311 /* Mustard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mustard.swift; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 		3AA85BEB2007687E00BAB348 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				04AD8E10202C2BA200FD1733 /* Post.swift */,
+				04A800B3202C3488003F0594 /* Post.swift */,
 				04AD8E11202C2BA200FD1733 /* User.swift */,
 				186FDFF22005E6B7007A454C /* Variable.swift */,
 			);
@@ -315,8 +315,8 @@
 				3A76C19920046761004253CF /* Sharegram.xcdatamodeld in Sources */,
 				3AA85BE2200738C100BAB348 /* HomeViewController.swift in Sources */,
 				3A76C19120046761004253CF /* AppDelegate.swift in Sources */,
-				04AD8E12202C2BA200FD1733 /* Post.swift in Sources */,
 				3AA85BE6200738E300BAB348 /* CameraViewController.swift in Sources */,
+				04A800B4202C3488003F0594 /* Post.swift in Sources */,
 				04AD8E0E202C2B8E00FD1733 /* PostCell.swift in Sources */,
 				04AD8E13202C2BA200FD1733 /* User.swift in Sources */,
 			);
