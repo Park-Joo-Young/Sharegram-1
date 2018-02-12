@@ -13,6 +13,9 @@
 		04AD8E13202C2BA200FD1733 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD8E11202C2BA200FD1733 /* User.swift */; };
 		182C972A20107D8F002E5311 /* Mustard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182C972820107D8F002E5311 /* Mustard.swift */; };
 		1864A05F201722AF00A34F04 /* HashTagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */; };
+		186850572031682C00BF50C4 /* searchBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 186850562031682C00BF50C4 /* searchBar.png */; };
+		18685059203175FC00BF50C4 /* SearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18685058203175FC00BF50C4 /* SearchView.xib */; };
+		1868505B203176D900BF50C4 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1868505A203176D900BF50C4 /* SearchView.swift */; };
 		186FDFED2005E497007A454C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186FDFEC2005E497007A454C /* GoogleService-Info.plist */; };
 		186FDFEF2005E60D007A454C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDFEE2005E60D007A454C /* LoginViewController.swift */; };
 		186FDFF12005E61D007A454C /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDFF02005E61D007A454C /* CreateUserViewController.swift */; };
@@ -41,6 +44,9 @@
 		182C972720107D8F002E5311 /* Mustard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mustard.h; sourceTree = "<group>"; };
 		182C972820107D8F002E5311 /* Mustard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mustard.swift; sourceTree = "<group>"; };
 		1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTagTableViewController.swift; sourceTree = "<group>"; };
+		186850562031682C00BF50C4 /* searchBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchBar.png; sourceTree = "<group>"; };
+		18685058203175FC00BF50C4 /* SearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchView.xib; sourceTree = "<group>"; };
+		1868505A203176D900BF50C4 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		186FDFEC2005E497007A454C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		186FDFEE2005E60D007A454C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		186FDFF02005E61D007A454C /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
@@ -98,6 +104,7 @@
 		186FDFF62005F871007A454C /* picture */ = {
 			isa = PBXGroup;
 			children = (
+				186850562031682C00BF50C4 /* searchBar.png */,
 				186FDFF72005F871007A454C /* ShareGram.png */,
 			);
 			path = picture;
@@ -133,6 +140,8 @@
 				1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */,
 				3AA85BE1200738C100BAB348 /* HomeViewController.swift */,
 				3AA85BE3200738D500BAB348 /* SearchViewController.swift */,
+				18685058203175FC00BF50C4 /* SearchView.xib */,
+				1868505A203176D900BF50C4 /* SearchView.swift */,
 				3AA85BE5200738E300BAB348 /* CameraViewController.swift */,
 				188C0429200C92D800C4E697 /* WriteViewController.swift */,
 				3AA85BE7200738F100BAB348 /* ActivityViewController.swift */,
@@ -239,8 +248,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				186FDFF82005F871007A454C /* ShareGram.png in Resources */,
+				18685059203175FC00BF50C4 /* SearchView.xib in Resources */,
 				3A76C19E20046761004253CF /* LaunchScreen.storyboard in Resources */,
 				186FDFED2005E497007A454C /* GoogleService-Info.plist in Resources */,
+				186850572031682C00BF50C4 /* searchBar.png in Resources */,
 				3A76C19B20046761004253CF /* Assets.xcassets in Resources */,
 				3A76C19620046761004253CF /* Main.storyboard in Resources */,
 			);
@@ -302,6 +313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04AD8E0F202C2B8E00FD1733 /* PostHeaderCell.swift in Sources */,
+				1868505B203176D900BF50C4 /* SearchView.swift in Sources */,
 				1864A05F201722AF00A34F04 /* HashTagTableViewController.swift in Sources */,
 				186FDFEF2005E60D007A454C /* LoginViewController.swift in Sources */,
 				186FDFF32005E6B7007A454C /* Variable.swift in Sources */,

@@ -7,28 +7,38 @@
 //  Write SatGatLee
 
 import UIKit
+import Firebase
+import SnapKit
 
-class SearchViewController: UIViewController, UISearchBarDelegate {
 
+class SearchViewController: UIViewController {
     //검색 뷰
-
     @IBOutlet weak var naviItem: UINavigationItem!
-    @IBOutlet weak var Searchbar: UISearchBar!
-
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        //print("시발")
-        return true
+    @IBOutlet weak var searchBut: UIButton!
+    
+    func presentView() {
+        let subview = SearchView.instanceFromNib()
+        self.view.addSubview(subview)
+        subview.snp.makeConstraints { (make) in
+            make.top.equalTo(searchBut.snp.bottom)
+            make.size.equalTo(self.view)
+        }
+    }
+    @IBAction func SearchAct(_ sender: UIButton) {
+        presentView()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        if searchBarShouldBeginEditing(Searchbar) {
-            print("시발")
+        searchBut.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view.frame.width/2)
+            make.height.equalTo(self.view.frame.height/30)
+            make.top.equalTo(self.view).offset(77)
+            make.centerX.equalTo(self.view)
         }
+        searchBut.setImage(UIImage(named: "searchBar.png"), for: .normal)
         // Do any additional setup after loading the view.
     }
-    @objc func Action() {
-        print("씨발")
-    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

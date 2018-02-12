@@ -289,27 +289,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZEV-1b-UQ4">
-                                <rect key="frame" x="0.0" y="64" width="375" height="56"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f0x-Os-ijR">
+                                <rect key="frame" x="0.0" y="64" width="375" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
                                 <connections>
-                                    <outlet property="delegate" destination="Cfy-Ke-dvg" id="UG7-QW-rpo"/>
+                                    <action selector="SearchAct:" destination="Cfy-Ke-dvg" eventType="touchUpInside" id="EDp-PX-gUC"/>
                                 </connections>
-                            </searchBar>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="xx5-5P-Dlc"/>
                     </view>
                     <navigationItem key="navigationItem" title="Search" id="lV6-HM-eDP"/>
                     <connections>
-                        <outlet property="Searchbar" destination="ZEV-1b-UQ4" id="tQQ-p2-hq4"/>
                         <outlet property="naviItem" destination="lV6-HM-eDP" id="WRU-1q-8rN"/>
+                        <outlet property="searchBut" destination="f0x-Os-ijR" id="uod-gy-BKA"/>
+                        <outlet property="searchDisplayController" destination="UTN-q8-KrE" id="65Y-g1-rW8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="676-bI-QDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="PVu-c6-Mr8">
+                    <connections>
+                        <outlet property="delegate" destination="Cfy-Ke-dvg" id="55e-kc-0MY"/>
+                        <outlet property="searchContentsController" destination="Cfy-Ke-dvg" id="VLR-HA-FH3"/>
+                        <outlet property="searchResultsDataSource" destination="Cfy-Ke-dvg" id="aZM-Gu-Bo8"/>
+                        <outlet property="searchResultsDelegate" destination="Cfy-Ke-dvg" id="81b-jM-C0W"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="UTN-q8-KrE">
+                    <connections>
+                        <outlet property="delegate" destination="Cfy-Ke-dvg" id="r4B-tk-saH"/>
+                        <outlet property="searchContentsController" destination="Cfy-Ke-dvg" id="gSW-Mf-sya"/>
+                        <outlet property="searchResultsDataSource" destination="Cfy-Ke-dvg" id="hjw-M0-pBw"/>
+                        <outlet property="searchResultsDelegate" destination="Cfy-Ke-dvg" id="72l-yE-nBd"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="3801" y="-344"/>
+            <point key="canvasLocation" x="3800.8000000000002" y="-344.07796101949026"/>
         </scene>
         <!--Home-->
         <scene sceneID="qiX-NV-sAI">
