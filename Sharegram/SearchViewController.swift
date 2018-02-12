@@ -8,11 +8,22 @@
 
 import UIKit
 
-class SearchViewController: UIViewController { //검색 뷰
+class SearchViewController: UIViewController, UISearchBarDelegate {
 
+    //검색 뷰
+
+    @IBOutlet weak var naviItem: UINavigationItem!
+    @IBOutlet weak var Searchbar: UISearchBar!
+
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        //print("시발")
+        return true
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if searchBarShouldBeginEditing(Searchbar) {
+            print("시발")
+        }
         // Do any additional setup after loading the view.
     }
 
