@@ -6,14 +6,18 @@
 //  Copyright © 2018년 박주영. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-class Post{
-    var caption: String
-    var photoString: String
+
+struct Post
+{
+    var createBy: User
+    var timeAgo: String?
+    var caption: String?
+    var image: String?
+    var numberOfLikes: Int?
+    var numberOfComments: Int?
+    var numberOfShares: Int?
     
-    init(captionText: String, photoStrings: String){
-        caption = captionText
-        photoString = photoStrings
-    }
+  
 }
