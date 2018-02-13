@@ -21,6 +21,7 @@
 		186FDFF12005E61D007A454C /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDFF02005E61D007A454C /* CreateUserViewController.swift */; };
 		186FDFF32005E6B7007A454C /* Variable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDFF22005E6B7007A454C /* Variable.swift */; };
 		186FDFF82005F871007A454C /* ShareGram.png in Resources */ = {isa = PBXBuildFile; fileRef = 186FDFF72005F871007A454C /* ShareGram.png */; };
+		1874E5B42032D2EA00D94576 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1874E5B32032D2EA00D94576 /* ADVSegmentedControl.swift */; };
 		188C042A200C92D800C4E697 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188C0429200C92D800C4E697 /* WriteViewController.swift */; };
 		3A76C19120046761004253CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76C19020046761004253CF /* AppDelegate.swift */; };
 		3A76C19320046761004253CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76C19220046761004253CF /* ViewController.swift */; };
@@ -52,6 +53,7 @@
 		186FDFF02005E61D007A454C /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
 		186FDFF22005E6B7007A454C /* Variable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variable.swift; sourceTree = "<group>"; };
 		186FDFF72005F871007A454C /* ShareGram.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShareGram.png; sourceTree = "<group>"; };
+		1874E5B32032D2EA00D94576 /* ADVSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADVSegmentedControl.swift; sourceTree = "<group>"; };
 		188C0429200C92D800C4E697 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		3A76C18D20046761004253CF /* Sharegram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sharegram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A76C19020046761004253CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +112,14 @@
 			path = picture;
 			sourceTree = "<group>";
 		};
+		1874E5B22032D2CE00D94576 /* CustomSegment */ = {
+			isa = PBXGroup;
+			children = (
+				1874E5B32032D2EA00D94576 /* ADVSegmentedControl.swift */,
+			);
+			path = CustomSegment;
+			sourceTree = "<group>";
+		};
 		3A76C18420046761004253CF = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +141,7 @@
 		3A76C18F20046761004253CF /* Sharegram */ = {
 			isa = PBXGroup;
 			children = (
+				1874E5B22032D2CE00D94576 /* CustomSegment */,
 				04AD8E0B202C2B8E00FD1733 /* CustumCell */,
 				182C972520107D8F002E5311 /* Mustard */,
 				3AA85BEB2007687E00BAB348 /* Model */,
@@ -312,6 +323,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1874E5B42032D2EA00D94576 /* ADVSegmentedControl.swift in Sources */,
 				04AD8E0F202C2B8E00FD1733 /* PostHeaderCell.swift in Sources */,
 				1868505B203176D900BF50C4 /* SearchView.swift in Sources */,
 				1864A05F201722AF00A34F04 /* HashTagTableViewController.swift in Sources */,

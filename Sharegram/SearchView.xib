@@ -16,20 +16,6 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="mnk-vI-9YO">
-                    <rect key="frame" x="0.0" y="56" width="375" height="28"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="27" id="U0n-hb-WBB"/>
-                    </constraints>
-                    <segments>
-                        <segment title="First"/>
-                        <segment title="Second"/>
-                        <segment title=""/>
-                    </segments>
-                    <connections>
-                        <action selector="ActSeg:" destination="iN0-l3-epB" eventType="valueChanged" id="q5U-jc-UFM"/>
-                    </connections>
-                </segmentedControl>
                 <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="cq8-5I-NyL">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                     <textInputTraits key="textInputTraits"/>
@@ -37,8 +23,9 @@
                         <outlet property="delegate" destination="-1" id="pCk-Vh-YId"/>
                     </connections>
                 </searchBar>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="con-FY-BkD">
-                    <rect key="frame" x="0.0" y="84" width="375" height="573"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="con-FY-BkD">
+                    <rect key="frame" x="0.0" y="91" width="375" height="573"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="peB-Ke-TNP"/>
@@ -48,22 +35,14 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="con-FY-BkD" firstAttribute="top" secondItem="mnk-vI-9YO" secondAttribute="bottom" constant="1" id="H2B-Qn-sHE"/>
                 <constraint firstItem="cq8-5I-NyL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JJb-IX-9oJ"/>
-                <constraint firstItem="mnk-vI-9YO" firstAttribute="top" secondItem="cq8-5I-NyL" secondAttribute="bottom" id="Lxz-UT-6hu"/>
-                <constraint firstItem="mnk-vI-9YO" firstAttribute="leading" secondItem="con-FY-BkD" secondAttribute="leading" id="MgX-cC-6Y9"/>
-                <constraint firstItem="mnk-vI-9YO" firstAttribute="trailing" secondItem="con-FY-BkD" secondAttribute="trailing" id="QSV-0F-6Zt"/>
                 <constraint firstAttribute="trailing" secondItem="cq8-5I-NyL" secondAttribute="trailing" id="Yw0-En-n0x"/>
                 <constraint firstItem="cq8-5I-NyL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ecu-7F-Qi2"/>
-                <constraint firstItem="cq8-5I-NyL" firstAttribute="trailing" secondItem="mnk-vI-9YO" secondAttribute="trailing" id="fmE-tT-bgn"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="con-FY-BkD" secondAttribute="bottom" constant="10" id="juJ-5C-I3i"/>
-                <constraint firstItem="cq8-5I-NyL" firstAttribute="leading" secondItem="mnk-vI-9YO" secondAttribute="leading" id="lhZ-OI-Q01"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="SearchBar" destination="cq8-5I-NyL" id="AXg-sp-ayq"/>
                 <outlet property="SearchResultTable" destination="con-FY-BkD" id="jec-vX-mTo"/>
-                <outlet property="segment" destination="mnk-vI-9YO" id="xJv-Ab-pok"/>
             </connections>
             <point key="canvasLocation" x="24.5" y="51.5"/>
         </view>

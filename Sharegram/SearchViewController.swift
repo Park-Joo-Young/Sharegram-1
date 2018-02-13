@@ -22,6 +22,7 @@ class SearchViewController: UIViewController {
         subview.snp.makeConstraints { (make) in
             make.top.equalTo(searchBut.snp.bottom)
             make.size.equalTo(self.view)
+            make.centerX.equalTo(self.view)
         }
     }
     @IBAction func SearchAct(_ sender: UIButton) {
