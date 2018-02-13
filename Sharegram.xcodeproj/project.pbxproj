@@ -120,6 +120,58 @@
 			path = CustomSegment;
 			sourceTree = "<group>";
 		};
+		1874E5B52032DCC500D94576 /* CameraView */ = {
+			isa = PBXGroup;
+			children = (
+				3AA85BE5200738E300BAB348 /* CameraViewController.swift */,
+				188C0429200C92D800C4E697 /* WriteViewController.swift */,
+			);
+			path = CameraView;
+			sourceTree = "<group>";
+		};
+		1874E5B62032DCC900D94576 /* SearchView */ = {
+			isa = PBXGroup;
+			children = (
+				3AA85BE3200738D500BAB348 /* SearchViewController.swift */,
+				18685058203175FC00BF50C4 /* SearchView.xib */,
+				1868505A203176D900BF50C4 /* SearchView.swift */,
+			);
+			path = SearchView;
+			sourceTree = "<group>";
+		};
+		1874E5B72032DCF300D94576 /* UserView */ = {
+			isa = PBXGroup;
+			children = (
+				186FDFEE2005E60D007A454C /* LoginViewController.swift */,
+				186FDFF02005E61D007A454C /* CreateUserViewController.swift */,
+			);
+			path = UserView;
+			sourceTree = "<group>";
+		};
+		1874E5B82032DD3F00D94576 /* HomeView */ = {
+			isa = PBXGroup;
+			children = (
+				3AA85BE1200738C100BAB348 /* HomeViewController.swift */,
+			);
+			path = HomeView;
+			sourceTree = "<group>";
+		};
+		1874E5B92032DD4900D94576 /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				3AA85BE92007390500BAB348 /* ProfileViewController.swift */,
+			);
+			path = ProfileView;
+			sourceTree = "<group>";
+		};
+		1874E5BA2032DD4B00D94576 /* ActivityView */ = {
+			isa = PBXGroup;
+			children = (
+				3AA85BE7200738F100BAB348 /* ActivityViewController.swift */,
+			);
+			path = ActivityView;
+			sourceTree = "<group>";
+		};
 		3A76C18420046761004253CF = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +193,12 @@
 		3A76C18F20046761004253CF /* Sharegram */ = {
 			isa = PBXGroup;
 			children = (
+				1874E5BA2032DD4B00D94576 /* ActivityView */,
+				1874E5B92032DD4900D94576 /* ProfileView */,
+				1874E5B82032DD3F00D94576 /* HomeView */,
+				1874E5B72032DCF300D94576 /* UserView */,
+				1874E5B62032DCC900D94576 /* SearchView */,
+				1874E5B52032DCC500D94576 /* CameraView */,
 				1874E5B22032D2CE00D94576 /* CustomSegment */,
 				04AD8E0B202C2B8E00FD1733 /* CustumCell */,
 				182C972520107D8F002E5311 /* Mustard */,
@@ -149,16 +207,6 @@
 				3A76C19220046761004253CF /* ViewController.swift */,
 				3A76C19420046761004253CF /* Main.storyboard */,
 				1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */,
-				3AA85BE1200738C100BAB348 /* HomeViewController.swift */,
-				3AA85BE3200738D500BAB348 /* SearchViewController.swift */,
-				18685058203175FC00BF50C4 /* SearchView.xib */,
-				1868505A203176D900BF50C4 /* SearchView.swift */,
-				3AA85BE5200738E300BAB348 /* CameraViewController.swift */,
-				188C0429200C92D800C4E697 /* WriteViewController.swift */,
-				3AA85BE7200738F100BAB348 /* ActivityViewController.swift */,
-				3AA85BE92007390500BAB348 /* ProfileViewController.swift */,
-				186FDFEE2005E60D007A454C /* LoginViewController.swift */,
-				186FDFF02005E61D007A454C /* CreateUserViewController.swift */,
 				186FDFF62005F871007A454C /* picture */,
 				3A76C19A20046761004253CF /* Assets.xcassets */,
 				3A76C19C20046761004253CF /* LaunchScreen.storyboard */,
