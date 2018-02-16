@@ -16,13 +16,6 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="cq8-5I-NyL">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
-                    <textInputTraits key="textInputTraits"/>
-                    <connections>
-                        <outlet property="delegate" destination="-1" id="pCk-Vh-YId"/>
-                    </connections>
-                </searchBar>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="con-FY-BkD">
                     <rect key="frame" x="0.0" y="91" width="375" height="573"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -34,14 +27,8 @@
                 </tableView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <constraints>
-                <constraint firstItem="cq8-5I-NyL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JJb-IX-9oJ"/>
-                <constraint firstAttribute="trailing" secondItem="cq8-5I-NyL" secondAttribute="trailing" id="Yw0-En-n0x"/>
-                <constraint firstItem="cq8-5I-NyL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ecu-7F-Qi2"/>
-            </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
-                <outlet property="SearchBar" destination="cq8-5I-NyL" id="AXg-sp-ayq"/>
                 <outlet property="SearchResultTable" destination="con-FY-BkD" id="jec-vX-mTo"/>
             </connections>
             <point key="canvasLocation" x="24.5" y="51.5"/>

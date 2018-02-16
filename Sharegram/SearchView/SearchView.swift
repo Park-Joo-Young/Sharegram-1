@@ -8,36 +8,39 @@
 
 import UIKit
 import SnapKit
+import Firebase
 
-class SearchView: UIView, UISearchBarDelegate {
+class SearchView: UIView {
     let seg = ADVSegmentedControl()
-    @IBAction func ActSeg(_ sender: UISegmentedControl) {
-        //self.removeFromSuperview()
+    var SearchController : UISearchController!
+    var SearchList : [[String : String]] = []
+    var ref : DatabaseReference?
+    var keyList : [String] = []
 
-    }
     //@IBOutlet weak var segment: ADVSegmentedControl!
     @IBOutlet weak var SearchResultTable: UITableView!
     
-    @IBOutlet weak var SearchBar: UISearchBar!
+
     
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "SearchView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! UIView
     }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.removeFromSuperview()
-    }
-    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool { //검색 시
-        
-        return true
-    }
+
      // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
         // Drawing code //경계 없애기
+        ref = Database.database().reference()
+        SearchController = UISearchController(searchResultsController: nil)
+        SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
+        SearchController.hidesNavigationBarDuringPresentation = false
+        SearchController.dimsBackgroundDuringPresentation = false
+        SearchController.searchBar.searchBarStyle = .prominent
+        SearchController.searchBar.sizeToFit()
+        
         self.addSubview(seg)
         seg.snp.makeConstraints { (make) in
-            make.top.equalTo(SearchBar.snp.bottom).offset(20)
+            make.top.equalTo(self)
             make.width.equalTo(self.frame.width)
             make.height.equalTo(self.frame.height/20)
             make.centerX.equalTo(self)
@@ -45,7 +48,7 @@ class SearchView: UIView, UISearchBarDelegate {
         seg.items = ["인기", "사람", "태그"]
         seg.borderColor = UIColor(white: 1.0, alpha: 0.3)
         seg.selectedIndex = 0
-        
+        seg.addTarget(self, action: #selector(ActSegClicked), for: .valueChanged)
         SearchResultTable.snp.makeConstraints { (make) in
             make.top.equalTo(seg.snp.bottom).offset(20)
             make.width.equalTo(self.frame.width)
@@ -53,11 +56,87 @@ class SearchView: UIView, UISearchBarDelegate {
             make.left.equalTo(self)
             make.right.equalTo(self)
         }
-        SearchBar.showsCancelButton = true
-        SearchBar.delegate = self
-        
+        SearchResultTable.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.SearchResultTable.tableHeaderView = SearchController.searchBar
+        SearchController.searchBar.delegate = self
+        sss()
     }
     func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .lightContent
     }
-} 
+    func SearchUserList() {
+        for i in 0..<self.keyList.count {
+            ref?.child("User").child(self.keyList[i]).child("UserProfile").observe(.value, with: { (snapshot) in
+                if snapshot.value is NSNull {
+                    print("null")
+                } else {
+                    if let item = snapshot.value as? [String : String] {
+                        self.SearchList.append(item)
+                    }
+                }
+            })
+        }
+    }
+    func sss() {
+        ref?.child("User").queryOrdered(byChild: "사용자 명").queryStarting(atValue: "군상").queryEnding(atValue: "군상" + "\u{f8ff}").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            print(snapshot)
+            
+        })
+    }
+    @objc func ActSegClicked(_ sender : ADVSegmentedControl) {
+        if seg.selectedIndex == 1 { // 사람
+            print("1")
+            ref?.child("User").observe(.value, with: { (snapshot) in
+                if snapshot.value is NSNull {
+                    print("Nothing")
+                } else {
+                    for child in snapshot.children {
+                        let user = child as! DataSnapshot
+                        self.keyList.append(user.key)
+                    }
+                    self.SearchUserList()
+                }
+            })
+        } else if seg.selectedIndex == 2 { // 태그
+            print("1")
+        }
+    }
+}
+extension SearchView : UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if SearchController.isActive {
+            return SearchList.count
+        } else {
+            return 0
+        }
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = SearchResultTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
+        return cell
+    }
+}
+extension SearchView : UITableViewDataSource {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        return
+    }
+}
+extension SearchView : UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.removeFromSuperview()
+    }
+}
+extension SearchView : UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        if !((searchController.searchBar.text?.isEmpty)!){ // 기록 중이면 필터를 검사한다
+            print("기록")
+            let searchPredicate = NSPredicate(format: "SELF CONTAINS %@", searchController.searchBar.text!)
+            // 3
+            let array = (self.SearchList as NSArray).filtered(using: searchPredicate)
+            // 4
+        } else {
+            print("Not")
+        }
+    }
+}
