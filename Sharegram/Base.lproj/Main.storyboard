@@ -289,14 +289,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f0x-Os-ijR">
-                                <rect key="frame" x="0.0" y="64" width="375" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="SearchAct:" destination="Cfy-Ke-dvg" eventType="touchUpInside" id="EDp-PX-gUC"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k88-oC-rLv">
                                 <rect key="frame" x="166" y="358" width="42" height="150"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -304,6 +296,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7yt-zm-LCb">
+                                <rect key="frame" x="164" y="215" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="xx5-5P-Dlc"/>
@@ -311,29 +308,41 @@
                     <navigationItem key="navigationItem" title="Search" id="lV6-HM-eDP"/>
                     <connections>
                         <outlet property="naviItem" destination="lV6-HM-eDP" id="WRU-1q-8rN"/>
-                        <outlet property="searchBut" destination="f0x-Os-ijR" id="uod-gy-BKA"/>
-                        <outlet property="searchDisplayController" destination="UTN-q8-KrE" id="65Y-g1-rW8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="676-bI-QDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="PVu-c6-Mr8">
-                    <connections>
-                        <outlet property="delegate" destination="Cfy-Ke-dvg" id="55e-kc-0MY"/>
-                        <outlet property="searchContentsController" destination="Cfy-Ke-dvg" id="VLR-HA-FH3"/>
-                        <outlet property="searchResultsDataSource" destination="Cfy-Ke-dvg" id="aZM-Gu-Bo8"/>
-                        <outlet property="searchResultsDelegate" destination="Cfy-Ke-dvg" id="81b-jM-C0W"/>
-                    </connections>
-                </searchDisplayController>
-                <searchDisplayController id="UTN-q8-KrE">
-                    <connections>
-                        <outlet property="delegate" destination="Cfy-Ke-dvg" id="r4B-tk-saH"/>
-                        <outlet property="searchContentsController" destination="Cfy-Ke-dvg" id="gSW-Mf-sya"/>
-                        <outlet property="searchResultsDataSource" destination="Cfy-Ke-dvg" id="hjw-M0-pBw"/>
-                        <outlet property="searchResultsDelegate" destination="Cfy-Ke-dvg" id="72l-yE-nBd"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="3800.8000000000002" y="-344.07796101949026"/>
+        </scene>
+        <!--Sub Search View Controller-->
+        <scene sceneID="nzx-l5-w6A">
+            <objects>
+                <viewController storyboardIdentifier="Test" id="AV0-GA-x9O" customClass="SubSearchViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4x7-8N-3JB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="q3k-Hu-azp">
+                                <rect key="frame" x="73" y="298" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="AV0-GA-x9O" id="IOz-RX-DRH"/>
+                                    <outlet property="delegate" destination="AV0-GA-x9O" id="ojJ-d5-Ui4"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="cOY-vU-pOb"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="OG7-l9-OjS"/>
+                    <connections>
+                        <outlet property="SearchResultTable" destination="q3k-Hu-azp" id="MMD-Gm-X61"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SWx-yI-J0e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5034" y="-344"/>
         </scene>
         <!--Home-->
         <scene sceneID="qiX-NV-sAI">

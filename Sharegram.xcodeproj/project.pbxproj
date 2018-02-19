@@ -13,6 +13,7 @@
 		04AD8E13202C2BA200FD1733 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD8E11202C2BA200FD1733 /* User.swift */; };
 		182C972A20107D8F002E5311 /* Mustard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182C972820107D8F002E5311 /* Mustard.swift */; };
 		1864A05F201722AF00A34F04 /* HashTagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */; };
+		1865576A203AB8DC00831EAF /* SubSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18655769203AB8DC00831EAF /* SubSearchViewController.swift */; };
 		186850572031682C00BF50C4 /* searchBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 186850562031682C00BF50C4 /* searchBar.png */; };
 		18685059203175FC00BF50C4 /* SearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18685058203175FC00BF50C4 /* SearchView.xib */; };
 		1868505B203176D900BF50C4 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1868505A203176D900BF50C4 /* SearchView.swift */; };
@@ -45,6 +46,7 @@
 		182C972720107D8F002E5311 /* Mustard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mustard.h; sourceTree = "<group>"; };
 		182C972820107D8F002E5311 /* Mustard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mustard.swift; sourceTree = "<group>"; };
 		1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTagTableViewController.swift; sourceTree = "<group>"; };
+		18655769203AB8DC00831EAF /* SubSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubSearchViewController.swift; sourceTree = "<group>"; };
 		186850562031682C00BF50C4 /* searchBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchBar.png; sourceTree = "<group>"; };
 		18685058203175FC00BF50C4 /* SearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchView.xib; sourceTree = "<group>"; };
 		1868505A203176D900BF50C4 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				3AA85BE3200738D500BAB348 /* SearchViewController.swift */,
+				18655769203AB8DC00831EAF /* SubSearchViewController.swift */,
 				18685058203175FC00BF50C4 /* SearchView.xib */,
 				1868505A203176D900BF50C4 /* SearchView.swift */,
 			);
@@ -372,6 +375,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1874E5B42032D2EA00D94576 /* ADVSegmentedControl.swift in Sources */,
+				1865576A203AB8DC00831EAF /* SubSearchViewController.swift in Sources */,
 				04AD8E0F202C2B8E00FD1733 /* PostHeaderCell.swift in Sources */,
 				1868505B203176D900BF50C4 /* SearchView.swift in Sources */,
 				1864A05F201722AF00A34F04 /* HashTagTableViewController.swift in Sources */,
