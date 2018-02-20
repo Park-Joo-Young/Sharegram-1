@@ -16,6 +16,7 @@ class SubSearchViewController: UIViewController {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var SearchResultTable: UITableView!
 
+    @IBOutlet weak var navi: UINavigationBar!
     
     
     
@@ -26,21 +27,39 @@ class SubSearchViewController: UIViewController {
     var SearchList : [String] = [] // 검색 결과
     var ref : DatabaseReference?
     var keyList : [String] = []
-
+    
+    
+    func delay(_ delay: Double, closure: @escaping ()->()) {
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        delay(0.001) { self.SearchController.searchBar.becomeFirstResponder() }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
         
         SearchController = UISearchController(searchResultsController: nil)
         SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
-        //SearchController.hidesNavigationBarDuringPresentation = false
-        //SearchController.dimsBackgroundDuringPresentation = false
+        SearchController.hidesNavigationBarDuringPresentation = false
+        SearchController.dimsBackgroundDuringPresentation = false
         SearchController.searchBar.searchBarStyle = .prominent
         SearchController.searchBar.sizeToFit()
-        SearchController.searchBar.barTintColor = UIColor.blue
+        SearchController.searchBar.delegate = self
+        self.definesPresentationContext = true
+        
+        navi.snp.makeConstraints { (make) in
+            make.top.equalTo(self.view).offset(10)
+            make.height.equalTo(self.view.frame.height/10)
+            make.left.equalTo(self.view)
+            make.right.equalTo(self.view)
+        }
+        UINavigationBar.appearance().barTintColor = UIColor.white
+        
         self.view.addSubview(seg)
         seg.snp.makeConstraints { (make) in
-            make.top.equalTo(self.view).offset(70)
+            make.top.equalTo(navi.snp.bottom)
             make.width.equalTo(self.view.frame.width)
             make.height.equalTo(self.view.frame.height/20)
             make.centerX.equalTo(self.view)
@@ -49,6 +68,7 @@ class SubSearchViewController: UIViewController {
         seg.borderColor = UIColor(white: 1.0, alpha: 0.3)
         seg.selectedIndex = 0
         seg.addTarget(self, action: #selector(ActSegClicked), for: .valueChanged)
+        
         SearchResultTable.snp.makeConstraints { (make) in
             make.top.equalTo(seg.snp.bottom).offset(20)
             make.width.equalTo(self.view.frame.width)
@@ -56,8 +76,8 @@ class SubSearchViewController: UIViewController {
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
         }
-        self.SearchResultTable.tableHeaderView = SearchController.searchBar
-        SearchController.searchBar.delegate = self
+        //self.SearchResultTable.tableHeaderView = SearchController.searchBar
+        navi.topItem?.titleView = SearchController.searchBar
         // Do any additional setup after loading the view.
     }
     func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -77,13 +97,12 @@ class SubSearchViewController: UIViewController {
             })
         }
     }
-    @objc func Back() {
-        self.dismiss(animated: true, completion: nil)
-    }
+
     @objc func ActSegClicked(_ sender : ADVSegmentedControl) {
         if seg.selectedIndex == 1 { // 사람 클릭
             print("1")
-            
+            self.UserList.removeAll()
+            self.keyList.removeAll()
             ref?.child("User").observe(.value, with: { (snapshot) in
                 if snapshot.value is NSNull {
                     print("Nothing")
@@ -101,6 +120,7 @@ class SubSearchViewController: UIViewController {
             })
         } else if seg.selectedIndex == 2 { // 태그
             print("1")
+            self.TagList.removeAll()
             self.UserList.removeAll()
             self.SearchResultTable.reloadData()
             ref?.child("HashTagPosts").observe(.childAdded, with: { (snapshot) in
@@ -111,8 +131,10 @@ class SubSearchViewController: UIViewController {
                 }
             })
         } else {
+            self.TagList.removeAll()
             self.UserList.removeAll()
             self.SearchResultTable.reloadData()
+            self.dismiss(animated: true, completion: nil)
         }
     }
     override func didReceiveMemoryWarning() {
@@ -142,11 +164,9 @@ extension SubSearchViewController : UITableViewDelegate {
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let myidentifier = "cell"
-        var cell = SearchResultTable.dequeueReusableCell(withIdentifier: myidentifier, for: indexPath)
         print("ddd")
         print(self.SearchList)
-        cell = UITableViewCell(style: .value1, reuseIdentifier: myidentifier)
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
         cell.textLabel?.text = self.SearchList[indexPath.row]
         
         return cell
@@ -159,7 +179,7 @@ extension SubSearchViewController : UITableViewDataSource {
 }
 extension SubSearchViewController : UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        return
+        dismiss(animated: true, completion: nil)
     }
 }
 extension SubSearchViewController : UISearchResultsUpdating{
@@ -175,6 +195,7 @@ extension SubSearchViewController : UISearchResultsUpdating{
                 
                 self.SearchList = array as! [String]
                 if !(array.isEmpty) {
+                    print("?")
                     print(self.SearchList)
                     self.SearchResultTable.reloadData()
                 }

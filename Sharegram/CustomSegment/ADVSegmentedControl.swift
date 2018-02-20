@@ -37,7 +37,7 @@ import UIKit
         }
     }
     
-    @IBInspectable var thumbColor : UIColor = UIColor.black {
+    @IBInspectable var thumbColor : UIColor = UIColor(red: 174/255, green: 217/255, blue: 255/255, alpha: 1.0) {
         didSet {
             setSelectedColors()
         }
@@ -70,7 +70,7 @@ import UIKit
         
         layer.cornerRadius = frame.height / 2
         layer.borderColor = UIColor(white: 1.0, alpha: 0.5).cgColor
-        layer.borderWidth = 2
+        layer.borderWidth = 1.5
         
         backgroundColor = UIColor.clear
         
@@ -91,7 +91,7 @@ import UIKit
         
         for index in 1...items.count {
             
-            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 70, height: 40))
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 70, height: 30))
             label.text = items[index - 1]
             label.backgroundColor = UIColor.clear
             label.textAlignment = .center
