@@ -53,7 +53,7 @@ class SearchViewController: UIViewController{
 extension SearchViewController : UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "Test")
-        vc?.modalTransitionStyle = .crossDissolve
+        vc?.modalTransitionStyle = .flipHorizontal
         self.present(vc!, animated: true, completion:  nil)
         //searchController.becomeFirstResponder() = false
     }

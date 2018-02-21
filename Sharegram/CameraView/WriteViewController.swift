@@ -93,8 +93,8 @@ class WriteViewController: UIViewController{
                 if identifier == 0 { //위치 공유 할 시
                     let latitude = String(self.object.lat)
                     let LocationPath = latitude.replacingOccurrences(of: ".", with: "_")
-                    print(LocationPath)
-                    self.PostArray = ["image" : Path,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!]
+                    //print(metadata?.downloadURL()?.absoluteString)
+                    self.PostArray = ["image" : (metadata?.downloadURL()?.absoluteString)!,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!]
                     self.ref?.child("LocationPosts").child(LocationPath).childByAutoId().setValue(self.PostArray) //위치 공유 게시물 저장 지도에 띄우기 위한
                 } else { // 1
                     
@@ -137,7 +137,8 @@ class WriteViewController: UIViewController{
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let confirm = UIAlertAction(title: "확인", style: .default) {
             (action : UIAlertAction) -> Void in
-            self.dismiss(animated: true, completion: nil)
+            //self.dismiss(animated: true, completion: nil)
+            self.performSegue(withIdentifier: "image", sender: self)
         }
         alert.addAction(confirm)
         present(alert, animated: true, completion: nil)
@@ -259,6 +260,8 @@ class WriteViewController: UIViewController{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let destination = segue.destination as! ViewController
+        destination.image = self.PostArray["image"]
     }
 }
 extension WriteViewController : UITableViewDataSource {

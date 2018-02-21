@@ -127,6 +127,7 @@
 			children = (
 				3AA85BE5200738E300BAB348 /* CameraViewController.swift */,
 				188C0429200C92D800C4E697 /* WriteViewController.swift */,
+				1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */,
 			);
 			path = CameraView;
 			sourceTree = "<group>";
@@ -206,11 +207,10 @@
 				04AD8E0B202C2B8E00FD1733 /* CustumCell */,
 				182C972520107D8F002E5311 /* Mustard */,
 				3AA85BEB2007687E00BAB348 /* Model */,
+				186FDFF62005F871007A454C /* picture */,
 				3A76C19020046761004253CF /* AppDelegate.swift */,
 				3A76C19220046761004253CF /* ViewController.swift */,
 				3A76C19420046761004253CF /* Main.storyboard */,
-				1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */,
-				186FDFF62005F871007A454C /* picture */,
 				3A76C19A20046761004253CF /* Assets.xcassets */,
 				3A76C19C20046761004253CF /* LaunchScreen.storyboard */,
 				3A76C19F20046761004253CF /* Info.plist */,
