@@ -57,11 +57,7 @@ class WriteViewController: UIViewController{
             DataSave(ImagePath, dateString, identifier: 0)
         } else { //단순히 라이브러리 사진을 게시글로 작성할 때, 아니면 자신의 위치를 공유하지 않을 때
             if writeImage == nil { //그냥 글만 쓸 때
-                print("nil")
-                self.Hash = self.writeDescription.text._tokens(from: HashtagTokenizer())
-                self.NumberOfHasgTag(self.Hash)
-                self.PostArray = ["Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : dateString, "ID" : (Auth.auth().currentUser?.uid)!]
-                SubFuncDataSave()
+                return
             } else { // 사진이 있는데 라이브러리사진인 경우, 위치를 가져오나 공유하기 싫을 때
                 print("??")
                 DataSave(ImagePath, dateString, identifier: 1)
@@ -94,7 +90,7 @@ class WriteViewController: UIViewController{
                     let latitude = String(self.object.lat)
                     let LocationPath = latitude.replacingOccurrences(of: ".", with: "_")
                     //print(metadata?.downloadURL()?.absoluteString)
-                    self.PostArray = ["image" : (metadata?.downloadURL()?.absoluteString)!,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!]
+                    self.PostArray = ["image" : (metadata?.downloadURL()?.absoluteString)!,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!, "Like" : "0"]
                     self.ref?.child("LocationPosts").child(LocationPath).childByAutoId().setValue(self.PostArray) //위치 공유 게시물 저장 지도에 띄우기 위한
                 } else { // 1
                     

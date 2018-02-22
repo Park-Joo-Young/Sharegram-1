@@ -22,11 +22,11 @@ class PostHeaderCell: UITableViewCell
     
     func updateUI()
     {
-        profileImageView.image = post.createBy.profileImage
-        profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2.0
-        profileImageView.layer.masksToBounds = true
+//        profileImageView.image = post.createBy.profileImage
+//        profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2.0
+//        profileImageView.layer.masksToBounds = true
         
-        usernameLabel.text = post.createBy.username
+        usernameLabel.text = post.username
         
         followButton.layer.borderWidth = 1.0
         followButton.layer.cornerRadius = 2.0

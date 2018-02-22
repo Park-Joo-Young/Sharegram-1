@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 import SnapKit
-
+import SDWebImage
 
 class SearchViewController: UIViewController{
 
@@ -18,14 +18,43 @@ class SearchViewController: UIViewController{
         DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
     //검색 뷰
-    @IBOutlet weak var naviItem: UINavigationItem!
 
     var SearchController : UISearchController!
+    var Posts = [Post]()
+    var ref : DatabaseReference?
+    var storageRef : StorageReference?
+    
+    @IBOutlet weak var WholePostCollectionView: UICollectionView!
+    @IBOutlet weak var WholePostImage: UICollectionView!
+    
+    func SnapWholePosts() { // 전체 포스트 가져오기
+        ref?.child("WholePosts").observe(.childAdded, with: { (snapshot) in
+            if let item = snapshot.value as? [String : String] {
+                if item["latitude"] == nil && item["longitude"] == nil { //위치가 없으면
+                    self.Posts.append(Post(username: item["Author"], timeAgo: item["Date"], caption: item["Description"], image: item["image"], numberOfLikes: item["Like"]!, lat: 0, lon: 0))
+                } else {
+                    print(item["Author"]!)
+                    print(item["Date"]!)
+                    print(item["Description"]!)
+                    print(item["image"]!)
+                    print(item["Like"]!)
+                    print(item["latitude"]!)
+                    print(item["longitude"]!)
+                    self.Posts.append(Post(username: item["Author"]!, timeAgo: item["Date"]!, caption: item["Description"]!, image: item["image"]!, numberOfLikes: item["Like"]! , lat: Int(item["latitude"]!), lon: Int(item["longitude"]!)))
+                                      
+                    self.WholePostCollectionView.reloadData()
+                }
+
+            }
+        })
+    }
     override func viewWillAppear(_ animated: Bool) {
         SearchController.searchBar.showsCancelButton = false
+        SnapWholePosts()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        ref = Database.database().reference()
         
         SearchController = UISearchController(searchResultsController: nil)
         SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
@@ -34,10 +63,15 @@ class SearchViewController: UIViewController{
         SearchController.searchBar.searchBarStyle = .prominent
         SearchController.searchBar.sizeToFit()
         SearchController.searchBar.barTintColor = UIColor.lightGray
-        //SearchController.searchBar.showsCancelButton = false
+    
         self.navigationItem.titleView = SearchController.searchBar
         self.definesPresentationContext = true
-
+        
+        WholePostCollectionView.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view.frame.width)
+            make.height.equalTo(self.view.frame.height)
+            make.top.equalTo(self.view)
+        }
         // Do any additional setup after loading the view.
 
     }
@@ -56,6 +90,33 @@ extension SearchViewController : UISearchResultsUpdating {
         vc?.modalTransitionStyle = .flipHorizontal
         self.present(vc!, animated: true, completion:  nil)
         //searchController.becomeFirstResponder() = false
+    }
+}
+
+extension SearchViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        return
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(self.Posts.count)
+        return self.Posts.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = WholePostCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        let imageView = cell.viewWithTag(1) as? UIImageView
+        imageView?.sd_setImage(with: URL(string: self.Posts[indexPath.row].image!), completed: nil)
+        return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = WholePostCollectionView.frame.width / 3 - 1
+        return CGSize(width: width, height: width)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
     }
 }
 

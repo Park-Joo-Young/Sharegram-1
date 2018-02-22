@@ -17,13 +17,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(image)
-        imageview.downloadImage(from: image)
+        storageRef = Storage.storage().reference().child(image)
+        storageRef?.getData(maxSize: 30*1024*1024, completion: { (data, error) in
+            if error == nil {
+                self.imageview?.image = UIImage(data: data!)
+            } else {
+                print(error!.localizedDescription)
+            }
+        })
+        //imageview.downloadImage(from: image)
 //        storageRef?.child(image).downloadURL(completion: { (url, error) in
 //            if error != nil {
 //                print(error!.localizedDescription)
 //            } else {
 //                print("여긴")
-//
+//                let data = Data(contentsOf: url!)
 //                let userphoto = UIImage(data: data)
 //                self.imageview.image = userphoto
 //            }

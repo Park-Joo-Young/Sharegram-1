@@ -11,13 +11,15 @@ import UIKit
 
 struct Post
 {
-    var createBy: User
-    var timeAgo: String?
-    var caption: String?
-    var image: String?
-    var numberOfLikes: Int?
-    var numberOfComments: Int?
-    var numberOfShares: Int?
-    
+    var username: String? //Author
+    //var profileImage: UIImage?
+    var timeAgo: String? // Date
+    var caption: String? // Description
+    var image: String? // image
+    var numberOfLikes: String? // like
+    //var numberOfComments: Int?
+    //var numberOfShares: Int?
+    var lat : Int? //위도
+    var lon : Int? //경도
   
 }

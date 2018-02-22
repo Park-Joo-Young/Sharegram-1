@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SnapKit
 
 class PostCell: UITableViewCell {
     
@@ -26,7 +27,7 @@ class PostCell: UITableViewCell {
     
     func updateUI()
     {
-//        self.postImageView.image = post.image
+
         storageref = Storage.storage().reference().child(post.image!)
         storageref?.getData(maxSize: 30*1024*1024, completion: { (data, error) in
             if error == nil {
@@ -43,4 +44,5 @@ class PostCell: UITableViewCell {
         numberOfLikesButton.setTitle("Be the first one to share a comment", for: [])
         timeAgoLabel.text = post.timeAgo
     }
+    
 }

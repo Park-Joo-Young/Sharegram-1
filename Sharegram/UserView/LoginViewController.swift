@@ -75,7 +75,8 @@ class LoginViewController: UIViewController {
     }
         override func viewDidAppear(_ animated: Bool){
             super.viewDidAppear(animated)
-            if Auth.auth().currentUser != nil {
+            if Auth.auth().currentUser != nil { //자동 로그인
+                
                 self.performSegue(withIdentifier: "Login", sender: nil)
             }
             
