@@ -9,7 +9,7 @@
 import UIKit
 
 
-struct Post
+struct Post // 게시물 구조체
 {
     var username: String? //Author
     //var profileImage: UIImage?

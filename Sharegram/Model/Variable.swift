@@ -16,10 +16,12 @@ class variable {
     var lon : Double = 0
     var dic :  [[String : String]] = [[:]]
 }
+
 struct HashTag {
     var name : String
     var count : String
 }
+
 struct HashtagTokenizer : TokenizerType, DefaultTokenizerType {
     func tokenCanStart(with scalar: UnicodeScalar) -> Bool {
         return scalar == UnicodeScalar(35)
@@ -28,7 +30,4 @@ struct HashtagTokenizer : TokenizerType, DefaultTokenizerType {
         return CharacterSet.letters.contains(scalar)
     }
 }
-//protocol Function {
-//    func
-//}
 

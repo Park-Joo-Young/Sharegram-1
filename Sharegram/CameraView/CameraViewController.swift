@@ -12,6 +12,7 @@ import Firebase
 import CoreLocation
 import MobileCoreServices
 import Photos
+import SDWebImage
 
 class CameraViewController: UIViewController, UINavigationControllerDelegate {
     

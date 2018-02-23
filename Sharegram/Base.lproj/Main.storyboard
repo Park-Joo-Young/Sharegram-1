@@ -358,6 +358,7 @@
                     <connections>
                         <outlet property="WholePostCollectionView" destination="sSe-gl-ohN" id="fT3-eg-o07"/>
                         <outlet property="WholePostImage" destination="sSe-gl-ohN" id="iQO-1I-cpv"/>
+                        <segue destination="AV0-GA-x9O" kind="show" identifier="show" id="StQ-Af-12o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="676-bI-QDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -410,7 +411,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SWx-yI-J0e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4606" y="-344"/>
+            <point key="canvasLocation" x="4858" y="-344"/>
         </scene>
         <!--Home-->
         <scene sceneID="qiX-NV-sAI">

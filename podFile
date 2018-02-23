@@ -15,4 +15,5 @@ target 'Sharegram' do
 	pod 'ActiveLabel'
 	pod 'Popover'
 	pod 'SDWebImage/WebP'
+	pod 'ScrollableSegmentedControl'
 end

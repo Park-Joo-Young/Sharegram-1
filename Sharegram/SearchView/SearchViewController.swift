@@ -23,7 +23,7 @@ class SearchViewController: UIViewController{
     var Posts = [Post]()
     var ref : DatabaseReference?
     var storageRef : StorageReference?
-    
+
     @IBOutlet weak var WholePostCollectionView: UICollectionView!
     @IBOutlet weak var WholePostImage: UICollectionView!
     
@@ -33,13 +33,6 @@ class SearchViewController: UIViewController{
                 if item["latitude"] == nil && item["longitude"] == nil { //위치가 없으면
                     self.Posts.append(Post(username: item["Author"], timeAgo: item["Date"], caption: item["Description"], image: item["image"], numberOfLikes: item["Like"]!, lat: 0, lon: 0))
                 } else {
-                    print(item["Author"]!)
-                    print(item["Date"]!)
-                    print(item["Description"]!)
-                    print(item["image"]!)
-                    print(item["Like"]!)
-                    print(item["latitude"]!)
-                    print(item["longitude"]!)
                     self.Posts.append(Post(username: item["Author"]!, timeAgo: item["Date"]!, caption: item["Description"]!, image: item["image"]!, numberOfLikes: item["Like"]! , lat: Int(item["latitude"]!), lon: Int(item["longitude"]!)))
                                       
                     self.WholePostCollectionView.reloadData()
@@ -47,14 +40,17 @@ class SearchViewController: UIViewController{
 
             }
         })
+        ref?.removeAllObservers()
     }
     override func viewWillAppear(_ animated: Bool) {
+        self.Posts.removeAll()
         SearchController.searchBar.showsCancelButton = false
-        SnapWholePosts()
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
+        SnapWholePosts()
         
         SearchController = UISearchController(searchResultsController: nil)
         SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
@@ -65,7 +61,7 @@ class SearchViewController: UIViewController{
         SearchController.searchBar.barTintColor = UIColor.lightGray
     
         self.navigationItem.titleView = SearchController.searchBar
-        self.definesPresentationContext = true
+//        self.definesPresentationContext = false
         
         WholePostCollectionView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view.frame.width)
@@ -89,7 +85,6 @@ extension SearchViewController : UISearchResultsUpdating {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "Test")
         vc?.modalTransitionStyle = .flipHorizontal
         self.present(vc!, animated: true, completion:  nil)
-        //searchController.becomeFirstResponder() = false
     }
 }
 
@@ -109,7 +104,7 @@ extension SearchViewController : UICollectionViewDelegate, UICollectionViewDataS
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = WholePostCollectionView.frame.width / 3 - 1
+        let width = WholePostCollectionView.frame.width / 3-1
         return CGSize(width: width, height: width)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
