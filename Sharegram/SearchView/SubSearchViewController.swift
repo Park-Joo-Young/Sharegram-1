@@ -13,14 +13,9 @@ import ScrollableSegmentedControl
 
 class SubSearchViewController: UIViewController {
 
-
-    @IBOutlet weak var label: UILabel!
     @IBOutlet weak var SearchResultTable: UITableView!
-
-    @IBOutlet weak var navi: UINavigationBar!
-    //@IBOutlet weak var segmentedControl: ScrollableSegmentedControl!
-    //@IBOutlet weak var segmentedControl: ScrollableSegmentedControl!
     
+    @IBOutlet weak var navi: UINavigationBar!
     let segment = ScrollableSegmentedControl()
     //let seg = ADVSegmentedControl()
     var SearchController : UISearchController!
@@ -36,12 +31,17 @@ class SubSearchViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
     override func viewDidAppear(_ animated: Bool) {
-        delay(0.001) { self.SearchController.searchBar.becomeFirstResponder() }
+        delay(0.001) {
+            self.SearchController.searchBar.becomeFirstResponder()
+            print("됐는데")
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
-        
+
+        //self.navigationController?.isNavigationBarHidden = true
+        //self.navigationItem.hidesBackButton = true
         SearchController = UISearchController(searchResultsController: nil)
         SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
         SearchController.hidesNavigationBarDuringPresentation = false
@@ -49,8 +49,8 @@ class SubSearchViewController: UIViewController {
         SearchController.searchBar.searchBarStyle = .prominent
         SearchController.searchBar.sizeToFit()
         SearchController.searchBar.delegate = self
-        self.definesPresentationContext = false
-        self.tabBarController?.tabBar.isHidden = false
+        //SearchController.definesPresentationContext = true
+        self.definesPresentationContext = true
         navi.snp.makeConstraints { (make) in
             make.top.equalTo(self.view).offset(10)
             make.height.equalTo(self.view.frame.height/10)
@@ -75,10 +75,13 @@ class SubSearchViewController: UIViewController {
         segment.segmentContentColor = UIColor.black
         segment.selectedSegmentContentColor = UIColor.black
         segment.backgroundColor = UIColor.white
+        segment.selectedSegmentIndex = 0
+        
         let largerRedTextHighlightAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: UIColor.blue]
         let largerRedTextSelectAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: UIColor.orange]
         segment.setTitleTextAttributes(largerRedTextHighlightAttributes, for: .highlighted)
         segment.setTitleTextAttributes(largerRedTextSelectAttributes, for: .selected)
+        
 //        seg.items = ["인기", "사람", "태그"]
 //        seg.borderColor = UIColor(white: 1.0, alpha: 0.3)
 //        seg.selectedIndex = 0
@@ -94,21 +97,23 @@ class SubSearchViewController: UIViewController {
         
         let SwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(SwipeLeftAction))
         SwipeLeft.direction = .left
-        SearchResultTable.addGestureRecognizer(SwipeLeft)
+        //SearchResultTable.addGestureRecognizer(SwipeLeft)
         let SwipeRight = UISwipeGestureRecognizer(target: self, action: #selector(SwipeRightAction))
         SwipeRight.direction = .right
-        SearchResultTable.addGestureRecognizer(SwipeRight)
+        //SearchResultTable.addGestureRecognizer(SwipeRight)
         SearchResultTable.separatorStyle = .none
         SearchResultTable.rowHeight = UITableViewAutomaticDimension
         SearchResultTable.estimatedRowHeight = 100
         
         //self.SearchResultTable.tableHeaderView = SearchController.searchBar
         navi.topItem?.titleView = SearchController.searchBar
+        
+        //self.navigationItem.titleView = SearchController.searchBar
         // Do any additional setup after loading the view.
     }
-    func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .lightContent
-    }
+//    func preferredStatusBarStyle() -> UIStatusBarStyle {
+//        return .lightContent
+//    }
     @objc func SwipeLeftAction() {
         segment.selectedSegmentIndex += 1
     }
@@ -135,6 +140,7 @@ class SubSearchViewController: UIViewController {
             print("1")
             self.UserList.removeAll()
             self.keyList.removeAll()
+            self.SearchList.removeAll()
             ref?.child("User").observe(.value, with: { (snapshot) in
                 if snapshot.value is NSNull {
                     print("Nothing")
@@ -154,6 +160,7 @@ class SubSearchViewController: UIViewController {
             print("1")
             self.TagList.removeAll()
             self.UserList.removeAll()
+            self.SearchList.removeAll()
             self.SearchResultTable.reloadData()
             ref?.child("HashTagPosts").observe(.childAdded, with: { (snapshot) in
                 if snapshot.value is NSNull {
@@ -228,6 +235,7 @@ extension SubSearchViewController : UITableViewDataSource {
 extension SubSearchViewController : UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         dismiss(animated: true, completion: nil)
+        //performSegue(withIdentifier: "segue", sender: self)
     }
 }
 extension SubSearchViewController : UISearchResultsUpdating{
@@ -256,8 +264,6 @@ extension SubSearchViewController : UISearchResultsUpdating{
                     self.SearchResultTable.reloadData()
                 }
             }
-            
-            
             // 4
         } else {
             print("Not")

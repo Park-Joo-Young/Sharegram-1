@@ -267,6 +267,7 @@ extension WriteViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         observerData()
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
+        cell.imageView?.image = UIImage(named: "HashTag.png")
         cell.textLabel?.text = self.result[indexPath.row]
         return cell
     }

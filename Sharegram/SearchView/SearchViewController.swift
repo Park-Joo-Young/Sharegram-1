@@ -53,6 +53,7 @@ class SearchViewController: UIViewController{
         SnapWholePosts()
         
         SearchController = UISearchController(searchResultsController: nil)
+        SearchController.delegate = self
         SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
         SearchController.hidesNavigationBarDuringPresentation = false
         SearchController.dimsBackgroundDuringPresentation = false
@@ -80,11 +81,25 @@ class SearchViewController: UIViewController{
 //    }
 }
 
-extension SearchViewController : UISearchResultsUpdating {
+extension SearchViewController : UISearchResultsUpdating, UISearchControllerDelegate {
+    func willPresentSearchController(_ searchController: UISearchController) {
+         //performSegue(withIdentifier: "Search", sender: self)
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Test") as! SubSearchViewController
+        vc.modalPresentationStyle = .overCurrentContext
+        present(vc, animated: true, completion: nil)
+    }
+    func presentSearchController(_ searchController: UISearchController) {
+       
+//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Test")
+//        vc?.modalPresentationStyle = .popover
+//        vc?.preferredContentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height - (self.navigationController?.navigationBar.frame.height)!)
+//        //vc?.modalTransitionStyle = .flipHorizontal
+//        self.present(vc!, animated: true, completion:  nil)
+
+        
+    }
     func updateSearchResults(for searchController: UISearchController) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Test")
-        vc?.modalTransitionStyle = .flipHorizontal
-        self.present(vc!, animated: true, completion:  nil)
+         //performSegue(withIdentifier: "Search", sender: self)
     }
 }
 

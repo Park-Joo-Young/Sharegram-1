@@ -73,10 +73,10 @@
                     </tabBar>
                     <connections>
                         <segue destination="TQj-EF-hYL" kind="relationship" relationship="viewControllers" id="2vt-te-Av9"/>
+                        <segue destination="S56-pY-xIl" kind="relationship" relationship="viewControllers" id="amr-yq-358"/>
                         <segue destination="PYD-73-mey" kind="relationship" relationship="viewControllers" id="gvr-uh-5du"/>
                         <segue destination="dFE-bq-eB7" kind="relationship" relationship="viewControllers" id="Jei-5Y-85m"/>
                         <segue destination="w3h-7s-Vwq" kind="relationship" relationship="viewControllers" id="bpJ-nh-jab"/>
-                        <segue destination="S56-pY-xIl" kind="relationship" relationship="viewControllers" id="amr-yq-358"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d9c-Qh-vXe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -358,7 +358,6 @@
                     <connections>
                         <outlet property="WholePostCollectionView" destination="sSe-gl-ohN" id="fT3-eg-o07"/>
                         <outlet property="WholePostImage" destination="sSe-gl-ohN" id="iQO-1I-cpv"/>
-                        <segue destination="AV0-GA-x9O" kind="show" identifier="show" id="StQ-Af-12o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="676-bI-QDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -392,26 +391,25 @@
                                     <outlet property="delegate" destination="AV0-GA-x9O" id="ojJ-d5-Ui4"/>
                                 </connections>
                             </tableView>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pAi-Hr-bIc">
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IfU-jr-aRr">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Title" id="RF9-4J-xec"/>
+                                    <navigationItem title="Title" id="6ES-FC-xOU"/>
                                 </items>
                             </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="cOY-vU-pOb"/>
                     </view>
-                    <navigationItem key="navigationItem" id="OG7-l9-OjS"/>
                     <connections>
                         <outlet property="SearchResultTable" destination="q3k-Hu-azp" id="MMD-Gm-X61"/>
-                        <outlet property="navi" destination="pAi-Hr-bIc" id="aWN-6o-LV7"/>
+                        <outlet property="navi" destination="IfU-jr-aRr" id="xdj-zz-wJ3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SWx-yI-J0e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4858" y="-344"/>
+            <point key="canvasLocation" x="4623" y="-344"/>
         </scene>
         <!--Home-->
         <scene sceneID="qiX-NV-sAI">
