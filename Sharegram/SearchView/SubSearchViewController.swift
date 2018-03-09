@@ -2,8 +2,8 @@
 //  SubSearchViewController.swift
 //  Sharegram
 //
-//  Created by apple on 2018. 2. 19..
-//  Copyright © 2018년 박주영. All rights reserved.
+//  Created by 이창화 on 2018. 2. 19..
+//  Copyright © 2018년 이창화. All rights reserved.
 //
 
 import UIKit
@@ -108,7 +108,7 @@ class SubSearchViewController: UIViewController {
         //self.SearchResultTable.tableHeaderView = SearchController.searchBar
         navi.topItem?.titleView = SearchController.searchBar
         
-        //self.navigationItem.titleView = SearchController.searchBar
+        //self.navigationItem.titleView = SearchController.sea rchBar
         // Do any additional setup after loading the view.
     }
 //    func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -212,6 +212,7 @@ extension SubSearchViewController : UITableViewDelegate {
         cell.textLabel?.font = UIFont.systemFont(ofSize: 20)
         if segment.selectedSegmentIndex == 2 { //해쉬태그
             cell.imageView?.image = UIImage(named: "HashTag.png")
+            cell.imageView?.layer.borderWidth = 1.5
             //self.SearchList[indexPath.row].replacingOccurrences(of: "#", with: "")
            let tag = self.SearchList[indexPath.row].replacingOccurrences(of: "#", with: "")
             ref?.child("HashTagPosts").child(tag).child("Count").observe(.value, with: { (snapshot) in

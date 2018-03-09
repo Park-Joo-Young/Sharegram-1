@@ -2,8 +2,8 @@
 //  SearchViewController.swift
 //  Sharegram
 //
-//  Created by 박주영 on 2018. 1. 11..
-//  Copyright © 2018년 박주영. All rights reserved.
+//  Created by 이창화 on 2018. 1. 11..
+//  Copyright © 2018년 이창화. All rights reserved.
 //  Write SatGatLee
 
 import UIKit
@@ -69,6 +69,9 @@ class SearchViewController: UIViewController{
             make.height.equalTo(self.view.frame.height)
             make.top.equalTo(self.view)
         }
+        let collectionLayout = WholePostCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
+        collectionLayout?.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 15, right: 0)
+        collectionLayout?.invalidateLayout()
         // Do any additional setup after loading the view.
 
     }
@@ -84,7 +87,7 @@ class SearchViewController: UIViewController{
 extension SearchViewController : UISearchResultsUpdating, UISearchControllerDelegate {
     func willPresentSearchController(_ searchController: UISearchController) {
          //performSegue(withIdentifier: "Search", sender: self)
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Test") as! SubSearchViewController
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Search") as! SubSearchViewController
         vc.modalPresentationStyle = .overCurrentContext
         present(vc, animated: true, completion: nil)
     }
@@ -120,6 +123,7 @@ extension SearchViewController : UICollectionViewDelegate, UICollectionViewDataS
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = WholePostCollectionView.frame.width / 3-1
+
         return CGSize(width: width, height: width)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

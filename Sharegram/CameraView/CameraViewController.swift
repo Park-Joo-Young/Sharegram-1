@@ -2,8 +2,8 @@
 //  CameraViewController.swift
 //  Sharegram
 //
-//  Created by 박주영 on 2018. 1. 11..
-//  Copyright © 2018년 박주영. All rights reserved.
+//  Created by 이창화 on 2018. 1. 11..
+//  Copyright © 2018년 이창화. All rights reserved.
 //
 // 바로 업로드 뷰
 import UIKit
@@ -13,7 +13,7 @@ import CoreLocation
 import MobileCoreServices
 import Photos
 import SDWebImage
-
+import PhotosUI
 class CameraViewController: UIViewController, UINavigationControllerDelegate {
     
     @IBOutlet weak var myImageView: UIImageView!
@@ -27,7 +27,10 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
     var capture : UIImage!
     var flag = false
     var ref : DatabaseReference?
-    
+    var asset : PHAsset?
+    var index = 0
+    var fetchResult : PHFetchResult<PHAsset>!
+
     @IBAction func ActCamera(_ sender: UIBarButtonItem) {
         locationManager.startUpdatingLocation()
         if(UIImagePickerController.isSourceTypeAvailable(.camera)) {
@@ -35,9 +38,11 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
             imagepicker.delegate = self
             imagepicker.sourceType = .camera
             imagepicker.mediaTypes = [kUTTypeImage as String]
-            imagepicker.allowsEditing = false
-            
-            present(imagepicker, animated: true, completion: nil)
+            imagepicker.allowsEditing = true
+            imagepicker.showsCameraControls = true
+            present(imagepicker, animated: true, completion: {
+                self.locationManager.stopUpdatingLocation()
+            })
         }
     }
     
@@ -49,6 +54,15 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
         }
         print("\(object.lat) , \(object.lon)")
         grabPhotos()
+//        if(UIImagePickerController.isSourceTypeAvailable(.photoLibrary)) {
+//            flag = true
+//            imagepicker.delegate = self
+//            imagepicker.sourceType = .photoLibrary
+//            imagepicker.mediaTypes = [kUTTypeImage as String]
+//            imagepicker.allowsEditing = false
+//
+//            present(imagepicker, animated: true, completion: nil)
+//        }
     }
     
     @IBAction func ActNext(_ sender: UIBarButtonItem) { // 다음화면 넘어가기
@@ -61,12 +75,13 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
 
     //if we have no permission to access user location, then ask user for permission.
     func isAuthorizedtoGetUserLocation() {
-        if CLLocationManager.authorizationStatus() != .authorizedAlways  {
+        if CLLocationManager.authorizationStatus() != .authorizedWhenInUse  {
             locationManager.requestWhenInUseAuthorization()
         }
     }
 
     func grabPhotos() {
+        imageArray.removeAll()
         let imgManager = PHImageManager.default()
         
         let requestOptions = PHImageRequestOptions()
@@ -76,7 +91,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
-        let fetchResult : PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         if fetchResult.count > 0 {
             for i in 0..<fetchResult.count {
                 imgManager.requestImage(for: fetchResult.object(at: i) , targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: requestOptions, resultHandler: { (image, error) in
@@ -92,13 +107,19 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
             self.PhotoCollection.reloadData()
         }
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        if imageArray.count == 0 {
+            grabPhotos()
+        } else {
+            return
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         isAuthorizedtoGetUserLocation()
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         }
         myImageView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view.frame.width)
@@ -111,6 +132,9 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
         }
+        let collectionLayout = PhotoCollection.collectionViewLayout as? UICollectionViewFlowLayout
+        collectionLayout?.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 15, right: 0)
+        collectionLayout?.invalidateLayout()
         // Do any additional setup after loading the view.
     }
     // MARK: - Navigation
@@ -124,33 +148,65 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
             destination.writeImage = myImageView.image
             destination.object.lat = object.lat
             destination.object.lon = object.lon
+            if self.asset?.location == nil { //사진 찍고 바로 넘어갔을 때
+                if self.location == nil { //카메라를 찍지 않았다.
+                    asset = fetchResult[0]
+                    destination.object.lat = (self.asset?.location?.coordinate.latitude)!
+                    destination.object.lon = (self.asset?.location?.coordinate.longitude)!
+                    return
+                } else {
+                    destination.object.lat = object.lat
+                    destination.object.lon = object.lon
+                }
+            } else { //클릭을 해서 있는 사진을 골랐을 경우 ( 위치)
+                destination.object.lat = (self.asset?.location?.coordinate.latitude)!
+                destination.object.lon = (self.asset?.location?.coordinate.longitude)!
+            }
+            
         }
     }
 }
 extension CameraViewController : UIImagePickerControllerDelegate {
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        //imageArray.removeAll()
         //        locationManager.requestLocation()
-        locationManager.stopUpdatingLocation()
-        let mediaType = info[UIImagePickerControllerMediaType] as! NSString
-        if mediaType.isEqual(to: kUTTypeImage as NSString as String) {
-            capture = info[UIImagePickerControllerOriginalImage] as! UIImage
-            
-            
-            if flag {
-                UIImageWriteToSavedPhotosAlbum(capture, self, nil, nil) //사진 저장
-                if CLLocationManager.locationServicesEnabled() {
-                    if location != nil {
-                        print("\(object.lat) , \(object.lon)")
-                        //convertToAddressWith(coordinate: location)
-                    }
-                    
-                }
+        capture = info[UIImagePickerControllerEditedImage] as? UIImage
+
+        PHPhotoLibrary.shared().performChanges({
+            print("일단찍자?")
+            let request = PHAssetChangeRequest.creationRequestForAsset(from: self.capture!)
+            print("일단찍자?")
+            if self.location != nil { // 위치를 동의하고 사진을 찍었을 시
+                print("?")
+                request.location = self.location
             }
-            imageArray.removeAll()
-            self.PhotoCollection.reloadData()
-            myImageView.image = capture
-        }
+        }, completionHandler: nil)
+        
+        //UIImageWriteToSavedPhotosAlbum(capture, self, nil, nil)
+        
+        //grabPhotos()
         self.dismiss(animated: true, completion: nil)
+        myImageView.image = capture
+        //grabPhotos()
+        //locationManager.stopUpdatingLocation()
+//        let mediaType = info[UIImagePickerControllerMediaType] as! NSString
+//        if mediaType.isEqual(to: kUTTypeImage as NSString as String) {
+//            if flag {
+//                //UIImageWriteToSavedPhotosAlbum(capture, self, nil, nil) //사진 저장
+//                if CLLocationManager.locationServicesEnabled() {
+//                    if location != nil {
+//                        print("\(object.lat) , \(object.lon)")
+//                        //convertToAddressWith(coordinate: location)
+//                    }
+//
+//                }
+//            }
+//
+//            imageArray.removeAll()
+//            self.PhotoCollection.reloadData()
+//            myImageView.image = capture
+//        }
+
         
     }
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -160,6 +216,9 @@ extension CameraViewController : UIImagePickerControllerDelegate {
 extension CameraViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         myImageView.image = imageArray[indexPath.row]
+        index = indexPath.row
+        print(index)
+        asset = fetchResult[index]
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageArray.count

@@ -33,14 +33,5 @@
             </connections>
             <point key="canvasLocation" x="24.5" y="51.5"/>
         </view>
-        <viewController id="clS-js-KK3">
-            <view key="view" contentMode="scaleToFill" id="rx6-vj-szg">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                <viewLayoutGuide key="safeArea" id="jrL-KZ-IUp"/>
-            </view>
-            <point key="canvasLocation" x="696" y="18"/>
-        </viewController>
     </objects>
 </document>

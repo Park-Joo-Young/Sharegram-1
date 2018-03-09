@@ -2,8 +2,8 @@
 //  WriteViewController.swift
 //  Sharegram
 //
-//  Created by apple on 2018. 1. 15..
-//  Copyright © 2018년 박주영. All rights reserved.
+//  Created by 이창화 on 2018. 1. 15..
+//  Copyright © 2018년 이창화. All rights reserved.
 //
 
 import UIKit

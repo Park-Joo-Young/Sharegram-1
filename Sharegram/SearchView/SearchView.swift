@@ -2,8 +2,8 @@
 //  SearchView.swift
 //  Sharegram
 //
-//  Created by apple on 2018. 2. 12..
-//  Copyright © 2018년 박주영. All rights reserved.
+//  Created by 이창화 on 2018. 2. 12..
+//  Copyright © 2018년 이창화. All rights reserved.
 //
 
 import UIKit
@@ -61,7 +61,7 @@ class SearchView: UIView, UIPopoverPresentationControllerDelegate {
         SearchResultTable.dataSource = self
         self.SearchResultTable.tableHeaderView = SearchController.searchBar
         SearchController.searchBar.delegate = self
-
+        
     }
     func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .lightContent
