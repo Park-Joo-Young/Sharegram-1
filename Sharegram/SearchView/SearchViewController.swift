@@ -23,18 +23,37 @@ class SearchViewController: UIViewController{
     var Posts = [Post]()
     var ref : DatabaseReference?
     var storageRef : StorageReference?
-
+    var ImageUrl : String = ""
+    var index : Int = 0
     @IBOutlet weak var WholePostCollectionView: UICollectionView!
-    @IBOutlet weak var WholePostImage: UICollectionView!
+    @IBOutlet weak var WholePostImage: UIImageView!
     
     func SnapWholePosts() { // 전체 포스트 가져오기
         ref?.child("WholePosts").observe(.childAdded, with: { (snapshot) in
             if let item = snapshot.value as? [String : String] {
+                let post = Post()
                 if item["latitude"] == nil && item["longitude"] == nil { //위치가 없으면
-                    self.Posts.append(Post(username: item["Author"], timeAgo: item["Date"], caption: item["Description"], image: item["image"], numberOfLikes: item["Like"]!, lat: 0, lon: 0))
+                    post.caption = item["Description"]
+                    post.Id = item["ID"]
+                    post.image = item["image"]
+                    post.lat = 0
+                    post.lon = 0
+                    post.numberOfLikes = item["Like"]
+                    post.username = item["Author"]
+                    post.PostId = item["postID"]
+                    post.timeAgo = item["Date"]
+                    self.Posts.append(post)
                 } else {
-                    self.Posts.append(Post(username: item["Author"]!, timeAgo: item["Date"]!, caption: item["Description"]!, image: item["image"]!, numberOfLikes: item["Like"]! , lat: Int(item["latitude"]!), lon: Int(item["longitude"]!)))
-                                      
+                    post.caption = item["Description"]
+                    post.Id = item["ID"]
+                    post.image = item["image"]
+                    post.lat = Int(item["latitude"]!)
+                    post.lon = Int(item["longitude"]!)
+                    post.numberOfLikes = item["Like"]
+                    post.username = item["Author"]
+                    post.PostId = item["postID"]
+                    post.timeAgo = item["Date"]
+                    self.Posts.append(post)
                     self.WholePostCollectionView.reloadData()
                 }
 
@@ -42,15 +61,17 @@ class SearchViewController: UIViewController{
         })
         ref?.removeAllObservers()
     }
+
     override func viewWillAppear(_ animated: Bool) {
         self.Posts.removeAll()
+        SnapWholePosts()
         SearchController.searchBar.showsCancelButton = false
         
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
-        SnapWholePosts()
+
         
         SearchController = UISearchController(searchResultsController: nil)
         SearchController.delegate = self
@@ -79,9 +100,17 @@ class SearchViewController: UIViewController{
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        // Get the new view controller using segue.destinationViewController.
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        if segue.identifier == "Post" {
+            //fetchUser(self.Posts[index].Id!)
+            let destination = segue.destination as! PostViewController
+            destination.Id = self.Posts[index].Id!
+            //destination.Profileimage = self.ImageUrl
+            
+            
+        }
+    }
 }
 
 extension SearchViewController : UISearchResultsUpdating, UISearchControllerDelegate {
@@ -108,7 +137,9 @@ extension SearchViewController : UISearchResultsUpdating, UISearchControllerDele
 
 extension SearchViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        return
+        index = indexPath.row
+        print(index)
+        performSegue(withIdentifier: "Post", sender: self)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print(self.Posts.count)

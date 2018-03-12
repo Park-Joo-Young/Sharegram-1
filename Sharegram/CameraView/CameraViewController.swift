@@ -119,7 +119,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
         isAuthorizedtoGetUserLocation()
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
         }
         myImageView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view.frame.width)

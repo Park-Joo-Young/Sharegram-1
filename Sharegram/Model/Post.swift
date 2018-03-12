@@ -9,7 +9,7 @@
 import UIKit
 
 
-struct Post // 게시물 구조체
+class Post :NSObject// 게시물 구조체
 {
     var username: String? //Author
     //var profileImage: UIImage?
@@ -21,5 +21,7 @@ struct Post // 게시물 구조체
     //var numberOfShares: Int?
     var lat : Int? //위도
     var lon : Int? //경도
+    var Id : String?
+    var PostId : String?
   
 }

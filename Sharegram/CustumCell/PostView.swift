@@ -1,17 +1,16 @@
 //
-//  PostCollectionViewCell.swift
+//  PostView.swift
 //  Sharegram
 //
-//  Created by 이창화 on 2018. 2. 22..
-//  Copyright © 2018년 이창화.화All rights reserved.
+//  Created by 이창화 on 2018. 3. 9..
+//  Copyright © 2018년 이창화. All rights reserved.
 //
 
 import UIKit
-import ActiveLabel
 import SnapKit
+import ActiveLabel
 
-
-class PostCollectionViewCell: UICollectionViewCell {
+class PostView: UIView {
     
     @IBOutlet weak var ProFileImage: UIImageView!
     @IBOutlet weak var UserName: UILabel!
@@ -23,11 +22,19 @@ class PostCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var LikeCountLabel: UILabel!
     @IBOutlet weak var UserNameLabel: UILabel!
     @IBOutlet weak var TimeLabel: UILabel!
+    @IBOutlet var CancelBut: UIButton!
+    @IBOutlet var PreviousBut: UIButton!
+    @IBOutlet var NextBut: UIButton!
+    
     var Caption = ActiveLabel()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    class func instanceFromNib() -> UIView {
+        return UINib(nibName: "PostView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! UIView
+    }
+    // Only override draw() if you perform custom drawing.
+    // An empty implementation adversely affects performance during animation.
+    override func draw(_ rect: CGRect) {
+        // Drawing code
         self.addSubview(Caption)
         ProFileImage.snp.makeConstraints { (make) in
             make.top.equalTo(self).offset(10)
@@ -40,6 +47,7 @@ class PostCollectionViewCell: UICollectionViewCell {
             make.height.equalTo(self.frame.height/30)
             make.left.equalTo(ProFileImage.snp.right).offset(10)
             make.centerY.equalTo(ProFileImage)
+            
         }
         ExceptionBut.snp.makeConstraints { (make) in
             make.right.equalTo(self)
@@ -108,6 +116,6 @@ class PostCollectionViewCell: UICollectionViewCell {
         }
         
     }
-    }
+ 
 
 }

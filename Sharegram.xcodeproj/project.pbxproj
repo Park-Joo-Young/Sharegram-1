@@ -11,8 +11,17 @@
 		04AD8E0E202C2B8E00FD1733 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD8E0C202C2B8E00FD1733 /* PostCell.swift */; };
 		04AD8E0F202C2B8E00FD1733 /* PostHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD8E0D202C2B8E00FD1733 /* PostHeaderCell.swift */; };
 		04AD8E13202C2BA200FD1733 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD8E11202C2BA200FD1733 /* User.swift */; };
+		181C14AA2053F92B00BCA077 /* Previous.png in Resources */ = {isa = PBXBuildFile; fileRef = 181C14A82053F92B00BCA077 /* Previous.png */; };
+		181C14AB2053F92B00BCA077 /* Next.png in Resources */ = {isa = PBXBuildFile; fileRef = 181C14A92053F92B00BCA077 /* Next.png */; };
+		181C14AD205400A600BCA077 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181C14AC205400A600BCA077 /* PostViewController.swift */; };
+		181C14AE2054050400BCA077 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186348C420527B6000188D6C /* PostView.xib */; };
 		1826ECB7204926670066F470 /* ProFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1826ECB6204926670066F470 /* ProFileView.swift */; };
 		182C972A20107D8F002E5311 /* Mustard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182C972820107D8F002E5311 /* Mustard.swift */; };
+		186348C120527A7500188D6C /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186348C020527A7500188D6C /* PostView.swift */; };
+		186348C92052800B00188D6C /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 186348C62052800B00188D6C /* like.png */; };
+		186348CA2052800B00188D6C /* unlike.png in Resources */ = {isa = PBXBuildFile; fileRef = 186348C72052800B00188D6C /* unlike.png */; };
+		186348CB2052800B00188D6C /* comnent.png in Resources */ = {isa = PBXBuildFile; fileRef = 186348C82052800B00188D6C /* comnent.png */; };
+		186348CD205281D900188D6C /* Cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 186348CC205281D900188D6C /* Cancel.png */; };
 		1864A05F201722AF00A34F04 /* HashTagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */; };
 		1864CCD92049111E007228E8 /* ProFileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1864CCD82049111E007228E8 /* ProFileView.xib */; };
 		1864CCDD20491A55007228E8 /* UnKnown.png in Resources */ = {isa = PBXBuildFile; fileRef = 1864CCDC20491A55007228E8 /* UnKnown.png */; };
@@ -57,9 +66,18 @@
 		04AD8E0C202C2B8E00FD1733 /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		04AD8E0D202C2B8E00FD1733 /* PostHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostHeaderCell.swift; sourceTree = "<group>"; };
 		04AD8E11202C2BA200FD1733 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		181C14A82053F92B00BCA077 /* Previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Previous.png; sourceTree = "<group>"; };
+		181C14A92053F92B00BCA077 /* Next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Next.png; sourceTree = "<group>"; };
+		181C14AC205400A600BCA077 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		1826ECB6204926670066F470 /* ProFileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProFileView.swift; sourceTree = "<group>"; };
 		182C972720107D8F002E5311 /* Mustard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mustard.h; sourceTree = "<group>"; };
 		182C972820107D8F002E5311 /* Mustard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mustard.swift; sourceTree = "<group>"; };
+		186348C020527A7500188D6C /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
+		186348C420527B6000188D6C /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PostView.xib; path = /Users/apple/Desktop/Sharegram/Sharegram/CustumCell/PostView.xib; sourceTree = "<absolute>"; };
+		186348C62052800B00188D6C /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
+		186348C72052800B00188D6C /* unlike.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlike.png; sourceTree = "<group>"; };
+		186348C82052800B00188D6C /* comnent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comnent.png; sourceTree = "<group>"; };
+		186348CC205281D900188D6C /* Cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cancel.png; sourceTree = "<group>"; };
 		1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTagTableViewController.swift; sourceTree = "<group>"; };
 		1864CCD82049111E007228E8 /* ProFileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProFileView.xib; sourceTree = "<group>"; };
 		1864CCDC20491A55007228E8 /* UnKnown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnKnown.png; sourceTree = "<group>"; };
@@ -122,6 +140,8 @@
 				04AD8E0D202C2B8E00FD1733 /* PostHeaderCell.swift */,
 				18A88816203E8B9C004E4814 /* PostCollectionViewCell.swift */,
 				18A88817203E8B9C004E4814 /* PostCollectionViewCell.xib */,
+				186348C020527A7500188D6C /* PostView.swift */,
+				186348C420527B6000188D6C /* PostView.xib */,
 			);
 			path = CustumCell;
 			sourceTree = "<group>";
@@ -138,6 +158,12 @@
 		186FDFF62005F871007A454C /* picture */ = {
 			isa = PBXGroup;
 			children = (
+				186348C82052800B00188D6C /* comnent.png */,
+				186348C62052800B00188D6C /* like.png */,
+				181C14A92053F92B00BCA077 /* Next.png */,
+				181C14A82053F92B00BCA077 /* Previous.png */,
+				186348CC205281D900188D6C /* Cancel.png */,
+				186348C72052800B00188D6C /* unlike.png */,
 				1864CCDC20491A55007228E8 /* UnKnown.png */,
 				186D20B320400F9200152333 /* HashTag.png */,
 				186850562031682C00BF50C4 /* searchBar.png */,
@@ -174,6 +200,7 @@
 				18655769203AB8DC00831EAF /* SubSearchViewController.swift */,
 				18685058203175FC00BF50C4 /* SearchView.xib */,
 				1868505A203176D900BF50C4 /* SearchView.swift */,
+				181C14AC205400A600BCA077 /* PostViewController.swift */,
 			);
 			path = SearchView;
 			sourceTree = "<group>";
@@ -354,17 +381,24 @@
 				186D20B420400F9200152333 /* HashTag.png in Resources */,
 				18A88819203E8B9C004E4814 /* PostCollectionViewCell.xib in Resources */,
 				1864CCE120491DEA007228E8 /* Squares.png in Resources */,
+				186348CB2052800B00188D6C /* comnent.png in Resources */,
+				181C14AA2053F92B00BCA077 /* Previous.png in Resources */,
 				1864CCD92049111E007228E8 /* ProFileView.xib in Resources */,
 				186FDFF82005F871007A454C /* ShareGram.png in Resources */,
 				18685059203175FC00BF50C4 /* SearchView.xib in Resources */,
+				186348CD205281D900188D6C /* Cancel.png in Resources */,
 				3A76C19E20046761004253CF /* LaunchScreen.storyboard in Resources */,
+				186348C92052800B00188D6C /* like.png in Resources */,
 				18777FFB204AC822004EE278 /* ProFileEditTableViewCell.xib in Resources */,
 				186FDFED2005E497007A454C /* GoogleService-Info.plist in Resources */,
 				1864CCE320491DEA007228E8 /* Man.png in Resources */,
 				1864CCDD20491A55007228E8 /* UnKnown.png in Resources */,
 				186850572031682C00BF50C4 /* searchBar.png in Resources */,
+				181C14AB2053F92B00BCA077 /* Next.png in Resources */,
+				181C14AE2054050400BCA077 /* PostView.xib in Resources */,
 				1864CCE220491DEA007228E8 /* Bars.png in Resources */,
 				3A76C19B20046761004253CF /* Assets.xcassets in Resources */,
+				186348CA2052800B00188D6C /* unlike.png in Resources */,
 				3A76C19620046761004253CF /* Main.storyboard in Resources */,
 				18777FFF204AC8AD004EE278 /* ProFileIntrodutionTableViewCell.xib in Resources */,
 			);
@@ -379,13 +413,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Sharegram-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		73E97B5C94F314DCA4E1192B /* [CP] Embed Pods Frameworks */ = {
@@ -394,9 +431,34 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Sharegram/Pods-Sharegram-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ActiveLabel/ActiveLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Koloda/Koloda.framework",
+				"${BUILT_PRODUCTS_DIR}/Popover/Popover.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/ScrollableSegmentedControl/ScrollableSegmentedControl.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ActiveLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Koloda.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Popover.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ScrollableSegmentedControl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -441,6 +503,7 @@
 				188C042A200C92D800C4E697 /* WriteViewController.swift in Sources */,
 				182C972A20107D8F002E5311 /* Mustard.swift in Sources */,
 				18777FFA204AC822004EE278 /* ProFileEditTableViewCell.swift in Sources */,
+				181C14AD205400A600BCA077 /* PostViewController.swift in Sources */,
 				186FDFF12005E61D007A454C /* CreateUserViewController.swift in Sources */,
 				3A76C19320046761004253CF /* ViewController.swift in Sources */,
 				3AA85BEA2007390500BAB348 /* ProfileViewController.swift in Sources */,
@@ -450,6 +513,7 @@
 				3AA85BE6200738E300BAB348 /* CameraViewController.swift in Sources */,
 				04A800B4202C3488003F0594 /* Post.swift in Sources */,
 				04AD8E0E202C2B8E00FD1733 /* PostCell.swift in Sources */,
+				186348C120527A7500188D6C /* PostView.swift in Sources */,
 				04AD8E13202C2BA200FD1733 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

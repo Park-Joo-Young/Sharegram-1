@@ -25,7 +25,7 @@ class WriteViewController: UIViewController{
     var result : [String] = []
     var resultString : String = ""
     var HashTagview = UITableView()
-    
+    var key : String!
     fileprivate var texts = ["Edit", "Delete", "Report"]
     fileprivate var popover: Popover!
     fileprivate var popoverOptions: [PopoverOption] = [
@@ -66,16 +66,19 @@ class WriteViewController: UIViewController{
     }
     func SubFuncDataSave() {
         self.CountUpHasgTag()
-        self.ref?.child("WholePosts").childByAutoId().setValue(self.PostArray) // 전체 게시물 등록
-        self.ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("Posts").childByAutoId().setValue(self.PostArray) {(error, ref) -> Void in // 유저 자신의 게시물에 등록
-            if error == nil { //완성 됐을 때
-                self.displayMessage(title: "게시물이", message: "등록되었습니다.")
-            }
-        }
+        self.ref?.child("WholePosts").updateChildValues([self.key : self.PostArray]) // 전체 게시물 등록
+       self.displayMessage(title: "게시물이", message: "등록되었습니다.")
+        //self.ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("Posts").childByAutoId().setValue(self.PostArray) {(error, ref) -> Void in // 유저 자신의 게시물에 등록
+//            if error == nil { //완성 됐을 때
+//                self.displayMessage(title: "게시물이", message: "등록되었습니다.")
+//            }
+//        }
+        
     }
     func DataSave(_ Path : String, _ date : String, identifier : Int) { // 데이터 저장
         let uploadImage = UIImageJPEGRepresentation(writeImage, 0.9)!
         let metadata1 = StorageMetadata()
+        key = (self.ref?.child("WholePosts").childByAutoId().key)!
         metadata1.contentType = "image/jpeg"
         storageRef?.child(Path).putData(uploadImage, metadata: metadata1, completion: { (metadata, error) in
             if error != nil {
@@ -90,11 +93,12 @@ class WriteViewController: UIViewController{
                     let latitude = String(self.object.lat)
                     let LocationPath = latitude.replacingOccurrences(of: ".", with: "_")
                     //print(metadata?.downloadURL()?.absoluteString)
-                    self.PostArray = ["image" : (metadata?.downloadURL()?.absoluteString)!,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!, "Like" : "0"]
+                    self.PostArray = ["image" : (metadata?.downloadURL()?.absoluteString)!,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!, "Like" : "0", "postID" : self.key]
                     self.ref?.child("LocationPosts").child(LocationPath).childByAutoId().setValue(self.PostArray) //위치 공유 게시물 저장 지도에 띄우기 위한
+                    
                 } else { // 1
                     
-                    self.PostArray = ["image" : Path, "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!]
+                    self.PostArray = ["image" : Path, "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!, "postID" : (self.ref?.child("WholePosts").childByAutoId().key)!]
                 }
                 self.SubFuncDataSave()
             }
@@ -133,8 +137,7 @@ class WriteViewController: UIViewController{
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let confirm = UIAlertAction(title: "확인", style: .default) {
             (action : UIAlertAction) -> Void in
-            //self.dismiss(animated: true, completion: nil)
-            self.performSegue(withIdentifier: "image", sender: self)
+            self.dismiss(animated: true, completion: nil)
         }
         alert.addAction(confirm)
         present(alert, animated: true, completion: nil)

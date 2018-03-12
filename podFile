@@ -16,4 +16,5 @@ target 'Sharegram' do
 	pod 'Popover'
 	pod 'SDWebImage/WebP'
 	pod 'ScrollableSegmentedControl'
+	pod 'Koloda'
 end
