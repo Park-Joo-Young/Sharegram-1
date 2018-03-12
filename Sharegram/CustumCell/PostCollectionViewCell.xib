@@ -61,13 +61,6 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EDf-FG-OXg">
-                        <rect key="frame" x="20" y="554" width="42" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rGe-s5-GVp">
                         <rect key="frame" x="20" y="626" width="42" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -89,7 +82,6 @@
                 <outlet property="ProFileImage" destination="akr-Ja-VHH" id="7es-Wx-1Bm"/>
                 <outlet property="TimeLabel" destination="rGe-s5-GVp" id="FxD-yq-Urd"/>
                 <outlet property="UserName" destination="fcj-bG-mfg" id="EZk-Fq-Gmq"/>
-                <outlet property="UserNameLabel" destination="EDf-FG-OXg" id="Tfr-TM-kNO"/>
             </connections>
             <point key="canvasLocation" x="-599.5" y="-9.5"/>
         </collectionViewCell>

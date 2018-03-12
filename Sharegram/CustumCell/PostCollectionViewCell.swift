@@ -33,7 +33,7 @@ class PostCollectionViewCell: UICollectionViewCell {
             make.top.equalTo(self).offset(10)
             make.left.equalTo(self)
             make.width.equalTo(PostImage.frame.width/3)
-            make.height.equalTo(PostImage.frame.height/3)
+            make.height.equalTo(PostImage.frame.height/5)
         }
         UserName.snp.makeConstraints { (make) in
             make.width.equalTo(self.frame.width/3)
@@ -49,7 +49,7 @@ class PostCollectionViewCell: UICollectionViewCell {
         }
         PostImage.snp.makeConstraints { (make) in
             make.width.equalTo(self)
-            make.top.equalTo(ProFileImage.snp.bottom)
+            make.top.equalTo(ProFileImage.snp.bottom).offset(10)
             make.height.equalTo(self.frame.height/2.2)
         }
         LikeBut.snp.makeConstraints { (make) in
@@ -69,45 +69,23 @@ class PostCollectionViewCell: UICollectionViewCell {
             make.top.equalTo(LikeBut)
         }
         LikeCountLabel.snp.makeConstraints { (make) in
-            make.size.equalTo(UserName)
+            make.width.equalTo(self.frame.width - 10)
+            make.height.equalTo(self.frame.height / 30)
             make.top.equalTo(LikeBut.snp.bottom).offset(10)
             make.left.equalTo(LikeBut)
             
         }
-        UserNameLabel.snp.makeConstraints { (make) in
-            make.size.equalTo(UserName)
-            make.top.equalTo(LikeCountLabel.snp.bottom).offset(10)
-            make.left.equalTo(LikeCountLabel)
-        }
         Caption.snp.makeConstraints { (make) in
             make.width.equalTo(self.frame.width/1.5)
-            make.height.equalTo(UserNameLabel.frame.height*2)
-            make.left.equalTo(UserNameLabel.snp.right).offset(5)
-            make.top.equalTo(LikeCountLabel)
+            make.height.equalTo(LikeCountLabel.frame.height*2)
+            make.left.equalTo(LikeCountLabel)
+            make.top.equalTo(LikeCountLabel.snp.bottom).offset(10)
         }
         TimeLabel.snp.makeConstraints { (make) in
             make.size.equalTo(LikeCountLabel)
-            make.top.equalTo(Caption.snp.bottom).offset(10)
+            make.top.equalTo(Caption.snp.bottom).offset(30)
             make.left.equalTo(LikeBut)
-        }
-        PreviousBut.snp.makeConstraints { (make) in
-            make.width.equalTo(PostImage.frame.width/4)
-            make.height.equalTo(PostImage.frame.height/10)
-            make.right.equalTo(CancelBut.snp.left)
-            make.top.equalTo(CancelBut)
-        }
-        CancelBut.snp.makeConstraints { (make) in
-            make.size.equalTo(PreviousBut)
-            make.top.equalTo(TimeLabel.snp.bottom).offset(10)
-            make.centerX.equalTo(self)
-        }
-        NextBut.snp.makeConstraints { (make) in
-            make.size.equalTo(PreviousBut)
-            make.left.equalTo(CancelBut.snp.right)
-            make.top.equalTo(CancelBut)
         }
         
     }
-    }
-
 }

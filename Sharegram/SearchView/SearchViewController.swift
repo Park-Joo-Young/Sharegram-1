@@ -29,6 +29,7 @@ class SearchViewController: UIViewController{
     @IBOutlet weak var WholePostImage: UIImageView!
     
     func SnapWholePosts() { // 전체 포스트 가져오기
+        print("시발2")
         ref?.child("WholePosts").observe(.childAdded, with: { (snapshot) in
             if let item = snapshot.value as? [String : String] {
                 let post = Post()
@@ -103,12 +104,9 @@ class SearchViewController: UIViewController{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         if segue.identifier == "Post" {
-            //fetchUser(self.Posts[index].Id!)
             let destination = segue.destination as! PostViewController
             destination.Id = self.Posts[index].Id!
             //destination.Profileimage = self.ImageUrl
-            
-            
         }
     }
 }
@@ -142,7 +140,7 @@ extension SearchViewController : UICollectionViewDelegate, UICollectionViewDataS
         performSegue(withIdentifier: "Post", sender: self)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(self.Posts.count)
+        print("시발1")
         return self.Posts.count
     }
     

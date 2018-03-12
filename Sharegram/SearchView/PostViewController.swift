@@ -9,9 +9,9 @@
 import UIKit
 import SnapKit
 import ActiveLabel
-
 import Firebase
 import SDWebImage
+import VegaScrollFlowLayout
 
 class PostViewController: UIViewController {
 
@@ -39,6 +39,7 @@ class PostViewController: UIViewController {
                         post.PostId = item["postID"]
                         post.timeAgo = item["Date"]
                         self.Posts.append(post)
+                        self.PostCollection.reloadData()
                     } else {
                         post.caption = item["Description"]
                         post.Id = item["ID"]
@@ -50,35 +51,39 @@ class PostViewController: UIViewController {
                         post.PostId = item["postID"]
                         post.timeAgo = item["Date"]
                         self.Posts.append(post)
-                        
+                        self.PostCollection.reloadData()
                     }
-
                 }
+                
             }
         })
         ref?.removeAllObservers()
     }
     func fetchUser(_ id : String) {
-        print(Id)
-        ref?.child("User").child(Id).child("UserProfile").observe(.value, with: { (snapshot) in
+        
+        ref?.child("User").child(id).child("UserProfile").observe(.value, with: { (snapshot) in
             if let item = snapshot.value as? [String : String] {
                 self.Profileimage = item["ProFileImage"]!
+                self.PostCollection.reloadData()
             }
         })
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        Posts.removeAll()
+        fetchUser(Id)
+        fetchPost()
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
-        fetchUser(Id)
-        fetchPost()
-        PostView.delegate = self
-        PostView.dataSource = self
-        PostView.snp.makeConstraints { (make) in
+        PostCollection.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.bottom.equalTo(self.view)
-            make.top.equalTo(self.view).offset(50)
+            make.top.equalTo(self.view)
             make.centerX.equalTo(self.view)
         }
+        PostCollection.register(UINib(nibName: "PostCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
 
         //self.navigationController?.isNavigationBarHidden = true
         
@@ -100,20 +105,35 @@ class PostViewController: UIViewController {
     }
     */
 }
-//postview.ProFileImage.sd_setImage(with: URL(string: Profileimage), completed: nil)
-//postview.ProFileImage.layer.cornerRadius = postview.ProFileImage.frame.height / 3.0
-//postview.PostImage.sd_setImage(with: URL(string: Posts[index].image!), completed: nil)
-//postview.UserName.text = Posts[index].username
-//postview.LikeCountLabel.text = Posts[index].numberOfLikes
-//postview.UserNameLabel.text = Posts[index].username
-////postview.Caption.textAlignment = .
-//postview.Caption.numberOfLines = 0
-//postview.Caption.enabledTypes = [.hashtag, .mention, .url]
-//postview.Caption.text = Posts[index].caption
-//postview.Caption.textColor = UIColor.black
-//postview.Caption.handleHashtagTap { (hashtag) in
-//    print("씨발ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ")
-//}
 extension PostViewController : UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return Posts.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = PostCollection.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PostCollectionViewCell
+        cell.ProFileImage.sd_setImage(with: URL(string: Profileimage), completed: nil)
+        cell.ProFileImage.layer.cornerRadius = cell.ProFileImage.frame.height / 3.0
+        cell.ProFileImage.clipsToBounds = true
+        cell.PostImage.sd_setImage(with: URL(string: Posts[indexPath.row].image!), completed: nil)
+        cell.UserName.text = Posts[indexPath.row].username
+        //cell.LikeCountLabel.text = "좋아요" + Posts[indexPath.row].numberOfLikes
+        if Posts[indexPath.row].numberOfLikes == "0" {
+            cell.LikeCountLabel.text = "마음에 드신다면 좋아요를 눌러주세요"
+        } else {
+            cell.LikeCountLabel.text = "좋아요" + (Posts[indexPath.row].numberOfLikes)! + "개"
+        }
+        //postview.Caption.textAlignment = .
+        cell.Caption.numberOfLines = 0
+        cell.Caption.enabledTypes = [.hashtag, .mention, .url]
+        cell.Caption.text = (Posts[indexPath.row].username)! + "   " + (Posts[indexPath.row].caption)!
+        cell.Caption.textColor = UIColor.black
+        cell.Caption.handleHashtagTap { (hashtag) in
+            print("씨발ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ")
+        }
+        return cell
+    }
+    
     
 }
+
