@@ -400,6 +400,7 @@
                     <connections>
                         <outlet property="WholePostCollectionView" destination="sSe-gl-ohN" id="fT3-eg-o07"/>
                         <segue destination="E2M-rk-TfS" kind="show" identifier="Post" id="SMT-ND-XLX"/>
+                        <segue destination="O3q-ed-yJn" kind="show" identifier="Koloda" id="xZJ-IS-Q3a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="676-bI-QDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -496,7 +497,52 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jbw-iL-bCr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4820" y="-344.07796101949026"/>
+            <point key="canvasLocation" x="4754" y="-662"/>
+        </scene>
+        <!--Post View11 Controller-->
+        <scene sceneID="PQ5-RL-PxL">
+            <objects>
+                <viewController id="O3q-ed-yJn" customClass="PostView11Controller" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eIV-F5-51X">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2tD-r1-trQ">
+                                <rect key="frame" x="77" y="551" width="86" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="Previous.png"/>
+                                <connections>
+                                    <action selector="Previous:" destination="O3q-ed-yJn" eventType="touchUpInside" id="lTL-iM-ZEx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I4h-oY-W1b">
+                                <rect key="frame" x="207" y="551" width="86" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="Next.png"/>
+                                <connections>
+                                    <action selector="Next:" destination="O3q-ed-yJn" eventType="touchUpInside" id="1uA-F8-3w8"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Imc-gW-Nz8">
+                                <rect key="frame" x="317" y="64" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="LKw-vU-xRe"/>
+                    </view>
+                    <connections>
+                        <outlet property="LikeCountLabel" destination="Imc-gW-Nz8" id="Asn-RS-VaD"/>
+                        <outlet property="NextBut" destination="I4h-oY-W1b" id="CS2-cA-IPP"/>
+                        <outlet property="PreviousBut" destination="2tD-r1-trQ" id="LMR-VE-cVB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jsk-ry-S39" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5673" y="-251"/>
         </scene>
         <!--Home-->
         <scene sceneID="qiX-NV-sAI">
@@ -784,6 +830,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Next.png" width="32" height="32"/>
+        <image name="Previous.png" width="32" height="32"/>
         <image name="icon-comment" width="23" height="22"/>
         <image name="icon-like" width="21" height="18"/>
         <image name="icon-settings" width="25" height="25"/>

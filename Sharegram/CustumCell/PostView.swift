@@ -17,15 +17,8 @@ class PostView: UIView {
     @IBOutlet weak var ExceptionBut: UIButton!
     @IBOutlet weak var PostImage: UIImageView!
     @IBOutlet weak var LikeBut: UIButton!
-    @IBOutlet weak var CommnetBut: UIButton!
-    @IBOutlet weak var ConfigureBut: UIButton!
-    @IBOutlet weak var LikeCountLabel: UILabel!
-    @IBOutlet weak var UserNameLabel: UILabel!
+    @IBOutlet weak var CommentBut: UIButton!
     @IBOutlet weak var TimeLabel: UILabel!
-    @IBOutlet var CancelBut: UIButton!
-    @IBOutlet var PreviousBut: UIButton!
-    @IBOutlet var NextBut: UIButton!
-    
     var Caption = ActiveLabel()
     
     class func instanceFromNib() -> UIView {
@@ -37,82 +30,57 @@ class PostView: UIView {
         // Drawing code
         self.addSubview(Caption)
         ProFileImage.snp.makeConstraints { (make) in
-            make.top.equalTo(self).offset(10)
+            make.top.equalTo(PostImage.snp.bottom).offset(5)
             make.left.equalTo(self)
             make.width.equalTo(PostImage.frame.width/3)
-            make.height.equalTo(PostImage.frame.height/3)
+            make.height.equalTo(PostImage.frame.height/3.5)
         }
+        ProFileImage.layer.cornerRadius = ProFileImage.frame.height / 3.0
+        ProFileImage.clipsToBounds = true
+        
         UserName.snp.makeConstraints { (make) in
-            make.width.equalTo(self.frame.width/3)
+            make.width.equalTo(self.frame.width/2)
             make.height.equalTo(self.frame.height/30)
-            make.left.equalTo(ProFileImage.snp.right).offset(10)
-            make.centerY.equalTo(ProFileImage)
+            make.left.equalTo(ProFileImage.snp.right).offset(5)
+            make.top.equalTo(ProFileImage)
             
         }
         ExceptionBut.snp.makeConstraints { (make) in
             make.right.equalTo(self)
-            make.width.equalTo(self.frame.width/4)
+            make.width.equalTo(self.frame.width/6)
             make.height.equalTo(UserName)
-            make.centerY.equalTo(UserName)
+            make.top.equalTo(UserName)
         }
         PostImage.snp.makeConstraints { (make) in
             make.width.equalTo(self)
-            make.top.equalTo(ProFileImage.snp.bottom)
-            make.height.equalTo(self.frame.height/2.2)
+            make.top.equalTo(self)
+            make.height.equalTo(self.frame.height/1.8)
+            make.left.equalTo(self)
         }
+        PostImage.contentMode = .scaleToFill
+        PostImage.layer.cornerRadius = PostImage.frame.height / 10.0
+        PostImage.clipsToBounds = true
         LikeBut.snp.makeConstraints { (make) in
             make.width.equalTo(PostImage.frame.width/10)
             make.height.equalTo(PostImage.frame.height/10)
-            make.left.equalTo(self).offset(10)
-            make.top.equalTo(PostImage.snp.bottom).offset(10)
+            make.right.equalTo(CommentBut.snp.left).offset(-10)
+            make.top.equalTo(ProFileImage.snp.bottom).offset(10)
         }
-        CommnetBut.snp.makeConstraints { (make) in
+        CommentBut.snp.makeConstraints { (make) in
             make.size.equalTo(LikeBut)
-            make.left.equalTo(LikeBut.snp.right).offset(10)
+            make.right.equalTo(self.snp.right).offset(-10)
             make.top.equalTo(LikeBut)
-        }
-        ConfigureBut.snp.makeConstraints { (make) in
-            make.size.equalTo(LikeBut)
-            make.left.equalTo(CommnetBut.snp.right).offset(10)
-            make.top.equalTo(LikeBut)
-        }
-        LikeCountLabel.snp.makeConstraints { (make) in
-            make.size.equalTo(UserName)
-            make.top.equalTo(LikeBut.snp.bottom).offset(10)
-            make.left.equalTo(LikeBut)
-            
-        }
-        UserNameLabel.snp.makeConstraints { (make) in
-            make.size.equalTo(UserName)
-            make.top.equalTo(LikeCountLabel.snp.bottom).offset(10)
-            make.left.equalTo(LikeCountLabel)
         }
         Caption.snp.makeConstraints { (make) in
             make.width.equalTo(self.frame.width/1.5)
-            make.height.equalTo(UserNameLabel.frame.height*2)
-            make.left.equalTo(UserNameLabel.snp.right).offset(5)
-            make.top.equalTo(LikeCountLabel)
+            make.height.equalTo(ProFileImage.frame.height/1.8)
+            make.left.equalTo(ProFileImage.snp.right).offset(5)
+            make.centerY.equalTo(ProFileImage)
         }
         TimeLabel.snp.makeConstraints { (make) in
-            make.size.equalTo(LikeCountLabel)
-            make.top.equalTo(Caption.snp.bottom).offset(10)
+            make.size.equalTo(UserName)
+            make.top.equalTo(LikeBut.snp.bottom)
             make.left.equalTo(LikeBut)
-        }
-        PreviousBut.snp.makeConstraints { (make) in
-            make.width.equalTo(PostImage.frame.width/4)
-            make.height.equalTo(PostImage.frame.height/10)
-            make.right.equalTo(CancelBut.snp.left)
-            make.top.equalTo(CancelBut)
-        }
-        CancelBut.snp.makeConstraints { (make) in
-            make.size.equalTo(PreviousBut)
-            make.top.equalTo(TimeLabel.snp.bottom).offset(10)
-            make.centerX.equalTo(self)
-        }
-        NextBut.snp.makeConstraints { (make) in
-            make.size.equalTo(PreviousBut)
-            make.left.equalTo(CancelBut.snp.right)
-            make.top.equalTo(CancelBut)
         }
         
     }

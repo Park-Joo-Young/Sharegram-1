@@ -11,7 +11,6 @@ import SnapKit
 import ActiveLabel
 import Firebase
 import SDWebImage
-import VegaScrollFlowLayout
 
 class PostViewController: UIViewController {
 
