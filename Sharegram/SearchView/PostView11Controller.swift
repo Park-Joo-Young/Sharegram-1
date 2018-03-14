@@ -17,6 +17,7 @@ class PostView11Controller: UIViewController {
     var Id : String = ""
     var ProFileUrl : String = ""
     var ref : DatabaseReference?
+
     @IBOutlet weak var NextBut: UIButton!
     @IBOutlet weak var PreviousBut: UIButton!
     @IBOutlet weak var LikeCountLabel: UILabel!
@@ -53,10 +54,6 @@ class PostView11Controller: UIViewController {
                         self.PostView.reloadData()
                     }
                 }
-                if self.Posts.count == snapshot.childrenCount {
-                    print("시발")
-                    self.PostView.reloadData()
-                }
             }
         })
         ref?.removeAllObservers()
@@ -78,15 +75,14 @@ class PostView11Controller: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         self.Posts.removeAll()
-        PostView.resetCurrentCardIndex()
         fetchUser(Id)
         fetchPost()
         print(Posts)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        ref = Database.database().reference()
         
+        ref = Database.database().reference()
         self.view.addSubview(PostView)
         PostView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view.frame.width / 1.3)
@@ -97,18 +93,22 @@ class PostView11Controller: UIViewController {
         PostView.dataSource = self
         PostView.delegate = self
         NextBut.snp.makeConstraints { (make) in
-            make.left.equalTo(self.view.snp.centerX).offset(20)
+            make.left.equalTo(self.view.snp.centerX).offset(30)
             make.top.equalTo(PostView.snp.bottom).offset(20)
         }
         PreviousBut.snp.makeConstraints { (make) in
-            make.right.equalTo(self.view.snp.centerX).offset(-20)
+            make.right.equalTo(self.view.snp.centerX).offset(-30)
             make.top.equalTo(NextBut)
         }
         LikeCountLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.view).offset(70)
-            make.left.equalTo(self.view.snp.centerX).offset(30)
+            make.centerX.equalTo(self.view.snp.centerX)
         }
         LikeCountLabel.adjustsFontSizeToFitWidth = true
+        LikeCountLabel.textColor = UIColor.white
+        let color = UIColor(red: 75/255, green: 76/255, blue: 76/255, alpha: 1)
+        self.view.backgroundColor = color
+
 //        PostView.layer.cornerRadius = PostView.frame.height / 3.0
 //        PostView.layer.borderWidth = 2.0
 //        PostView.layer.borderColor = UIColor.black.cgColor
@@ -152,9 +152,9 @@ extension PostView11Controller: KolodaViewDelegate, KolodaViewDataSource {
     
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
         let postview = Bundle.main.loadNibNamed("PostView", owner: self, options: nil)?.first as! PostView
-        postview.layer.borderWidth = 2.0
+        postview.layer.borderWidth = 1.0
         postview.layer.borderColor = UIColor.black.cgColor
-        postview.layer.cornerRadius = postview.frame.height / 10.0
+        postview.layer.cornerRadius = postview.frame.height / 25.0
         postview.clipsToBounds = true
         postview.PostImage.sd_setImage(with: URL(string: Posts[index].image!), completed: nil)
         postview.ProFileImage.sd_setImage(with: URL(string: ProFileUrl), completed: nil)
@@ -174,6 +174,8 @@ extension PostView11Controller: KolodaViewDelegate, KolodaViewDataSource {
        
         //postview.LikeCountLabel.text = Posts[index].numberOfLikes!
         postview.UserName.text = Posts[index].username!
+        postview.TimeLabel.text = "1시간 전"
+        postview.TimeLabel.textColor = UIColor.lightGray
         return postview
     }
     

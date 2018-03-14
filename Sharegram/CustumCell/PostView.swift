@@ -35,7 +35,7 @@ class PostView: UIView {
             make.width.equalTo(PostImage.frame.width/3)
             make.height.equalTo(PostImage.frame.height/3.5)
         }
-        ProFileImage.layer.cornerRadius = ProFileImage.frame.height / 3.0
+        ProFileImage.layer.cornerRadius = ProFileImage.frame.height / 10.0
         ProFileImage.clipsToBounds = true
         
         UserName.snp.makeConstraints { (make) in
@@ -57,14 +57,13 @@ class PostView: UIView {
             make.height.equalTo(self.frame.height/1.8)
             make.left.equalTo(self)
         }
-        PostImage.contentMode = .scaleToFill
-        PostImage.layer.cornerRadius = PostImage.frame.height / 10.0
-        PostImage.clipsToBounds = true
+        PostImage.layer.borderWidth = 2.0
+        PostImage.layer.borderColor = UIColor.black.cgColor
         LikeBut.snp.makeConstraints { (make) in
             make.width.equalTo(PostImage.frame.width/10)
             make.height.equalTo(PostImage.frame.height/10)
             make.right.equalTo(CommentBut.snp.left).offset(-10)
-            make.top.equalTo(ProFileImage.snp.bottom).offset(10)
+            make.top.equalTo(TimeLabel.snp.bottom).offset(40)
         }
         CommentBut.snp.makeConstraints { (make) in
             make.size.equalTo(LikeBut)
@@ -79,8 +78,8 @@ class PostView: UIView {
         }
         TimeLabel.snp.makeConstraints { (make) in
             make.size.equalTo(UserName)
-            make.top.equalTo(LikeBut.snp.bottom)
-            make.left.equalTo(LikeBut)
+            make.top.equalTo(ProFileImage.snp.bottom).offset(5)
+            make.left.equalTo(self).offset(10)
         }
         
     }

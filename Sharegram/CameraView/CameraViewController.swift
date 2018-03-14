@@ -32,7 +32,15 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
     var fetchResult : PHFetchResult<PHAsset>!
 
     @IBAction func ActCamera(_ sender: UIBarButtonItem) {
-        locationManager.startUpdatingLocation()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.distanceFilter = 200.0
+            locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+            locationManager.startUpdatingLocation()
+
+        }
+       
         if(UIImagePickerController.isSourceTypeAvailable(.camera)) {
             flag = true
             imagepicker.delegate = self
@@ -40,9 +48,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
             imagepicker.mediaTypes = [kUTTypeImage as String]
             imagepicker.allowsEditing = true
             imagepicker.showsCameraControls = true
-            present(imagepicker, animated: true, completion: {
-                self.locationManager.stopUpdatingLocation()
-            })
+            present(imagepicker, animated: true, completion: nil)
         }
     }
     
@@ -75,7 +81,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
 
     //if we have no permission to access user location, then ask user for permission.
     func isAuthorizedtoGetUserLocation() {
-        if CLLocationManager.authorizationStatus() != .authorizedWhenInUse  {
+        if CLLocationManager.authorizationStatus() != .authorizedWhenInUse {
             locationManager.requestWhenInUseAuthorization()
         }
     }
@@ -83,7 +89,6 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
     func grabPhotos() {
         imageArray.removeAll()
         let imgManager = PHImageManager.default()
-        
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true
         requestOptions.deliveryMode = .highQualityFormat
@@ -116,11 +121,9 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        //isAuthorizedtoGetUserLocation()
         isAuthorizedtoGetUserLocation()
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        }
+
         myImageView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view.frame.width)
             make.height.equalTo(self.view.frame.height/2)
@@ -165,11 +168,27 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
             
         }
     }
+    func convertToAddressWith(coordinate: CLLocation) {
+        let findLocation = CLLocation(latitude: coordinate.coordinate.latitude, longitude: coordinate.coordinate.longitude)
+        let geoCoder = CLGeocoder()
+        geoCoder.reverseGeocodeLocation(findLocation) { (placemarks, error) -> Void in
+            if error != nil {
+                NSLog("\(error)")
+                return
+            }
+            guard let placemark = placemarks?.first,
+                let addrList = placemark.addressDictionary?["FormattedAddressLines"] as? [String] else {
+                    return
+            }
+            let address = addrList.joined(separator: " ")
+            print(address)
+        }
+    }
 }
 extension CameraViewController : UIImagePickerControllerDelegate {
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         //imageArray.removeAll()
-        //        locationManager.requestLocation()
+        locationManager.stopUpdatingLocation()
         capture = info[UIImagePickerControllerEditedImage] as? UIImage
 
         PHPhotoLibrary.shared().performChanges({
@@ -179,27 +198,24 @@ extension CameraViewController : UIImagePickerControllerDelegate {
             if self.location != nil { // 위치를 동의하고 사진을 찍었을 시
                 print("?")
                 request.location = self.location
+                
             }
         }, completionHandler: nil)
-        
-        //UIImageWriteToSavedPhotosAlbum(capture, self, nil, nil)
-        
-        //grabPhotos()
         self.dismiss(animated: true, completion: nil)
         myImageView.image = capture
-        //grabPhotos()
-        //locationManager.stopUpdatingLocation()
+        if CLLocationManager.locationServicesEnabled() {
+            if location != nil {
+                print(location)
+                print("\(object.lat) , \(object.lon)")
+                convertToAddressWith(coordinate: location)
+            }
+        }
+
 //        let mediaType = info[UIImagePickerControllerMediaType] as! NSString
 //        if mediaType.isEqual(to: kUTTypeImage as NSString as String) {
 //            if flag {
 //                //UIImageWriteToSavedPhotosAlbum(capture, self, nil, nil) //사진 저장
-//                if CLLocationManager.locationServicesEnabled() {
-//                    if location != nil {
-//                        print("\(object.lat) , \(object.lon)")
-//                        //convertToAddressWith(coordinate: location)
-//                    }
-//
-//                }
+        
 //            }
 //
 //            imageArray.removeAll()
@@ -257,6 +273,7 @@ extension CameraViewController : CLLocationManagerDelegate {
         print("Did location updates is called")
         object.lat = location.coordinate.latitude
         object.lon = location.coordinate.longitude
+        self.locationManager.allowsBackgroundLocationUpdates = false
         //store the user location here to firebase or somewhere
     }
 }

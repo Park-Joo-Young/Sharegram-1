@@ -137,7 +137,8 @@ class WriteViewController: UIViewController{
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let confirm = UIAlertAction(title: "확인", style: .default) {
             (action : UIAlertAction) -> Void in
-            self.dismiss(animated: true, completion: nil)
+            //self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popToRootViewController(animated: true)
         }
         alert.addAction(confirm)
         present(alert, animated: true, completion: nil)

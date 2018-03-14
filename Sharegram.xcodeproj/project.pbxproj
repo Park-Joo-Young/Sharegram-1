@@ -18,6 +18,7 @@
 		1826ECB7204926670066F470 /* ProFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1826ECB6204926670066F470 /* ProFileView.swift */; };
 		182C972A20107D8F002E5311 /* Mustard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182C972820107D8F002E5311 /* Mustard.swift */; };
 		1857A50F2056981E00AC5FB3 /* PostView11Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1857A50E2056981E00AC5FB3 /* PostView11Controller.swift */; };
+		185EECDA2058EEB100B3826E /* DistanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EECD92058EEB100B3826E /* DistanceViewController.swift */; };
 		186348C120527A7500188D6C /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186348C020527A7500188D6C /* PostView.swift */; };
 		186348C92052800B00188D6C /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 186348C62052800B00188D6C /* like.png */; };
 		186348CA2052800B00188D6C /* unlike.png in Resources */ = {isa = PBXBuildFile; fileRef = 186348C72052800B00188D6C /* unlike.png */; };
@@ -74,6 +75,7 @@
 		182C972720107D8F002E5311 /* Mustard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mustard.h; sourceTree = "<group>"; };
 		182C972820107D8F002E5311 /* Mustard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mustard.swift; sourceTree = "<group>"; };
 		1857A50E2056981E00AC5FB3 /* PostView11Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView11Controller.swift; sourceTree = "<group>"; };
+		185EECD92058EEB100B3826E /* DistanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceViewController.swift; sourceTree = "<group>"; };
 		186348C020527A7500188D6C /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		186348C420527B6000188D6C /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PostView.xib; path = /Users/apple/Desktop/Sharegram/Sharegram/CustumCell/PostView.xib; sourceTree = "<absolute>"; };
 		186348C62052800B00188D6C /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 				3A76C19020046761004253CF /* AppDelegate.swift */,
 				3A76C19220046761004253CF /* ViewController.swift */,
 				3A76C19420046761004253CF /* Main.storyboard */,
+				185EECD92058EEB100B3826E /* DistanceViewController.swift */,
 				3A76C19A20046761004253CF /* Assets.xcassets */,
 				3A76C19C20046761004253CF /* LaunchScreen.storyboard */,
 				3A76C19F20046761004253CF /* Info.plist */,
@@ -513,6 +516,7 @@
 				3AA85BEA2007390500BAB348 /* ProfileViewController.swift in Sources */,
 				3A76C19920046761004253CF /* Sharegram.xcdatamodeld in Sources */,
 				3AA85BE2200738C100BAB348 /* HomeViewController.swift in Sources */,
+				185EECDA2058EEB100B3826E /* DistanceViewController.swift in Sources */,
 				3A76C19120046761004253CF /* AppDelegate.swift in Sources */,
 				3AA85BE6200738E300BAB348 /* CameraViewController.swift in Sources */,
 				04A800B4202C3488003F0594 /* Post.swift in Sources */,

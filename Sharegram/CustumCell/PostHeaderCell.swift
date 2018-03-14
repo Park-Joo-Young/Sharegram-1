@@ -33,5 +33,4 @@ class PostHeaderCell: UITableViewCell
         followButton.layer.borderColor = followButton.tintColor.cgColor
         followButton.layer.masksToBounds = true
     }
-    
 }
