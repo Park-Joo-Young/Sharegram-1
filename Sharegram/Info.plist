@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>KAKAO_APP_KEY</key>
+	<string>17a0c7f7b94a82f1429cda126819e501</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>당신의 사진 라이브러리에 접근을 허가하시겠습니까?</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

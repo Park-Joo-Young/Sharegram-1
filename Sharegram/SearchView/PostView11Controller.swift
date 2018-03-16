@@ -22,12 +22,13 @@ class PostView11Controller: UIViewController {
     @IBOutlet weak var PreviousBut: UIButton!
     @IBOutlet weak var LikeCountLabel: UILabel!
     func fetchPost(){
+        self.Posts.removeAll()
         ref?.child("WholePosts").queryOrderedByKey().observe(.childAdded, with: { (snapshot) in
             if let item = snapshot.value as? [String : String] {
                 let post = Post()
-                print(snapshot.childrenCount)
+                //print(snapshot.childrenCount)
                 if item["ID"] == self.Id { //전체 포스트에서 검색부분에서 가져온 유저아이디랑 일치하는 게시물을 찾았을 때
-                    print("DDD")
+                    //print("DDD")
                     if item["latitude"] == nil && item["longitude"] == nil { //위치가 없으면
                         post.caption = item["Description"]
                         post.Id = item["ID"]
@@ -41,11 +42,13 @@ class PostView11Controller: UIViewController {
                         self.Posts.append(post)
                         self.PostView.reloadData()
                     } else {
+                        print(item["latitude"]!)
                         post.caption = item["Description"]
                         post.Id = item["ID"]
                         post.image = item["image"]
-                        post.lat = Int(item["latitude"]!)
-                        post.lon = Int(item["longitude"]!)
+                        post.lat = Double(item["latitude"]!)
+                        post.lon = Double(item["longitude"]!)
+                        print(post.lat!)
                         post.numberOfLikes = item["Like"]
                         post.username = item["Author"]
                         post.PostId = item["postID"]
@@ -74,7 +77,7 @@ class PostView11Controller: UIViewController {
         PostView.swipe(.right, force: false)
     }
     override func viewWillAppear(_ animated: Bool) {
-        self.Posts.removeAll()
+        //self.Posts.removeAll()
         fetchUser(Id)
         fetchPost()
         print(Posts)
@@ -123,15 +126,23 @@ class PostView11Controller: UIViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "PostTable" {
+            let destination = segue.destination as! PostTableViewController
+            print("시발")
+            print(PostView.currentCardIndex)
+
+            print(self.Posts[0].caption!)
+            destination.Posts = self.Posts[PostView.currentCardIndex]
+        }
     }
-    */
+ 
 
 }
 extension PostView11Controller: KolodaViewDelegate, KolodaViewDataSource {
@@ -140,7 +151,7 @@ extension PostView11Controller: KolodaViewDelegate, KolodaViewDataSource {
     }
     
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
-        return
+        performSegue(withIdentifier: "PostTable", sender: self)
     }
     func kolodaNumberOfCards(_ koloda:KolodaView) -> Int {
         return Posts.count

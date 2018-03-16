@@ -43,8 +43,8 @@ class PostViewController: UIViewController {
                         post.caption = item["Description"]
                         post.Id = item["ID"]
                         post.image = item["image"]
-                        post.lat = Int(item["latitude"]!)
-                        post.lon = Int(item["longitude"]!)
+                        post.lat = Double(item["latitude"]!)
+                        post.lon = Double(item["longitude"]!)
                         post.numberOfLikes = item["Like"]
                         post.username = item["Author"]
                         post.PostId = item["postID"]

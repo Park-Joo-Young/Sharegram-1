@@ -19,8 +19,8 @@ class Post :NSObject// 게시물 구조체
     var numberOfLikes: String? // like
     //var numberOfComments: Int?
     //var numberOfShares: Int?
-    var lat : Int? //위도
-    var lon : Int? //경도
+    var lat : Double? //위도
+    var lon : Double? //경도
     var Id : String?
     var PostId : String?
   
