@@ -21,9 +21,6 @@
 		185EECDA2058EEB100B3826E /* DistanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EECD92058EEB100B3826E /* DistanceViewController.swift */; };
 		185EECDC2058FED100B3826E /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EECDB2058FED100B3826E /* PostTableViewController.swift */; };
 		186348C120527A7500188D6C /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186348C020527A7500188D6C /* PostView.swift */; };
-		186348C92052800B00188D6C /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 186348C62052800B00188D6C /* like.png */; };
-		186348CA2052800B00188D6C /* unlike.png in Resources */ = {isa = PBXBuildFile; fileRef = 186348C72052800B00188D6C /* unlike.png */; };
-		186348CB2052800B00188D6C /* comnent.png in Resources */ = {isa = PBXBuildFile; fileRef = 186348C82052800B00188D6C /* comnent.png */; };
 		186348CD205281D900188D6C /* Cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 186348CC205281D900188D6C /* Cancel.png */; };
 		1864A05F201722AF00A34F04 /* HashTagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */; };
 		1864CCD92049111E007228E8 /* ProFileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1864CCD82049111E007228E8 /* ProFileView.xib */; };
@@ -48,6 +45,9 @@
 		18777FFE204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18777FFC204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.swift */; };
 		18777FFF204AC8AD004EE278 /* ProFileIntrodutionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18777FFD204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.xib */; };
 		188C042A200C92D800C4E697 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188C0429200C92D800C4E697 /* WriteViewController.swift */; };
+		18A5CC6F205D3947001967CF /* comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A5CC6C205D3946001967CF /* comment.png */; };
+		18A5CC70205D3947001967CF /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A5CC6D205D3946001967CF /* like.png */; };
+		18A5CC71205D3947001967CF /* unlike.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A5CC6E205D3947001967CF /* unlike.png */; };
 		18A88818203E8B9C004E4814 /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A88816203E8B9C004E4814 /* PostCollectionViewCell.swift */; };
 		18A88819203E8B9C004E4814 /* PostCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A88817203E8B9C004E4814 /* PostCollectionViewCell.xib */; };
 		18AA5078205BC809003A93AD /* MapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AA5077205BC809003A93AD /* MapTableViewCell.swift */; };
@@ -117,9 +117,6 @@
 		185EECDB2058FED100B3826E /* PostTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
 		186348C020527A7500188D6C /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		186348C420527B6000188D6C /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PostView.xib; path = /Users/apple/Desktop/Sharegram/Sharegram/CustumCell/PostView.xib; sourceTree = "<absolute>"; };
-		186348C62052800B00188D6C /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
-		186348C72052800B00188D6C /* unlike.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlike.png; sourceTree = "<group>"; };
-		186348C82052800B00188D6C /* comnent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comnent.png; sourceTree = "<group>"; };
 		186348CC205281D900188D6C /* Cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cancel.png; sourceTree = "<group>"; };
 		1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTagTableViewController.swift; sourceTree = "<group>"; };
 		1864CCD82049111E007228E8 /* ProFileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProFileView.xib; sourceTree = "<group>"; };
@@ -144,6 +141,9 @@
 		18777FFC204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProFileIntrodutionTableViewCell.swift; sourceTree = "<group>"; };
 		18777FFD204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProFileIntrodutionTableViewCell.xib; sourceTree = "<group>"; };
 		188C0429200C92D800C4E697 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
+		18A5CC6C205D3946001967CF /* comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment.png; sourceTree = "<group>"; };
+		18A5CC6D205D3946001967CF /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
+		18A5CC6E205D3947001967CF /* unlike.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlike.png; sourceTree = "<group>"; };
 		18A88816203E8B9C004E4814 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		18A88817203E8B9C004E4814 /* PostCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCollectionViewCell.xib; sourceTree = "<group>"; };
 		18AA5077205BC809003A93AD /* MapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTableViewCell.swift; sourceTree = "<group>"; };
@@ -248,12 +248,12 @@
 		186FDFF62005F871007A454C /* picture */ = {
 			isa = PBXGroup;
 			children = (
-				186348C82052800B00188D6C /* comnent.png */,
-				186348C62052800B00188D6C /* like.png */,
 				181C14A92053F92B00BCA077 /* Next.png */,
 				181C14A82053F92B00BCA077 /* Previous.png */,
 				186348CC205281D900188D6C /* Cancel.png */,
-				186348C72052800B00188D6C /* unlike.png */,
+				18A5CC6C205D3946001967CF /* comment.png */,
+				18A5CC6D205D3946001967CF /* like.png */,
+				18A5CC6E205D3947001967CF /* unlike.png */,
 				1864CCDC20491A55007228E8 /* UnKnown.png */,
 				186D20B320400F9200152333 /* HashTag.png */,
 				186850562031682C00BF50C4 /* searchBar.png */,
@@ -528,6 +528,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				186D20B420400F9200152333 /* HashTag.png in Resources */,
+				18A5CC6F205D3947001967CF /* comment.png in Resources */,
 				18AA512A205BD58D003A93AD /* copyright.png in Resources */,
 				18AA5133205BD58D003A93AD /* map_pin_custom@3x.png in Resources */,
 				18AA5130205BD58D003A93AD /* map_pin.png in Resources */,
@@ -536,8 +537,8 @@
 				18AA5139205BD58D003A93AD /* map_pinup@3x.png in Resources */,
 				18A88819203E8B9C004E4814 /* PostCollectionViewCell.xib in Resources */,
 				1864CCE120491DEA007228E8 /* Squares.png in Resources */,
-				186348CB2052800B00188D6C /* comnent.png in Resources */,
 				18AA513A205BD58D003A93AD /* map_pinup_custom.png in Resources */,
+				18A5CC71205D3947001967CF /* unlike.png in Resources */,
 				181C14AA2053F92B00BCA077 /* Previous.png in Resources */,
 				18AA5141205BD58D003A93AD /* noimage256.png in Resources */,
 				1864CCD92049111E007228E8 /* ProFileView.xib in Resources */,
@@ -547,12 +548,12 @@
 				18AA513B205BD58D003A93AD /* map_pinup_custom@3x.png in Resources */,
 				186348CD205281D900188D6C /* Cancel.png in Resources */,
 				3A76C19E20046761004253CF /* LaunchScreen.storyboard in Resources */,
-				186348C92052800B00188D6C /* like.png in Resources */,
 				18AA5144205BD58D003A93AD /* th_line.png in Resources */,
 				18AA513D205BD58D003A93AD /* map_present_background_update.png in Resources */,
 				18777FFB204AC822004EE278 /* ProFileEditTableViewCell.xib in Resources */,
 				186FDFED2005E497007A454C /* GoogleService-Info.plist in Resources */,
 				18AA5134205BD58D003A93AD /* map_pin_red.png in Resources */,
+				18A5CC70205D3947001967CF /* like.png in Resources */,
 				18AA512C205BD58D003A93AD /* daum_th_line.png in Resources */,
 				18AA512E205BD58D003A93AD /* info_box.png in Resources */,
 				1864CCE320491DEA007228E8 /* Man.png in Resources */,
@@ -571,7 +572,6 @@
 				1864CCE220491DEA007228E8 /* Bars.png in Resources */,
 				3A76C19B20046761004253CF /* Assets.xcassets in Resources */,
 				18AA5143205BD58D003A93AD /* shadow_balloon.png in Resources */,
-				186348CA2052800B00188D6C /* unlike.png in Resources */,
 				18AA513C205BD58D003A93AD /* map_present.png in Resources */,
 				18AA513F205BD58D003A93AD /* map_present_tracking.png in Resources */,
 				3A76C19620046761004253CF /* Main.storyboard in Resources */,
@@ -836,6 +836,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NF58AE9U4V;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
@@ -859,6 +860,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NF58AE9U4V;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",

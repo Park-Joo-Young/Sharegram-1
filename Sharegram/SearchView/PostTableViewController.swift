@@ -11,16 +11,29 @@ import Firebase
 import SDWebImage
 import SnapKit
 
-class PostTableViewController: UITableViewController, MTMapViewDelegate {
+class PostTableViewController: UITableViewController {
     var Posts = Post()
     var PostImageView = UIImageView()
     var button = UIButton()
-    
+    var item = [MTMapPOIItem]()
+    var image : UIImage!
+    var newimage : UIImage!
+//    override func viewDidAppear(_ animated: Bool) {
+//        if Posts.lat != nil {
+//
+//        }
+//
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         print(Posts.lat!)
         //self.navigationController?.isNavigationBarHidden = true
         self.navigationItem.title = Posts.username!
+        
+        UIGraphicsBeginImageContext(CGSize(width: 100, height: 100))
+        image.draw(in: CGRect(x: 0, y: 0, width: 100, height: 100))
+        newimage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
         //tableView.addSubview(button)
 
         // Uncomment the following line to preserve selection between presentations
@@ -59,6 +72,14 @@ class PostTableViewController: UITableViewController, MTMapViewDelegate {
                 })
                 cell.MapView.delegate = self
                 cell.MapView.baseMapType = .standard
+                cell.MapView.zoomOut(animated: true)
+                if self.image != nil {
+                    item.append(poiItem(latitude: Posts.lat!, longitude: Posts.lon!))
+                } else {
+                    cell.MapView.baseMapType = .hybrid
+                }
+                cell.MapView.addPOIItems(item)
+                cell.MapView.fitAreaToShowAllPOIItems()
             } else {
                 cell.Label.text = "이 사진은 위치정보가 없습니다."
             }
@@ -139,4 +160,16 @@ class PostTableViewController: UITableViewController, MTMapViewDelegate {
     }
     */
 
+}
+extension PostTableViewController : MTMapViewDelegate {
+    func poiItem(latitude: Double, longitude: Double) -> MTMapPOIItem {
+        let item = MTMapPOIItem()
+
+        item.markerType = .customImage
+        item.customImage = newimage
+        item.mapPoint = MTMapPoint(geoCoord: .init(latitude: latitude, longitude: longitude))
+        item.showAnimationType = .noAnimation
+        item.customImageAnchorPointOffset = .init(offsetX: 30, offsetY: 0)    // 마커 위치 조정
+        return item
+    }
 }

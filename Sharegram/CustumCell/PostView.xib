@@ -32,7 +32,7 @@
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m0f-Ch-O39">
                     <rect key="frame" x="271" y="418" width="33" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button" image="comnent.png"/>
+                    <state key="normal" title="Button" image="comment.png"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFk-qy-QQr">
                     <rect key="frame" x="107" y="323" width="211" height="23"/>
@@ -68,7 +68,7 @@
         </view>
     </objects>
     <resources>
-        <image name="comnent.png" width="32" height="32"/>
+        <image name="comment.png" width="32" height="32"/>
         <image name="icon-username" width="100" height="100"/>
         <image name="unlike.png" width="32" height="32"/>
     </resources>

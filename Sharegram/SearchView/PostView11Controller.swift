@@ -17,10 +17,14 @@ class PostView11Controller: UIViewController {
     var Id : String = ""
     var ProFileUrl : String = ""
     var ref : DatabaseReference?
-
+    var image = [UIImage]()
     @IBOutlet weak var NextBut: UIButton!
     @IBOutlet weak var PreviousBut: UIButton!
     @IBOutlet weak var LikeCountLabel: UILabel!
+    @objc func likePressed() {
+        
+    }
+ 
     func fetchPost(){
         self.Posts.removeAll()
         ref?.child("WholePosts").queryOrderedByKey().observe(.childAdded, with: { (snapshot) in
@@ -137,9 +141,9 @@ class PostView11Controller: UIViewController {
             let destination = segue.destination as! PostTableViewController
             print("시발")
             print(PostView.currentCardIndex)
-
             print(self.Posts[0].caption!)
             destination.Posts = self.Posts[PostView.currentCardIndex]
+            destination.image = self.image[PostView.currentCardIndex]
         }
     }
  
@@ -169,6 +173,9 @@ extension PostView11Controller: KolodaViewDelegate, KolodaViewDataSource {
         postview.clipsToBounds = true
         postview.PostImage.sd_setImage(with: URL(string: Posts[index].image!), completed: nil)
         postview.ProFileImage.sd_setImage(with: URL(string: ProFileUrl), completed: nil)
+        if let image = postview.PostImage.image {
+            self.image.append(image)
+        }
         postview.Caption.text = Posts[index].caption!
         postview.Caption.numberOfLines = 0
         postview.Caption.enabledTypes = [.hashtag, .mention, .url]
@@ -187,6 +194,13 @@ extension PostView11Controller: KolodaViewDelegate, KolodaViewDataSource {
         postview.UserName.text = Posts[index].username!
         postview.TimeLabel.text = "1시간 전"
         postview.TimeLabel.textColor = UIColor.lightGray
+        //유저 좋아요 체크
+        //ref?.child(<#T##pathString: String##String#>)
+        if Posts[index].caption!.contains("#작") { // 이 문자로 시작되는 문자열이 포함 되어있다 그럼 트루
+            print("시발")
+        } else {
+            print("없어요!")
+        }
         return postview
     }
     

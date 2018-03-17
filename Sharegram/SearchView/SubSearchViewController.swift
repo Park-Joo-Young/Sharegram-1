@@ -24,7 +24,7 @@ class SubSearchViewController: UIViewController {
     var SearchList : [String] = [] // 검색 결과
     var ref : DatabaseReference?
     var keyList : [String] = []
-    
+    var SearchTagList : [String] = []
     
     func delay(_ delay: Double, closure: @escaping ()->()) {
         let when = DispatchTime.now() + delay
@@ -35,6 +35,38 @@ class SubSearchViewController: UIViewController {
             self.SearchController.searchBar.becomeFirstResponder()
             print("됐는데")
         }
+    }
+    func SearchHashTag(_ str : String ) {
+        let tag = "#" + str
+        ref?.child("WholePosts").observe(.childAdded, with: { (snapshot) in
+            if snapshot.value is NSNull {
+                print("Nothing")
+            } else {
+                if let item = snapshot.value as? [String : String] {
+                    if item["Description"]!.contains(tag) { //검색한 태그가 있는 포스트를 찾았을 경우
+                        let hashtag = item["Description"]?._tokens(from: HashtagTokenizer()) // 해쉬태그 다 짜르기
+                        let searchPredicate = NSPredicate(format: "SELF CONTAINS %@", tag)
+                        let hashtagarray = self.forloop(hashtag!)
+                        let predicate = (hashtagarray as NSArray).filtered(using: searchPredicate)
+                        self.loop(predicate as! [String])
+                        self.SearchResultTable.reloadData()
+                    }
+                }
+            }
+        })
+    }
+    func forloop(_ Token : [AnyToken]) -> [String]{
+        var array = [String]()
+        for i in 0..<Token.count {
+            array.append(Token[i].text)
+        }
+        return array
+    }
+    func loop(_ array : [String]) {
+        for i in 0..<array.count {
+            self.SearchTagList.append(array[i])
+        }
+        self.SearchResultTable.reloadData()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -199,7 +231,11 @@ extension SubSearchViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if SearchController.isActive {
             print(self.SearchList.count)
-            return self.SearchList.count
+            if segment.selectedSegmentIndex == 2 {
+                return self.SearchTagList.count
+            } else {
+                return self.SearchList.count
+            }
         } else {
             return 0
         }
@@ -208,21 +244,24 @@ extension SubSearchViewController : UITableViewDelegate {
         print("ddd")
         print(self.SearchList)
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        cell.textLabel?.text = self.SearchList[indexPath.row]
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 20)
+        
         if segment.selectedSegmentIndex == 2 { //해쉬태그
+            cell.textLabel?.text = self.SearchTagList[indexPath.row]
             cell.imageView?.image = UIImage(named: "HashTag.png")
             cell.imageView?.layer.borderWidth = 1.5
             //self.SearchList[indexPath.row].replacingOccurrences(of: "#", with: "")
-           let tag = self.SearchList[indexPath.row].replacingOccurrences(of: "#", with: "")
-            ref?.child("HashTagPosts").child(tag).child("Count").observe(.value, with: { (snapshot) in
-                if let item = snapshot.value as? [String : String] {
-                    cell.detailTextLabel?.text = "게시물 \(item["Count"]!)개 "
-                    cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 15)
-                    cell.detailTextLabel?.tintColor = UIColor.lightGray
-                }
-            })
-            ref?.removeAllObservers()
+//           let tag = self.SearchList[indexPath.row].replacingOccurrences(of: "#", with: "")
+//            ref?.child("HashTagPosts").child(tag).child("Count").observe(.value, with: { (snapshot) in
+//                if let item = snapshot.value as? [String : String] {
+//                    cell.detailTextLabel?.text = "게시물 \(item["Count"]!)개 "
+//                    cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 15)
+//                    cell.detailTextLabel?.tintColor = UIColor.lightGray
+//                }
+//            })
+//            ref?.removeAllObservers()
+        } else { //인기 와 사람
+            cell.textLabel?.text = self.SearchList[indexPath.row]
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 20)
         }
         //cell.imageView?.image
         return cell
@@ -256,14 +295,15 @@ extension SubSearchViewController : UISearchResultsUpdating{
                     print(self.SearchList)
                     self.SearchResultTable.reloadData()
                 }
-            } else { // 2
-                let array = (self.TagList as NSArray).filtered(using: searchPredicate)
-                
-                self.SearchList = array as! [String]
-                if !(array.isEmpty) {
-                    print(self.SearchList)
-                    self.SearchResultTable.reloadData()
-                }
+            } else { // 2 hashtag
+//                let array = (self.TagList as NSArray).filtered(using: searchPredicate)
+//
+//                self.SearchList = array as! [String]
+//                if !(array.isEmpty) {
+//                    print(self.SearchList)
+//                    self.SearchResultTable.reloadData()
+//                }
+                SearchHashTag(searchController.searchBar.text!)
             }
             // 4
         } else {
