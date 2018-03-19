@@ -247,7 +247,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TdN-BX-G5G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6743" y="444"/>
+            <point key="canvasLocation" x="5538" y="444"/>
         </scene>
         <!--Activity-->
         <scene sceneID="Fhs-WS-U4s">
@@ -351,6 +351,9 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nzb-fR-J7V">
                                                     <rect key="frame" x="0.0" y="0.0" width="120" height="124"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="Nzb-fR-J7V" secondAttribute="height" multiplier="30:31" id="8aL-yz-Hbl"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                         </view>
@@ -423,6 +426,7 @@
                     <connections>
                         <outlet property="SearchResultTable" destination="q3k-Hu-azp" id="MMD-Gm-X61"/>
                         <outlet property="navi" destination="IfU-jr-aRr" id="xdj-zz-wJ3"/>
+                        <segue destination="7OL-Uf-UOl" kind="show" identifier="SearchToUser" id="PrX-HD-SbJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SWx-yI-J0e" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -472,7 +476,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jbw-iL-bCr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4754" y="-662"/>
+            <point key="canvasLocation" x="4668" y="-1114"/>
         </scene>
         <!--Post View11 Controller-->
         <scene sceneID="PQ5-RL-PxL">
@@ -514,6 +518,7 @@
                         <outlet property="NextBut" destination="I4h-oY-W1b" id="CS2-cA-IPP"/>
                         <outlet property="PreviousBut" destination="2tD-r1-trQ" id="LMR-VE-cVB"/>
                         <segue destination="Pjz-kK-lhb" kind="show" identifier="PostTable" id="fH1-R0-xqz"/>
+                        <segue destination="7OL-Uf-UOl" kind="show" id="Fp4-lL-XdU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jsk-ry-S39" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -523,7 +528,7 @@
         <!--Post Table View Controller-->
         <scene sceneID="Qdb-qu-afV">
             <objects>
-                <tableViewController storyboardIdentifier="PostTable" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Pjz-kK-lhb" customClass="PostTableViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="PostTable" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Pjz-kK-lhb" customClass="PostTableViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cfk-dw-vOh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -551,10 +556,13 @@
                             <outlet property="delegate" destination="Pjz-kK-lhb" id="h7d-51-7Cs"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="7OL-Uf-UOl" kind="show" id="M3a-hU-ztO"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Ky-uF-sAz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6445.6000000000004" y="-249.62518740629687"/>
+            <point key="canvasLocation" x="6665" y="-508"/>
         </scene>
         <!--Home-->
         <scene sceneID="qiX-NV-sAI">
@@ -612,6 +620,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qkg-e6-5CQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2776" y="444.3778110944528"/>
+        </scene>
+        <!--User Pro File View Controller-->
+        <scene sceneID="h09-hW-run">
+            <objects>
+                <viewController storyboardIdentifier="UserProFile" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7OL-Uf-UOl" customClass="UserProFileViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="knT-EC-K6b">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OvT-jy-nMq">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Title" id="bjn-Wl-RZK">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="siF-8y-25p">
+                                            <connections>
+                                                <action selector="Back:" destination="7OL-Uf-UOl" id="JS6-va-MuI"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="ZH1-7f-vIc"/>
+                    </view>
+                    <connections>
+                        <outlet property="navi" destination="OvT-jy-nMq" id="ktS-rf-v8d"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9sb-Go-Vpb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6754" y="-1336"/>
         </scene>
         <!--Activity-->
         <scene sceneID="2un-Ql-HOO">
@@ -848,4 +889,7 @@
         <image name="icon-like" width="21" height="18"/>
         <image name="icon-settings" width="25" height="25"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="PrX-HD-SbJ"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -11,18 +11,36 @@ import SnapKit
 import Firebase
 class ProfileViewController: UIViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    var MySettingBut = UIButton()
+    override func viewWillAppear(_ animated: Bool) {
         let ProFileView = Bundle.main.loadNibNamed("ProFileView", owner: self, options: nil)?.first as! ProFileView
         self.view.addSubview(ProFileView)
         ProFileView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view.frame.width)
-            make.height.equalTo(self.view.frame.height)
-            make.bottom.equalTo(self.view.snp.bottom)
+            make.width.equalTo(UIScreen.main.bounds.width)
+            make.height.equalTo(UIScreen.main.bounds.height)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(self.view).offset(70)
         }
         ProFileView.ProFileImage.image = UIImage(named: "icon-profile-filled.png")
         ProFileView.layer.cornerRadius = 2.0
         ProFileView.ProFileEditBut.addTarget(self, action: #selector(ProfileEdit), for: .touchUpInside)
+        ProFileView.addSubview(MySettingBut)
+        MySettingBut.snp.makeConstraints { (make) in
+            make.top.equalTo(ProFileView.ProFileEditBut)
+            make.width.equalTo(UIScreen.main.bounds.width/10)
+            make.height.equalTo(ProFileView.ProFileEditBut)
+            make.left.equalTo(ProFileView.ProFileEditBut.snp.right).offset(10)
+        }
+        MySettingBut.setImage(UIImage(named: "icon-settings-filled.png"), for: .normal)
+        MySettingBut.setTitle("", for: .normal)
+        MySettingBut.backgroundColor = UIColor.white
+        MySettingBut.layer.cornerRadius = 3.0
+        MySettingBut.layer.borderWidth = 1.5
+        MySettingBut.layer.borderColor = UIColor.lightGray.cgColor
+        MySettingBut.tintColor = UIColor.black
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         // Do any additional setup after loading the view.
     }
@@ -32,9 +50,6 @@ class ProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     @objc func ProfileEdit() {
-//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProFileEdit") as! ProFileEditViewController
-//        vc.modalPresentationStyle = .overCurrentContext
-//        present(vc, animated: true, completion: nil)
         performSegue(withIdentifier: "ProFileEdit", sender: self)
     }
 

@@ -24,10 +24,15 @@ class PostView: UIView {
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "PostView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! UIView
     }
+    override func awakeFromNib() {
+        UserName.isUserInteractionEnabled = true
+    }
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
         // Drawing code
+        //draw(CGRect(x: 0.0, y: 0.0, width: CommonVariable.screenWidth, height: CommonVariable.screenHeight))
+        self.frame.size = CGSize(width: CommonVariable.screenWidth/1.3, height: CommonVariable.screenHeight/1.6)
         self.addSubview(Caption)
         ProFileImage.snp.makeConstraints { (make) in
             make.top.equalTo(PostImage.snp.bottom).offset(5)
@@ -45,6 +50,7 @@ class PostView: UIView {
             make.top.equalTo(ProFileImage)
             
         }
+        UserName.isUserInteractionEnabled = true
         ExceptionBut.snp.makeConstraints { (make) in
             make.right.equalTo(self)
             make.width.equalTo(self.frame.width/6)
@@ -59,23 +65,26 @@ class PostView: UIView {
         }
         PostImage.layer.borderWidth = 2.0
         PostImage.layer.borderColor = UIColor.black.cgColor
+        
         LikeBut.snp.makeConstraints { (make) in
             make.width.equalTo(PostImage.frame.width/10)
             make.height.equalTo(PostImage.frame.height/10)
             make.right.equalTo(CommentBut.snp.left).offset(-10)
-            make.top.equalTo(TimeLabel.snp.bottom).offset(40)
+            make.bottom.equalTo(self.snp.bottom).offset(-10)
         }
         CommentBut.snp.makeConstraints { (make) in
             make.size.equalTo(LikeBut)
             make.right.equalTo(self.snp.right).offset(-10)
-            make.top.equalTo(LikeBut)
+            make.bottom .equalTo(LikeBut)
         }
         Caption.snp.makeConstraints { (make) in
             make.width.equalTo(self.frame.width/1.5)
             make.height.equalTo(ProFileImage.frame.height/1.8)
             make.left.equalTo(ProFileImage.snp.right).offset(5)
+            make.right.equalTo(self)
             make.centerY.equalTo(ProFileImage)
         }
+        Caption.numberOfLines = 0
         TimeLabel.snp.makeConstraints { (make) in
             make.size.equalTo(UserName)
             make.top.equalTo(ProFileImage.snp.bottom).offset(5)

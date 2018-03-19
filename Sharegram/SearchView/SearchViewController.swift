@@ -86,8 +86,8 @@ class SearchViewController: UIViewController{
 //        self.definesPresentationContext = false
         
         WholePostCollectionView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view.frame.width)
-            make.height.equalTo(self.view.frame.height)
+            make.width.equalTo(CommonVariable.screenWidth)
+            make.height.equalTo(CommonVariable.screenHeight)
             make.top.equalTo(self.view)
         }
         let collectionLayout = WholePostCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
@@ -119,6 +119,7 @@ extension SearchViewController : UISearchResultsUpdating, UISearchControllerDele
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "Search") as! SubSearchViewController
         vc.modalPresentationStyle = .overCurrentContext
         present(vc, animated: true, completion: nil)
+        //performSegue(withIdentifier: "search", sender: self)
     }
     func presentSearchController(_ searchController: UISearchController) {
        

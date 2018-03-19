@@ -68,11 +68,14 @@ class SubSearchViewController: UIViewController {
         }
         self.SearchResultTable.reloadData()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
 
-        //self.navigationController?.isNavigationBarHidden = true
+
         //self.navigationItem.hidesBackButton = true
         SearchController = UISearchController(searchResultsController: nil)
         SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
@@ -81,7 +84,7 @@ class SubSearchViewController: UIViewController {
         SearchController.searchBar.searchBarStyle = .prominent
         SearchController.searchBar.sizeToFit()
         SearchController.searchBar.delegate = self
-        //SearchController.definesPresentationContext = true
+        SearchController.definesPresentationContext = true
         self.definesPresentationContext = true
         navi.snp.makeConstraints { (make) in
             make.top.equalTo(self.view).offset(10)
@@ -269,7 +272,12 @@ extension SubSearchViewController : UITableViewDelegate {
 }
 extension SubSearchViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        return
+        if segment.selectedSegmentIndex == 1 { // 사람인 상태에서 검색에서 누를 시
+//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "UserProFile") as! UserProFileViewController
+//            vc.modalPresentationStyle = .overCurrentContext
+//            present(vc, animated: true, completion: nil)
+            performSegue(withIdentifier: "SearchToUser", sender: self)
+        }
     }
 }
 extension SubSearchViewController : UISearchBarDelegate {

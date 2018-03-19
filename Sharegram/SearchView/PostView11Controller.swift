@@ -18,6 +18,9 @@ class PostView11Controller: UIViewController {
     var ProFileUrl : String = ""
     var ref : DatabaseReference?
     var image = [UIImage]()
+    var imageset = Set<UIImage>()
+    var Customindex = 1
+
     @IBOutlet weak var NextBut: UIButton!
     @IBOutlet weak var PreviousBut: UIButton!
     @IBOutlet weak var LikeCountLabel: UILabel!
@@ -44,23 +47,22 @@ class PostView11Controller: UIViewController {
                         post.PostId = item["postID"]
                         post.timeAgo = item["Date"]
                         self.Posts.append(post)
-                        self.PostView.reloadData()
+                        //self.PostView.reloadData()
                     } else {
-                        print(item["latitude"]!)
                         post.caption = item["Description"]
                         post.Id = item["ID"]
                         post.image = item["image"]
                         post.lat = Double(item["latitude"]!)
                         post.lon = Double(item["longitude"]!)
-                        print(post.lat!)
                         post.numberOfLikes = item["Like"]
                         post.username = item["Author"]
                         post.PostId = item["postID"]
                         post.timeAgo = item["Date"]
                         self.Posts.append(post)
-                        self.PostView.reloadData()
+                        //self.PostView.reloadData()
                     }
                 }
+                self.PostView.reloadData()
             }
         })
         ref?.removeAllObservers()
@@ -74,26 +76,33 @@ class PostView11Controller: UIViewController {
             }
         })
     }
+
     @IBAction func Previous(_ sender: UIButton) {
         PostView.revertAction()
     }
     @IBAction func Next(_ sender: UIButton) {
         PostView.swipe(.right, force: false)
     }
+    @objc func UserNameTap() {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "UserProFile") as! UserProFileViewController
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.item = "군상"
+        present(vc, animated: true, completion: nil)
+    }
     override func viewWillAppear(_ animated: Bool) {
         //self.Posts.removeAll()
+        ref = Database.database().reference()
+        self.image.removeAll()
+        self.imageset.removeAll()
         fetchUser(Id)
         fetchPost()
-        print(Posts)
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
-        ref = Database.database().reference()
+
         self.view.addSubview(PostView)
+        PostView.translatesAutoresizingMaskIntoConstraints = false
         PostView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view.frame.width / 1.3)
-            make.height.equalTo(self.view.frame.height/1.5)
+            make.width.equalTo(CommonVariable.screenWidth / 1.3)
+            make.height.equalTo(CommonVariable.screenHeight/1.6)
             make.centerX.equalTo(self.view)
             make.top.equalTo(self.view).offset(100)
         }
@@ -115,6 +124,11 @@ class PostView11Controller: UIViewController {
         LikeCountLabel.textColor = UIColor.white
         let color = UIColor(red: 75/255, green: 76/255, blue: 76/255, alpha: 1)
         self.view.backgroundColor = color
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        
 
 //        PostView.layer.cornerRadius = PostView.frame.height / 3.0
 //        PostView.layer.borderWidth = 2.0
@@ -139,11 +153,7 @@ class PostView11Controller: UIViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "PostTable" {
             let destination = segue.destination as! PostTableViewController
-            print("시발")
-            print(PostView.currentCardIndex)
-            print(self.Posts[0].caption!)
             destination.Posts = self.Posts[PostView.currentCardIndex]
-            destination.image = self.image[PostView.currentCardIndex]
         }
     }
  
@@ -155,7 +165,7 @@ extension PostView11Controller: KolodaViewDelegate, KolodaViewDataSource {
     }
     
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
-        performSegue(withIdentifier: "PostTable", sender: self)
+        //performSegue(withIdentifier: "PostTable", sender: self)
     }
     func kolodaNumberOfCards(_ koloda:KolodaView) -> Int {
         return Posts.count
@@ -166,41 +176,40 @@ extension PostView11Controller: KolodaViewDelegate, KolodaViewDataSource {
     }
     
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
+        print(index)
         let postview = Bundle.main.loadNibNamed("PostView", owner: self, options: nil)?.first as! PostView
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UserNameTap))
         postview.layer.borderWidth = 1.0
         postview.layer.borderColor = UIColor.black.cgColor
         postview.layer.cornerRadius = postview.frame.height / 25.0
         postview.clipsToBounds = true
         postview.PostImage.sd_setImage(with: URL(string: Posts[index].image!), completed: nil)
+        postview.ProFileImage.isUserInteractionEnabled = true
         postview.ProFileImage.sd_setImage(with: URL(string: ProFileUrl), completed: nil)
-        if let image = postview.PostImage.image {
-            self.image.append(image)
-        }
+        postview.ProFileImage.addGestureRecognizer(tap)
+        
         postview.Caption.text = Posts[index].caption!
         postview.Caption.numberOfLines = 0
         postview.Caption.enabledTypes = [.hashtag, .mention, .url]
-        //postview.Caption.text = (Posts[indexPath.row].username)! + "   " + (Posts[indexPath.row].caption)!
-        postview.Caption.textColor = UIColor.black
-        postview.Caption.handleHashtagTap { (hashtag) in
-            print("씨발ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ")
+        //postview.Caption.adjustsFontSizeToFitWidth = true
+            //postview.Caption.text = (Posts[indexPath.row].username)! + "   " + (Posts[indexPath.row].caption)!
+            postview.Caption.textColor = UIColor.black
+            postview.Caption.handleHashtagTap { (hashtag) in
+                print("씨발ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ")
+            }
+            if Posts[index].numberOfLikes == "0" {
+                LikeCountLabel.text = "마음에 드신다면 하트를 눌러주세요"
+            } else {
+                LikeCountLabel.text = "좋아요" + Posts[index].numberOfLikes! + "개"
+            }
+        print(postview.UserName.isUserInteractionEnabled)
+        postview.UserName.isUserInteractionEnabled = true
+        if postview.UserName.isUserInteractionEnabled == true {
+            postview.UserName.text = Posts[index].username!
+            postview.UserName.addGestureRecognizer(tap)
         }
-        if Posts[index].numberOfLikes == "0" {
-            LikeCountLabel.text = "마음에 드신다면 하트를 눌러주세요"
-        } else {
-            LikeCountLabel.text = "좋아요" + Posts[index].numberOfLikes! + "개"
-        }
-       
-        //postview.LikeCountLabel.text = Posts[index].numberOfLikes!
-        postview.UserName.text = Posts[index].username!
         postview.TimeLabel.text = "1시간 전"
         postview.TimeLabel.textColor = UIColor.lightGray
-        //유저 좋아요 체크
-        //ref?.child(<#T##pathString: String##String#>)
-        if Posts[index].caption!.contains("#작") { // 이 문자로 시작되는 문자열이 포함 되어있다 그럼 트루
-            print("시발")
-        } else {
-            print("없어요!")
-        }
         return postview
     }
     

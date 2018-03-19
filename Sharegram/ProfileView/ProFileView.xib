@@ -35,11 +35,6 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Button"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qg9-LM-2cH">
-                    <rect key="frame" x="313" y="78" width="46" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                </button>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="FNi-dw-qwz">
                     <rect key="frame" x="0.0" y="200" width="375" height="467"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -78,7 +73,6 @@
                 <outlet property="FollowingCount" destination="Mbb-Pk-deg" id="g2O-In-Dcp"/>
                 <outlet property="FollowingLabel" destination="DeF-aw-zK2" id="4nh-gN-5H6"/>
                 <outlet property="MyFostCollectionView" destination="FNi-dw-qwz" id="j1T-vK-3VT"/>
-                <outlet property="MySettingBut" destination="Qg9-LM-2cH" id="bZB-EC-QYp"/>
                 <outlet property="ProFileEditBut" destination="rUM-MM-cPq" id="tqS-FE-nYW"/>
                 <outlet property="ProFileImage" destination="Mec-8Y-WPf" id="N78-ai-LtQ"/>
             </connections>

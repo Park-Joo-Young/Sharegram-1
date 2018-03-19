@@ -14,3 +14,7 @@ struct User
     var profileImage: UIImage?
 }
 
+struct CommonVariable {
+    static let screenWidth = UIScreen.main.bounds.width
+    static let screenHeight = UIScreen.main.bounds.height
+}

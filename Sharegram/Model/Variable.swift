@@ -20,6 +20,7 @@ class variable {
 struct HashTag {
     var name : String
     var count : String
+    
 }
 
 struct HashtagTokenizer : TokenizerType, DefaultTokenizerType {

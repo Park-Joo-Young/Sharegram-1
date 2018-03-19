@@ -31,14 +31,14 @@ class LoginViewController: UIViewController {
         su.addSubview(LoginBut)
         
         segment.snp.makeConstraints { (make) in
-            make.width.equalTo(su.frame.width/2)
-            make.height.equalTo(su.frame.height/25)
+            make.width.equalTo(CommonVariable.screenWidth/1.5)
+            make.height.equalTo(CommonVariable.screenHeight/20)
             make.centerX.equalTo(su)
             make.top.equalTo(su).offset(100)
         }
         EmailText.snp.makeConstraints({ (make) in
-            make.width.equalTo(su.frame.width/1.5)
-            make.height.equalTo(su.frame.height/20)
+            make.width.equalTo(CommonVariable.screenWidth/1.5)
+            make.height.equalTo(CommonVariable.screenHeight/20)
             make.centerX.equalTo(su)
             make.top.equalTo(segment.snp.bottom).offset(30)
         })
@@ -60,8 +60,8 @@ class LoginViewController: UIViewController {
         PasswordText.placeholder = "비밀번호를 입력하시오."
         
         LoginBut.snp.makeConstraints { (make) in
-            make.width.equalTo(su.frame.width/2)
-            make.height.equalTo(su.frame.height/30)
+            make.width.equalTo(CommonVariable.screenWidth/1.5)
+            make.height.equalTo(CommonVariable.screenHeight/20)
             make.centerX.equalTo(su)
             make.top.equalTo(PasswordText.snp.bottom).offset(30)
         }
@@ -76,7 +76,7 @@ class LoginViewController: UIViewController {
         override func viewDidAppear(_ animated: Bool){
             super.viewDidAppear(animated)
             if Auth.auth().currentUser != nil { //자동 로그인
-                
+
                 self.performSegue(withIdentifier: "Login", sender: nil)
             }
             
