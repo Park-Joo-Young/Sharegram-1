@@ -165,7 +165,7 @@ extension PostView11Controller: KolodaViewDelegate, KolodaViewDataSource {
     }
     
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
-        //performSegue(withIdentifier: "PostTable", sender: self)
+        performSegue(withIdentifier: "PostTable", sender: self)
     }
     func kolodaNumberOfCards(_ koloda:KolodaView) -> Int {
         return Posts.count
@@ -202,7 +202,6 @@ extension PostView11Controller: KolodaViewDelegate, KolodaViewDataSource {
             } else {
                 LikeCountLabel.text = "좋아요" + Posts[index].numberOfLikes! + "개"
             }
-        print(postview.UserName.isUserInteractionEnabled)
         postview.UserName.isUserInteractionEnabled = true
         if postview.UserName.isUserInteractionEnabled == true {
             postview.UserName.text = Posts[index].username!

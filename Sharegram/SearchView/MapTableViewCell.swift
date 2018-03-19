@@ -15,6 +15,7 @@ class MapTableViewCell: UITableViewCell, MTMapViewDelegate {
         super.awakeFromNib()
         self.addSubview(MapView)
         self.addSubview(Label)
+
         Label.snp.makeConstraints { (make) in
             make.size.equalTo(MapView)
         }

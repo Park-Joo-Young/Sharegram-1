@@ -20,8 +20,8 @@ class ProFileIntrodutionTableViewCell: UITableViewCell {
             make.centerY.equalTo(self)
         }
         introdutionTextField.snp.makeConstraints { (make) in
-            make.left.equalTo(Label.snp.right).offset(40)
-            make.width.equalTo(self.frame.width / 1.2)
+            make.left.equalTo(Label.snp.right).offset(30)
+            make.width.equalTo(CommonVariable.screenWidth / 1.6)
             make.centerY.equalTo(self)
         }
         // Initialization code

@@ -24,7 +24,7 @@ class PostTableViewController: UITableViewController {
         MapImage.draw(in: CGRect(x: 0, y: 0, width: 100, height: 100))
         MapImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        self.navigationItem.titleView = UIImageView(image: PostImageView.image)
+        //self.navigationItem.titleView = UIImageView(image: PostImageView.image)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +73,7 @@ class PostTableViewController: UITableViewController {
                 })
                 cell.MapView.delegate = self
                 cell.MapView.baseMapType = .standard
-                cell.MapView.setZoomLevel(2, animated: true)
+
                 if self.MapImage != nil {
                     item.append(poiItem(latitude: Posts.lat!, longitude: Posts.lon!))
                 } else {

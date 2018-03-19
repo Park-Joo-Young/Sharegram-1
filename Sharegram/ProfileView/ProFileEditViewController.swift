@@ -34,8 +34,8 @@ class ProFileEditViewController: UIViewController {
         self.navigationItem.setRightBarButton(UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(CompleteEdit)), animated: true)
         ProFileEditTableView.snp.makeConstraints { (make) in
             make.top.equalTo(self.view).offset(70)
-            make.width.equalTo(self.view.frame.width)
-            make.height.equalTo(self.view.frame.height/2)
+            make.width.equalTo(CommonVariable.screenWidth)
+            make.height.equalTo(CommonVariable.screenHeight/2)
         }
         ProFileEditTableView.tableFooterView = UIView()
         

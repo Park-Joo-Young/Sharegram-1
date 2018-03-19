@@ -25,7 +25,7 @@ class SubSearchViewController: UIViewController {
     var ref : DatabaseReference?
     var keyList : [String] = []
     var SearchTagList : [String] = []
-    
+    var UserKeyForPrepare : String = ""
     func delay(_ delay: Double, closure: @escaping ()->()) {
         let when = DispatchTime.now() + delay
         DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
@@ -212,22 +212,44 @@ class SubSearchViewController: UIViewController {
             //self.dismiss(animated: true, completion: nil)
         }
     }
-
+    func UserKeyForPrepare(_ key1 : String) {
+        ref?.child("User").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if let item = snapshot.value as? [String : AnyObject] {
+                for(key,value) in item {
+                    if let dic = value["UserProfile"] as? [String : String]{
+                        if dic["사용자 명"] == key1 {
+                            self.UserKeyForPrepare = key
+                            self.performSegue(withIdentifier: "SearchToUser", sender: self)
+                            break
+                        }
+                    }
+                }
+            }
+        })
+        ref?.removeAllObservers()
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segment.selectedSegmentIndex == 1 { // 사람 검색 후 세그가 일어날 때
+            if segue.identifier == "SearchToUser" {
+                let destination = segue.destination as! UserProFileViewController
+                destination.UserKey = self.UserKeyForPrepare
+            }
+        }
+
     }
-    */
+ 
 
 }
 extension SubSearchViewController : UITableViewDelegate {
@@ -273,10 +295,7 @@ extension SubSearchViewController : UITableViewDelegate {
 extension SubSearchViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if segment.selectedSegmentIndex == 1 { // 사람인 상태에서 검색에서 누를 시
-//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "UserProFile") as! UserProFileViewController
-//            vc.modalPresentationStyle = .overCurrentContext
-//            present(vc, animated: true, completion: nil)
-            performSegue(withIdentifier: "SearchToUser", sender: self)
+            self.UserKeyForPrepare(self.SearchList[indexPath.row])
         }
     }
 }

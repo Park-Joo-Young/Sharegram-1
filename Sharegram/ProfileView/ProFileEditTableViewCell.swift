@@ -16,13 +16,13 @@ class ProFileEditTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         ProFileimage.snp.makeConstraints { (make) in
-            make.width.equalTo(self.frame.width/2)
+            make.width.equalTo(CommonVariable.screenWidth/2)
             make.centerX.equalTo(self)
             make.height.equalTo(self.frame.height/3.5)
             make.top.equalTo(self).offset(20)
         }
         EditBut.snp.makeConstraints { (make) in
-            make.width.equalTo(self)
+            make.width.equalTo(CommonVariable.screenWidth)
             make.centerX.equalTo(self)
             make.height.equalTo(self.frame.height/5)
         }

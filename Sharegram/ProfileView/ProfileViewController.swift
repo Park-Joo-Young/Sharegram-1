@@ -22,9 +22,10 @@ class ProfileViewController: UIViewController {
             make.top.equalTo(self.view).offset(70)
         }
         ProFileView.ProFileImage.image = UIImage(named: "icon-profile-filled.png")
-        ProFileView.layer.cornerRadius = 2.0
         ProFileView.ProFileEditBut.addTarget(self, action: #selector(ProfileEdit), for: .touchUpInside)
         ProFileView.addSubview(MySettingBut)
+        ProFileView.ProFileEditBut.setTitle("프로필 수정", for: .normal)
+        
         MySettingBut.snp.makeConstraints { (make) in
             make.top.equalTo(ProFileView.ProFileEditBut)
             make.width.equalTo(UIScreen.main.bounds.width/10)
