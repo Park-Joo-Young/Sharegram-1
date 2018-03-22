@@ -43,6 +43,7 @@
 		18777FFB204AC822004EE278 /* ProFileEditTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18777FF9204AC822004EE278 /* ProFileEditTableViewCell.xib */; };
 		18777FFE204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18777FFC204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.swift */; };
 		18777FFF204AC8AD004EE278 /* ProFileIntrodutionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18777FFD204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.xib */; };
+		1877A38D2063C8AE007F2614 /* AccurateLocationMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1877A38C2063C8AE007F2614 /* AccurateLocationMapViewController.swift */; };
 		188C042A200C92D800C4E697 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188C0429200C92D800C4E697 /* WriteViewController.swift */; };
 		18A5CC6F205D3947001967CF /* comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A5CC6C205D3946001967CF /* comment.png */; };
 		18A5CC70205D3947001967CF /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A5CC6D205D3946001967CF /* like.png */; };
@@ -138,6 +139,7 @@
 		18777FF9204AC822004EE278 /* ProFileEditTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProFileEditTableViewCell.xib; sourceTree = "<group>"; };
 		18777FFC204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProFileIntrodutionTableViewCell.swift; sourceTree = "<group>"; };
 		18777FFD204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProFileIntrodutionTableViewCell.xib; sourceTree = "<group>"; };
+		1877A38C2063C8AE007F2614 /* AccurateLocationMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccurateLocationMapViewController.swift; sourceTree = "<group>"; };
 		188C0429200C92D800C4E697 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		18A5CC6C205D3946001967CF /* comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment.png; sourceTree = "<group>"; };
 		18A5CC6D205D3946001967CF /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 				3AA85BE5200738E300BAB348 /* CameraViewController.swift */,
 				188C0429200C92D800C4E697 /* WriteViewController.swift */,
 				1864A05E201722AF00A34F04 /* HashTagTableViewController.swift */,
+				1877A38C2063C8AE007F2614 /* AccurateLocationMapViewController.swift */,
 			);
 			path = CameraView;
 			sourceTree = "<group>";
@@ -605,6 +608,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Sharegram/Pods-Sharegram-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ActiveLabel/ActiveLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/CDAlertView/CDAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Koloda/Koloda.framework",
@@ -620,6 +624,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ActiveLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CDAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Koloda.framework",
@@ -667,6 +672,7 @@
 				1864A05F201722AF00A34F04 /* HashTagTableViewController.swift in Sources */,
 				186FDFEF2005E60D007A454C /* LoginViewController.swift in Sources */,
 				186FDFF32005E6B7007A454C /* Variable.swift in Sources */,
+				1877A38D2063C8AE007F2614 /* AccurateLocationMapViewController.swift in Sources */,
 				18777FF7204AC287004EE278 /* ProFileEditViewController.swift in Sources */,
 				3AA85BE4200738D500BAB348 /* SearchViewController.swift in Sources */,
 				18AA5149205BD714003A93AD /* objcClass.m in Sources */,

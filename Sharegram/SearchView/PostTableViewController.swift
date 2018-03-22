@@ -73,14 +73,16 @@ class PostTableViewController: UITableViewController {
                 })
                 cell.MapView.delegate = self
                 cell.MapView.baseMapType = .standard
-
+                cell.MapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: Posts.lat!, longitude: Posts.lon!)), zoomLevel: 0, animated: false)
                 if self.MapImage != nil {
                     item.append(poiItem(latitude: Posts.lat!, longitude: Posts.lon!))
                 } else {
                     cell.MapView.baseMapType = .hybrid
                 }
+                
                 cell.MapView.addPOIItems(item)
-                cell.MapView.fitAreaToShowAllPOIItems()
+                //cell.MapView.fitAreaToShowAllPOIItems()
+                print(cell.MapView.mapCenterPoint.mapPointGeo())
             } else {
                 cell.MapView.baseMapType = .hybrid
                 cell.Label.text = "이 사진은 위치정보가 없습니다."
@@ -173,5 +175,8 @@ extension PostTableViewController : MTMapViewDelegate {
         item.showAnimationType = .noAnimation
         item.customImageAnchorPointOffset = .init(offsetX: 30, offsetY: 0)    // 마커 위치 조정
         return item
+    }
+    func mapView(_ mapView: MTMapView!, singleTapOn mapPoint: MTMapPoint!) {
+        print("시발 여길 왜 누르세요!!!!@!!")
     }
 }

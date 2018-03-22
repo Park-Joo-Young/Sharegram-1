@@ -17,4 +17,5 @@ target 'Sharegram' do
 	pod 'SDWebImage/WebP'
 	pod 'ScrollableSegmentedControl'
 	pod 'Koloda'
+	pod 'CDAlertView'
 end

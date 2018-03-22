@@ -1,5 +1,6 @@
 PODS:
   - ActiveLabel (0.8.1)
+  - CDAlertView (0.7.1)
   - Firebase (4.9.0):
     - Firebase/Core (= 4.9.0)
   - Firebase/Auth (4.9.0):
@@ -89,6 +90,7 @@ PODS:
 
 DEPENDENCIES:
   - ActiveLabel
+  - CDAlertView
   - Firebase
   - Firebase/Auth
   - Firebase/Core
@@ -102,6 +104,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   ActiveLabel: e361127c355b911a467db3d5a897b3d7f902e568
+  CDAlertView: 0e5597633e46bcf09c8b3ad67bc23e184f7e4075
   Firebase: 632216af3ed7f31e3be34776947fdc7546cfb572
   FirebaseAnalytics: 388b630c15713f5dbf364071f5f3d6077fb52f4e
   FirebaseAuth: aaaf68d5064a6c8fec435758f83a43b8db26ccaa
@@ -121,6 +124,6 @@ SPEC CHECKSUMS:
   SDWebImage: 6da6c8bca115addc4de8613362e1b15f66333825
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
 
-PODFILE CHECKSUM: 91be8480fdc0772d637d6b94ae0493c996cf67f3
+PODFILE CHECKSUM: 2258cde01783679bfba753c6486ec4268d559e5f
 
 COCOAPODS: 1.4.0

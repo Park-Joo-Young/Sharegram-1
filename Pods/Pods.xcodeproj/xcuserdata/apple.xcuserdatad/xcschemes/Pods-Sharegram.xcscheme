@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D295BB3E61018FA1318F635E125DB75E"
+               BlueprintIdentifier = "542DF6F645A62C34DC3C43A8CBED18BA"
                BuildableName = "Pods_Sharegram.framework"
                BlueprintName = "Pods-Sharegram"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -47,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D295BB3E61018FA1318F635E125DB75E"
+            BlueprintIdentifier = "542DF6F645A62C34DC3C43A8CBED18BA"
             BuildableName = "Pods_Sharegram.framework"
             BlueprintName = "Pods-Sharegram"
             ReferencedContainer = "container:Pods.xcodeproj">
