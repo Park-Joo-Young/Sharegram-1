@@ -17,6 +17,7 @@
 		181C14AE2054050400BCA077 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186348C420527B6000188D6C /* PostView.xib */; };
 		1826ECB7204926670066F470 /* ProFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1826ECB6204926670066F470 /* ProFileView.swift */; };
 		182C972A20107D8F002E5311 /* Mustard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182C972820107D8F002E5311 /* Mustard.swift */; };
+		185A5949207BE17A006BB456 /* Replyarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 185A5948207BE17A006BB456 /* Replyarrow.png */; };
 		185CAAD3205ECAFA00AE138D /* UserProFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185CAAD2205ECAFA00AE138D /* UserProFileViewController.swift */; };
 		185EECDA2058EEB100B3826E /* DistanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EECD92058EEB100B3826E /* DistanceViewController.swift */; };
 		185EECDC2058FED100B3826E /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EECDB2058FED100B3826E /* PostTableViewController.swift */; };
@@ -116,6 +117,7 @@
 		1826ECB6204926670066F470 /* ProFileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProFileView.swift; sourceTree = "<group>"; };
 		182C972720107D8F002E5311 /* Mustard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mustard.h; sourceTree = "<group>"; };
 		182C972820107D8F002E5311 /* Mustard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mustard.swift; sourceTree = "<group>"; };
+		185A5948207BE17A006BB456 /* Replyarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Replyarrow.png; sourceTree = "<group>"; };
 		185CAAD2205ECAFA00AE138D /* UserProFileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProFileViewController.swift; sourceTree = "<group>"; };
 		185EECD92058EEB100B3826E /* DistanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceViewController.swift; sourceTree = "<group>"; };
 		185EECDB2058FED100B3826E /* PostTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 		186FDFF62005F871007A454C /* picture */ = {
 			isa = PBXGroup;
 			children = (
+				185A5948207BE17A006BB456 /* Replyarrow.png */,
 				18839495207765A900945460 /* edit.png */,
 				181C14A92053F92B00BCA077 /* Next.png */,
 				181C14A82053F92B00BCA077 /* Previous.png */,
@@ -551,6 +554,7 @@
 				1864CCE120491DEA007228E8 /* Squares.png in Resources */,
 				18AA513A205BD58D003A93AD /* map_pinup_custom.png in Resources */,
 				18A5CC71205D3947001967CF /* unlike.png in Resources */,
+				185A5949207BE17A006BB456 /* Replyarrow.png in Resources */,
 				181C14AA2053F92B00BCA077 /* Previous.png in Resources */,
 				18AA5141205BD58D003A93AD /* noimage256.png in Resources */,
 				1864CCD92049111E007228E8 /* ProFileView.xib in Resources */,

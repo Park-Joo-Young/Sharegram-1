@@ -30,26 +30,24 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xUg-2n-suS">
-                        <rect key="frame" x="151" y="41" width="46" height="30"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" title="Button"/>
-                    </button>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sKl-ad-WZV">
                         <rect key="frame" x="274" y="18" width="46" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" title="Button"/>
                     </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aW2-62-ZrT">
+                        <rect key="frame" x="144" y="46" width="53" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                 </subviews>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="LikeBut" destination="xUg-2n-suS" id="Fnj-q1-TxB"/>
+                <outlet property="LikeBut" destination="sKl-ad-WZV" id="0pA-ha-X58"/>
                 <outlet property="ProFileImage" destination="uh5-ft-4sI" id="wQh-t7-ctI"/>
-                <outlet property="ReplyBut" destination="sKl-ad-WZV" id="HLF-Dz-68v"/>
                 <outlet property="TimeAgo" destination="O8L-Ux-FMA" id="ULD-e6-XxB"/>
+                <outlet property="arrow" destination="aW2-62-ZrT" id="u5R-TZ-XWZ"/>
             </connections>
-            <point key="canvasLocation" x="-8" y="64.5"/>
+            <point key="canvasLocation" x="-270" y="64.5"/>
         </tableViewCell>
     </objects>
 </document>

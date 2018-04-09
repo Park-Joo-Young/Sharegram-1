@@ -25,13 +25,13 @@ class CommentTableViewCell: UITableViewCell {
             make.left.equalTo(self)
             make.width.equalTo(self.bounds.width/5)
             make.height.equalTo(self.bounds.height-20)
-            make.top.equalTo(self)
+            make.centerY.equalTo(self)
         }
         Comment.snp.makeConstraints { (make) in
             make.left.equalTo(ProFileImage.snp.right).offset(5)
             make.width.equalTo(CommonVariable.screenWidth/2)
             make.height.equalTo(self.bounds.height/1.5)
-            make.top.equalTo(ProFileImage)
+            make.top.equalTo(self)
         }
         TimeAgo.snp.makeConstraints { (make) in
             make.left.equalTo(Comment)
@@ -45,9 +45,10 @@ class CommentTableViewCell: UITableViewCell {
             make.left.equalTo(TimeAgo.snp.right).offset(30)
         }
         LikeBut.snp.makeConstraints { (make) in
-            make.size.equalTo(TimeAgo)
-            make.left.equalTo(Comment.snp.right).offset(5)
-            make.centerY.equalTo(Comment)
+            make.width.equalTo(self.bounds.width/8)
+            make.height.equalTo(self.bounds.height/4)
+            make.right.equalTo(self)
+            make.centerY.equalTo(ProFileImage)
         }
     }
 

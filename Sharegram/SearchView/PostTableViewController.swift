@@ -11,6 +11,7 @@ import Firebase
 import SDWebImage
 import SnapKit
 import CDAlertView
+
 class PostTableViewController: UITableViewController {
     var Posts = Post()
     var PostImageView = UIImageView()
@@ -31,6 +32,8 @@ class PostTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         ref = Database.database().reference()
+        tableView.estimatedRowHeight = 80
+        tableView.rowHeight = UITableViewAutomaticDimension
         FetchUser()
         FetchComment()
         PostImageView.sd_setImage(with: URL(string: Posts.image!), completed: nil)
@@ -107,15 +110,12 @@ class PostTableViewController: UITableViewController {
         CommentBut.addTarget(self, action: #selector(SetComment), for: .touchUpInside)
 
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        //self.navigationController?.isToolbarHidden = true
-    }
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         print(Posts.lat!)
-        tableView.estimatedRowHeight = 80
-        tableView.rowHeight = UITableViewAutomaticDimension
+
         
         //self.navigationController?.isNavigationBarHidden = true
         //self.navigationItem.title = Posts.username!
@@ -170,10 +170,12 @@ class PostTableViewController: UITableViewController {
                 print(dic)
                 let cell = Bundle.main.loadNibNamed("CommentTableViewCell", owner: self, options: nil)?.first as! CommentTableViewCell
                 cell.ProFileImage.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
+                cell.ProFileImage.layer.cornerRadius = 15.0
+                cell.ProFileImage.clipsToBounds = true
                 cell.Comment.text = "\(dic["Author"]!) \(dic["Comment"]!)"
                 cell.Comment.numberOfLines = 0
                 cell.Comment.enabledTypes = [.hashtag, .mention, .url]
-                cell.Comment.handleHashtagTap { (hashtag) in
+                cell.Comment.handleMentionTap { (hashtag) in
                     let alertview = CDAlertView(title: "현재 위치는 ", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
                     let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
                         return
@@ -183,6 +185,7 @@ class PostTableViewController: UITableViewController {
                     return
                 }
                 cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
+                cell.LikeBut.tintColor = UIColor.black
                 cell.ReplyBut.tag = indexPath.row
                 cell.ReplyBut.setTitle("답글 달기", for: .normal)
                 cell.ReplyBut.tintColor = UIColor.lightGray
@@ -190,6 +193,23 @@ class PostTableViewController: UITableViewController {
                 return cell
             } else {
                 let cell = Bundle.main.loadNibNamed("CommentReplyTableViewCell", owner: self, options: nil)?.first as! CommentReplyTableViewCell
+                cell.ProFileImage.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
+                cell.ProFileImage.layer.cornerRadius = 15.0
+                cell.ProFileImage.clipsToBounds = true
+                cell.Comment.text = "\(dic["Author"]!) \(dic["Reply"]!)"
+                cell.Comment.numberOfLines = 0
+                cell.Comment.enabledTypes = [.hashtag, .mention, .url]
+                cell.Comment.handleMentionTap { (hashtag) in
+                    let alertview = CDAlertView(title: "현재 위치는 ", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
+                    let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
+                        return
+                    })
+                    alertview.add(action: OKAction)
+                    alertview.show()
+                    return
+                }
+                cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
+                cell.LikeBut.tintColor = UIColor.black
                 return cell
             }
         // Configure the cell...
@@ -267,12 +287,24 @@ extension PostTableViewController {
             } else {
                 if let item = snapshot.value as? [String : AnyObject] {
                     for (_,value) in item {
-                        if let dic = value as? [String : String] {
-                            self.CommentList.append(dic)
-                            self.tableView.reloadData()
+                        if let dic = value as? [String : AnyObject] { //기존 댓글 한 번 따고
+                            var list = dic
+                            list.removeValue(forKey: "Reply")
+                            print(list)
+                            self.CommentList.append(list as! [String : String])
                             print("들오와")
                         }
+                        if value["Reply"] as? [String : AnyObject] != nil { //댓글에 리댓글이 있으면
+                            if let dic = value["Reply"] as? [String : AnyObject] {
+                                for (_, value) in dic {
+                                    if let dic = value as? [String : String] {
+                                        self.CommentList.append(dic)
+                                    }
+                                }
+                            }
+                        }
                     }
+                    self.tableView.reloadData()
                 }
             }
         })
@@ -293,7 +325,26 @@ extension PostTableViewController {
     }
     @objc func SetCommentReply(_ sender : UIButton) { //리댓글 저장
         let tag = sender.tag
-        print(self.CommentList[tag]["CommentKey"]!)
+        CommonVariable.formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        CommonVariable.formatter.locale = Locale(identifier: "ko_KR")
+        let Date = CommonVariable.formatter.string(from: CommonVariable.date)
+        let key = (ref?.child("Comment").child(self.Posts.PostId!).child(self.CommentList[tag]["CommentKey"]!).childByAutoId().key)!
+
+        let alert = CDAlertView(title: "\(self.CommentList[tag]["Author"]!)님에게 답글", message: nil, type: CDAlertViewType.notification)
+        alert.isTextFieldHidden = false
+        print(alert.textFieldText!)
+        let write = CDAlertViewAction(title: "작성", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white) { (action) in
+            let ReplyArray = ["Author" : self.CommentName, "Date" : Date, "ReplyKey" : key, "Type" : "Reply", "ProFileImage" : self.Profileimage, "Reply" : alert.textFieldText!, "PostKey" : self.Posts.PostId!]
+            self.ref?.child("Comment").child(self.Posts.PostId!).child(self.CommentList[tag]["CommentKey"]!).child("Reply").updateChildValues([key : ReplyArray])
+            return
+        }
+        let cancel = CDAlertViewAction(title: "취소", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white) { (action) in
+            return
+        }
+        alert.add(action: write)
+        alert.add(action: cancel)
+        alert.show()
+        
         return
     }
     func FetchUser() { //프로필 따오기 댓글창
