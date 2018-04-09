@@ -29,49 +29,62 @@ class SearchViewController: UIViewController{
     @IBOutlet weak var WholePostImage: UIImageView!
     
     func SnapWholePosts() { // 전체 포스트 가져오기
-        ref?.child("WholePosts").observe(.childAdded, with: { (snapshot) in
-            if let item = snapshot.value as? [String : String] {
-                let post = Post()
-                if item["latitude"] == nil && item["longitude"] == nil { //위치가 없으면
-                    post.caption = item["Description"]
-                    post.Id = item["ID"]
-                    post.image = item["image"]
-                    post.lat = 0
-                    post.lon = 0
-                    post.numberOfLikes = item["Like"]
-                    post.username = item["Author"]
-                    post.PostId = item["postID"]
-                    post.timeAgo = item["Date"]
-                    self.Posts.append(post)
-                } else {
-                    post.caption = item["Description"]
-                    post.Id = item["ID"]
-                    post.image = item["image"]
-                    post.lat = Double(item["latitude"]!)
-                    post.lon = Double(item["longitude"]!)
-                    post.numberOfLikes = item["Like"]
-                    post.username = item["Author"]
-                    post.PostId = item["postID"]
-                    post.timeAgo = item["Date"]
-                    self.Posts.append(post)
-                    self.WholePostCollectionView.reloadData()
+        self.Posts.removeAll()
+        ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            let item = snapshot.value as! [String : AnyObject]
+                for (_, value) in item {
+                    if let Description = value["Description"] as? String, let Author = value["Author"] as? String, let Date = value["Date"] as? String, let ID = value["ID"] as? String, let Like = value["Like"] as? String, let image = value["image"] as? String , let postID = value["postID"] as? String , let latitude = value["latitude"] as? String, let longitude = value["longitude"] as? String {
+                        let post = Post()
+                        if value["latitude"] == nil && value["longitude"] == nil { //위치가 없으면
+                            post.caption = Description
+                            post.Id = ID
+                            post.image = image
+                            post.lat = 0
+                            post.lon = 0
+                            post.numberOfLikes = Like
+                            post.username = Author
+                            post.PostId = postID
+                            post.timeAgo = Date
+                            print(post.PostId)
+                            self.Posts.append(post)
+                        } else {
+                            post.caption = Description
+                            post.Id = ID
+                            post.image = image
+                            post.lat = Double(latitude)
+                            post.lon = Double(longitude)
+                            post.numberOfLikes = Like
+                            post.username = Author
+                            post.PostId = postID
+                            post.timeAgo = Date
+                            print(post.image)
+                            self.Posts.append(post)
+                        }
+                    }
                 }
-
+            if self.Posts.count == Int(snapshot.childrenCount) {
+                self.WholePostCollectionView.reloadData()
             }
         })
         ref?.removeAllObservers()
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.Posts.removeAll()
-        SnapWholePosts()
+        //self.Posts.removeAll()
+        ref = Database.database().reference()
         SearchController.searchBar.showsCancelButton = false
+        SnapWholePosts()
         
+        WholePostCollectionView.snp.makeConstraints { (make) in
+            make.width.equalTo(CommonVariable.screenWidth)
+            make.height.equalTo(CommonVariable.screenHeight)
+            make.top.equalTo(self.view)
+            make.left.equalTo(self.view)
+            make.right.equalTo(self.view)
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        ref = Database.database().reference()
-
         
         SearchController = UISearchController(searchResultsController: nil)
         SearchController.delegate = self
@@ -85,14 +98,8 @@ class SearchViewController: UIViewController{
         self.navigationItem.titleView = SearchController.searchBar
 //        self.definesPresentationContext = false
         
-        WholePostCollectionView.snp.makeConstraints { (make) in
-            make.width.equalTo(CommonVariable.screenWidth)
-            make.height.equalTo(CommonVariable.screenHeight)
-            make.top.equalTo(self.view)
-        }
-        let collectionLayout = WholePostCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
-        collectionLayout?.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 15, right: 0)
-        collectionLayout?.invalidateLayout()
+
+
         // Do any additional setup after loading the view.
 
     }
@@ -102,12 +109,8 @@ class SearchViewController: UIViewController{
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
-        if segue.identifier == "Post" {
+        if segue.identifier == "Koloda" {
             let destination = segue.destination as! PostViewController
-            destination.Id = self.Posts[index].Id!
-            //destination.Profileimage = self.ImageUrl
-        } else if segue.identifier == "Koloda" {
-            let destination = segue.destination as! PostView11Controller
             destination.Id = self.Posts[index].Id!
         }
     }
@@ -150,6 +153,7 @@ extension SearchViewController : UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = WholePostCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         let imageView = cell.viewWithTag(1) as? UIImageView
+        print(self.Posts[indexPath.row].timeAgo!)
         imageView?.sd_setImage(with: URL(string: self.Posts[indexPath.row].image!), completed: nil)
         return cell
     }

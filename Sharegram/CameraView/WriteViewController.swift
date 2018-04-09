@@ -202,8 +202,6 @@ class WriteViewController: UIViewController{
         
         let Tap = UITapGestureRecognizer(target: self, action: #selector(dismisskeyboard))
         self.view.addGestureRecognizer(Tap)
-        //        let TableTap = UITapGestureRecognizer(target: self, action: #selector(dismissTable))
-        //        self.view.addGestureRecognizer(TableTap)
         ref?.child("HashTagPosts").observe(.childAdded, with: { (snapshot) in
             if snapshot.value is NSNull {
                 print("Null")

@@ -17,7 +17,6 @@
 		181C14AE2054050400BCA077 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186348C420527B6000188D6C /* PostView.xib */; };
 		1826ECB7204926670066F470 /* ProFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1826ECB6204926670066F470 /* ProFileView.swift */; };
 		182C972A20107D8F002E5311 /* Mustard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182C972820107D8F002E5311 /* Mustard.swift */; };
-		1857A50F2056981E00AC5FB3 /* PostView11Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1857A50E2056981E00AC5FB3 /* PostView11Controller.swift */; };
 		185CAAD3205ECAFA00AE138D /* UserProFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185CAAD2205ECAFA00AE138D /* UserProFileViewController.swift */; };
 		185EECDA2058EEB100B3826E /* DistanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EECD92058EEB100B3826E /* DistanceViewController.swift */; };
 		185EECDC2058FED100B3826E /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EECDB2058FED100B3826E /* PostTableViewController.swift */; };
@@ -38,12 +37,17 @@
 		186FDFF32005E6B7007A454C /* Variable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDFF22005E6B7007A454C /* Variable.swift */; };
 		186FDFF82005F871007A454C /* ShareGram.png in Resources */ = {isa = PBXBuildFile; fileRef = 186FDFF72005F871007A454C /* ShareGram.png */; };
 		1874E5B42032D2EA00D94576 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1874E5B32032D2EA00D94576 /* ADVSegmentedControl.swift */; };
+		18757E71207A4831007E4A3D /* CommentReplyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18757E6F207A4831007E4A3D /* CommentReplyTableViewCell.swift */; };
+		18757E72207A4831007E4A3D /* CommentReplyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18757E70207A4831007E4A3D /* CommentReplyTableViewCell.xib */; };
 		18777FF7204AC287004EE278 /* ProFileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18777FF6204AC287004EE278 /* ProFileEditViewController.swift */; };
 		18777FFA204AC822004EE278 /* ProFileEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18777FF8204AC822004EE278 /* ProFileEditTableViewCell.swift */; };
 		18777FFB204AC822004EE278 /* ProFileEditTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18777FF9204AC822004EE278 /* ProFileEditTableViewCell.xib */; };
 		18777FFE204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18777FFC204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.swift */; };
 		18777FFF204AC8AD004EE278 /* ProFileIntrodutionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18777FFD204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.xib */; };
 		1877A38D2063C8AE007F2614 /* AccurateLocationMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1877A38C2063C8AE007F2614 /* AccurateLocationMapViewController.swift */; };
+		18839496207765A900945460 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 18839495207765A900945460 /* edit.png */; };
+		1883949920779E7800945460 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883949720779E7800945460 /* CommentTableViewCell.swift */; };
+		1883949A20779E7800945460 /* CommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1883949820779E7800945460 /* CommentTableViewCell.xib */; };
 		188C042A200C92D800C4E697 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188C0429200C92D800C4E697 /* WriteViewController.swift */; };
 		18A5CC6F205D3947001967CF /* comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A5CC6C205D3946001967CF /* comment.png */; };
 		18A5CC70205D3947001967CF /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A5CC6D205D3946001967CF /* like.png */; };
@@ -112,7 +116,6 @@
 		1826ECB6204926670066F470 /* ProFileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProFileView.swift; sourceTree = "<group>"; };
 		182C972720107D8F002E5311 /* Mustard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mustard.h; sourceTree = "<group>"; };
 		182C972820107D8F002E5311 /* Mustard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mustard.swift; sourceTree = "<group>"; };
-		1857A50E2056981E00AC5FB3 /* PostView11Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView11Controller.swift; sourceTree = "<group>"; };
 		185CAAD2205ECAFA00AE138D /* UserProFileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProFileViewController.swift; sourceTree = "<group>"; };
 		185EECD92058EEB100B3826E /* DistanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceViewController.swift; sourceTree = "<group>"; };
 		185EECDB2058FED100B3826E /* PostTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
@@ -134,12 +137,17 @@
 		186FDFF22005E6B7007A454C /* Variable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variable.swift; sourceTree = "<group>"; };
 		186FDFF72005F871007A454C /* ShareGram.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShareGram.png; sourceTree = "<group>"; };
 		1874E5B32032D2EA00D94576 /* ADVSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADVSegmentedControl.swift; sourceTree = "<group>"; };
+		18757E6F207A4831007E4A3D /* CommentReplyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentReplyTableViewCell.swift; sourceTree = "<group>"; };
+		18757E70207A4831007E4A3D /* CommentReplyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentReplyTableViewCell.xib; sourceTree = "<group>"; };
 		18777FF6204AC287004EE278 /* ProFileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProFileEditViewController.swift; sourceTree = "<group>"; };
 		18777FF8204AC822004EE278 /* ProFileEditTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProFileEditTableViewCell.swift; sourceTree = "<group>"; };
 		18777FF9204AC822004EE278 /* ProFileEditTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProFileEditTableViewCell.xib; sourceTree = "<group>"; };
 		18777FFC204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProFileIntrodutionTableViewCell.swift; sourceTree = "<group>"; };
 		18777FFD204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProFileIntrodutionTableViewCell.xib; sourceTree = "<group>"; };
 		1877A38C2063C8AE007F2614 /* AccurateLocationMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccurateLocationMapViewController.swift; sourceTree = "<group>"; };
+		18839495207765A900945460 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
+		1883949720779E7800945460 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		1883949820779E7800945460 /* CommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentTableViewCell.xib; sourceTree = "<group>"; };
 		188C0429200C92D800C4E697 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		18A5CC6C205D3946001967CF /* comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment.png; sourceTree = "<group>"; };
 		18A5CC6D205D3946001967CF /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
@@ -228,6 +236,10 @@
 			children = (
 				04AD8E0C202C2B8E00FD1733 /* PostCell.swift */,
 				04AD8E0D202C2B8E00FD1733 /* PostHeaderCell.swift */,
+				18757E6F207A4831007E4A3D /* CommentReplyTableViewCell.swift */,
+				18757E70207A4831007E4A3D /* CommentReplyTableViewCell.xib */,
+				1883949720779E7800945460 /* CommentTableViewCell.swift */,
+				1883949820779E7800945460 /* CommentTableViewCell.xib */,
 				18A88816203E8B9C004E4814 /* PostCollectionViewCell.swift */,
 				18A88817203E8B9C004E4814 /* PostCollectionViewCell.xib */,
 				186348C020527A7500188D6C /* PostView.swift */,
@@ -248,6 +260,7 @@
 		186FDFF62005F871007A454C /* picture */ = {
 			isa = PBXGroup;
 			children = (
+				18839495207765A900945460 /* edit.png */,
 				181C14A92053F92B00BCA077 /* Next.png */,
 				181C14A82053F92B00BCA077 /* Previous.png */,
 				186348CC205281D900188D6C /* Cancel.png */,
@@ -288,7 +301,6 @@
 			isa = PBXGroup;
 			children = (
 				3AA85BE3200738D500BAB348 /* SearchViewController.swift */,
-				1857A50E2056981E00AC5FB3 /* PostView11Controller.swift */,
 				18655769203AB8DC00831EAF /* SubSearchViewController.swift */,
 				181C14AC205400A600BCA077 /* PostViewController.swift */,
 				185EECDB2058FED100B3826E /* PostTableViewController.swift */,
@@ -551,13 +563,16 @@
 				18AA513D205BD58D003A93AD /* map_present_background_update.png in Resources */,
 				18777FFB204AC822004EE278 /* ProFileEditTableViewCell.xib in Resources */,
 				186FDFED2005E497007A454C /* GoogleService-Info.plist in Resources */,
+				18757E72207A4831007E4A3D /* CommentReplyTableViewCell.xib in Resources */,
 				18AA5134205BD58D003A93AD /* map_pin_red.png in Resources */,
 				18A5CC70205D3947001967CF /* like.png in Resources */,
 				18AA512C205BD58D003A93AD /* daum_th_line.png in Resources */,
 				18AA512E205BD58D003A93AD /* info_box.png in Resources */,
+				1883949A20779E7800945460 /* CommentTableViewCell.xib in Resources */,
 				1864CCE320491DEA007228E8 /* Man.png in Resources */,
 				18AA513E205BD58D003A93AD /* map_present_direction.png in Resources */,
 				18AA512B205BD58D003A93AD /* daum_copyright.png in Resources */,
+				18839496207765A900945460 /* edit.png in Resources */,
 				18AA5131205BD58D003A93AD /* map_pin@3x.png in Resources */,
 				1864CCDD20491A55007228E8 /* UnKnown.png in Resources */,
 				186850572031682C00BF50C4 /* searchBar.png in Resources */,
@@ -676,7 +691,6 @@
 				18777FF7204AC287004EE278 /* ProFileEditViewController.swift in Sources */,
 				3AA85BE4200738D500BAB348 /* SearchViewController.swift in Sources */,
 				18AA5149205BD714003A93AD /* objcClass.m in Sources */,
-				1857A50F2056981E00AC5FB3 /* PostView11Controller.swift in Sources */,
 				18A88818203E8B9C004E4814 /* PostCollectionViewCell.swift in Sources */,
 				3AA85BE8200738F100BAB348 /* ActivityViewController.swift in Sources */,
 				188C042A200C92D800C4E697 /* WriteViewController.swift in Sources */,
@@ -688,6 +702,8 @@
 				3A76C19320046761004253CF /* ViewController.swift in Sources */,
 				3AA85BEA2007390500BAB348 /* ProfileViewController.swift in Sources */,
 				185CAAD3205ECAFA00AE138D /* UserProFileViewController.swift in Sources */,
+				1883949920779E7800945460 /* CommentTableViewCell.swift in Sources */,
+				18757E71207A4831007E4A3D /* CommentReplyTableViewCell.swift in Sources */,
 				3A76C19920046761004253CF /* Sharegram.xcdatamodeld in Sources */,
 				3AA85BE2200738C100BAB348 /* HomeViewController.swift in Sources */,
 				185EECDA2058EEB100B3826E /* DistanceViewController.swift in Sources */,

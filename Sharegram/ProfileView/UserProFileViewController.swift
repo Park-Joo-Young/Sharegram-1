@@ -15,23 +15,29 @@ class UserProFileViewController: UIViewController { //다른 사람이 사람을
 
     @IBOutlet var navi: UINavigationBar!
     @IBAction func Back(_ sender: UIBarButtonItem) {
-        //self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: true, completion: nil)
     }
     var ref : DatabaseReference?
     var item : String = ""
     var UserKey : String = "" // 다른 사람의 uid
-    let profileview = Bundle.main.loadNibNamed("ProFileView", owner: self, options: nil)?.first as! ProFileView
+    var profileview = ProFileView()
+    
     override func viewWillAppear(_ animated: Bool) {
-        ref = Database.database().reference()
+
         self.navigationController?.isNavigationBarHidden = true
+
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        ref = Database.database().reference()
+        profileview = Bundle.main.loadNibNamed("ProFileView", owner: self, options: nil)?.first as! ProFileView
         self.view.addSubview(profileview)
         navi.snp.makeConstraints { (make) in
             make.top.equalTo(self.view).offset(10)
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
         }
-        navi.topItem?.title = item
+        //navi.topItem?.title = item
         UINavigationBar.appearance().barTintColor = UIColor.white
         profileview.snp.makeConstraints { (make) in
             make.width.equalTo(self.view.frame.width)
@@ -51,11 +57,12 @@ class UserProFileViewController: UIViewController { //다른 사람이 사람을
             make.left.equalTo(profileview.FollowerCount.snp.left)
             make.width.equalTo(self.view.frame.width/1.5)
         }
-        
+        print("Posts[0].username!")
+        print(UserKey)
         ref?.child("User").child(UserKey).child("UserProfile").observe(.value, with: { (snapshot) in
             if let item = snapshot.value as? [String : String] {
                 if item["ProFileImage"] != nil {
-                   self.profileview.ProFileImage.sd_setImage(with: URL(string: item["ProFileImage"]!), completed: nil)
+                    self.profileview.ProFileImage.sd_setImage(with: URL(string: item["ProFileImage"]!), completed: nil)
                 } else {
                     return
                 }
@@ -66,10 +73,6 @@ class UserProFileViewController: UIViewController { //다른 사람이 사람을
             profileview.ProFileEditBut.isEnabled = false
         }
         FollowCheck()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         profileview.ProFileEditBut.addTarget(self, action: #selector(Following), for: .touchUpInside)
         
         // Do any additional setup after loading the view.

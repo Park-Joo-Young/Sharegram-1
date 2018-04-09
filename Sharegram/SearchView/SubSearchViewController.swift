@@ -70,22 +70,7 @@ class SubSearchViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
         ref = Database.database().reference()
-
-
-        //self.navigationItem.hidesBackButton = true
-        SearchController = UISearchController(searchResultsController: nil)
-        SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
-        SearchController.hidesNavigationBarDuringPresentation = false
-        SearchController.dimsBackgroundDuringPresentation = false
-        SearchController.searchBar.searchBarStyle = .prominent
-        SearchController.searchBar.sizeToFit()
-        SearchController.searchBar.delegate = self
-        SearchController.definesPresentationContext = true
-        self.definesPresentationContext = true
         navi.snp.makeConstraints { (make) in
             make.top.equalTo(self.view).offset(10)
             make.height.equalTo(self.view.frame.height/10)
@@ -94,7 +79,6 @@ class SubSearchViewController: UIViewController {
         }
         UINavigationBar.appearance().barTintColor = UIColor.white
         self.view.addSubview(segment)
-
         segment.snp.makeConstraints { (make) in
             make.top.equalTo(navi.snp.bottom)
             make.width.equalTo(self.view.frame.width)
@@ -117,10 +101,10 @@ class SubSearchViewController: UIViewController {
         segment.setTitleTextAttributes(largerRedTextHighlightAttributes, for: .highlighted)
         segment.setTitleTextAttributes(largerRedTextSelectAttributes, for: .selected)
         
-//        seg.items = ["인기", "사람", "태그"]
-//        seg.borderColor = UIColor(white: 1.0, alpha: 0.3)
-//        seg.selectedIndex = 0
-//        seg.addTarget(self, action: #selector(ActSegClicked), for: .valueChanged)
+        //        seg.items = ["인기", "사람", "태그"]
+        //        seg.borderColor = UIColor(white: 1.0, alpha: 0.3)
+        //        seg.selectedIndex = 0
+        //        seg.addTarget(self, action: #selector(ActSegClicked), for: .valueChanged)
         
         SearchResultTable.snp.makeConstraints { (make) in
             make.top.equalTo(segment.snp.bottom)
@@ -139,8 +123,21 @@ class SubSearchViewController: UIViewController {
         SearchResultTable.separatorStyle = .none
         SearchResultTable.rowHeight = UITableViewAutomaticDimension
         SearchResultTable.estimatedRowHeight = 100
-        
-        //self.SearchResultTable.tableHeaderView = SearchController.searchBar
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //self.navigationItem.hidesBackButton = true
+        SearchController = UISearchController(searchResultsController: nil)
+        SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
+        SearchController.hidesNavigationBarDuringPresentation = false
+        SearchController.dimsBackgroundDuringPresentation = false
+        SearchController.searchBar.searchBarStyle = .prominent
+        SearchController.searchBar.sizeToFit()
+        SearchController.searchBar.delegate = self
+        SearchController.definesPresentationContext = true
+        self.definesPresentationContext = true
+
+
         navi.topItem?.titleView = SearchController.searchBar
         
         //self.navigationItem.titleView = SearchController.sea rchBar

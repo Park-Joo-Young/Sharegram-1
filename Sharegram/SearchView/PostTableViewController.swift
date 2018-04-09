@@ -10,32 +10,120 @@ import UIKit
 import Firebase
 import SDWebImage
 import SnapKit
-
+import CDAlertView
 class PostTableViewController: UITableViewController {
     var Posts = Post()
     var PostImageView = UIImageView()
     var button = UIButton()
     var item = [MTMapPOIItem]()
     var MapImage : UIImage!
+    var MapView = UIView()
+    var Map = MTMapView()
+    var CommentView = UIView()
+    var CommentBut = UIButton()
+    var CommentProfileImage = UIImageView()
+    var CommentTextfield = UITextField()
+    var Profileimage = ""
+    var CommentName = ""
+    var CommentArray : [String : String] = [:]
+    var CommentList : [[String : String]] = [[:]]
+    var ref : DatabaseReference?
+    
     override func viewWillAppear(_ animated: Bool) {
-       PostImageView.sd_setImage(with: URL(string: Posts.image!), completed: nil)
-       MapImage = PostImageView.image
+        ref = Database.database().reference()
+        FetchUser()
+        FetchComment()
+        PostImageView.sd_setImage(with: URL(string: Posts.image!), completed: nil)
+        MapImage = PostImageView.image
         UIGraphicsBeginImageContext(CGSize(width: 100, height: 100))
         MapImage.draw(in: CGRect(x: 0, y: 0, width: 100, height: 100))
         MapImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        //self.navigationItem.titleView = UIImageView(image: PostImageView.image)
+        CommentView = UIView(frame: CGRect(x: 0, y: 0, width: CommonVariable.screenWidth, height: CommonVariable.screenHeight/8))
+        MapView = UIView(frame: CGRect(x: 0, y: 0, width: CommonVariable.screenWidth, height: CommonVariable.screenHeight/3.5))
+        MapView.addSubview(Map)
+        Map.snp.makeConstraints { (make) in
+            make.size.equalTo(MapView)
+            make.left.equalTo(MapView)
+            make.right.equalTo(MapView)
+            make.top.equalTo(MapView)
+            make.bottom.equalTo(MapView)
+        }
+        if Posts.lat != nil { //위치 정보가 존재하면 맵을 불러옮
+            Map.delegate = self
+            Map.baseMapType = .standard
+            Map.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: Posts.lat!, longitude: Posts.lon!)), zoomLevel: 0, animated: false)
+            if self.MapImage != nil {
+                item.append(poiItem(latitude: Posts.lat!, longitude: Posts.lon!))
+            } else {
+                Map.baseMapType = .hybrid
+            }
+            
+            Map.addPOIItems(item)
+            print(Map.mapCenterPoint.mapPointGeo())
+        } else {
+            Map.baseMapType = .hybrid
+        }
+        
+        
+        
+        CommentView.addSubview(CommentProfileImage)
+        CommentView.addSubview(CommentBut)
+        CommentView.addSubview(CommentTextfield)
+        CommentView.layer.borderWidth = 1.0
+        CommentView.layer.borderColor = UIColor.lightGray.cgColor
+        CommentView.backgroundColor = UIColor.white
+        CommentProfileImage.snp.makeConstraints { (make) in
+            make.width.equalTo(CommentView.bounds.width/5)
+            make.height.equalTo(CommentView.bounds.height/1.3)
+            make.centerY.equalTo(CommentView)
+        }
+        CommentProfileImage.layer.cornerRadius = 20
+        CommentProfileImage.sizeToFit()
+        CommentProfileImage.clipsToBounds = true
+        CommentProfileImage.layer.borderWidth = 1.0
+        CommentProfileImage.layer.borderColor = UIColor.white.cgColor
+        CommentTextfield.snp.makeConstraints { (make) in
+            make.width.equalTo(CommentView.bounds.width/1.6)
+            make.height.equalTo(CommentView.bounds.height/2.5)
+            make.left.equalTo(CommentProfileImage.snp.right).offset(10)
+            make.centerY.equalTo(CommentView)
+        }
+        CommentTextfield.placeholder = "  댓글을 입력하세요."
+        CommentTextfield.borderStyle = .none
+        CommentTextfield.layer.cornerRadius = 20.0
+        CommentTextfield.layer.borderWidth = 1.0
+        CommentTextfield.layer.borderColor = UIColor.lightGray.cgColor
+        CommentTextfield.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
+        CommentTextfield.leftViewMode = .always
+        
+        CommentBut.snp.makeConstraints { (make) in
+            make.width.equalTo(CommentView.bounds.width/7)
+            make.height.equalTo(CommentView.bounds.height/3)
+            make.left.equalTo(CommentTextfield.snp.right).offset(5)
+            make.centerY.equalTo(CommentView)
+        }
+        CommentBut.setImage(UIImage(named: "edit.png"), for: .normal)
+        CommentBut.addTarget(self, action: #selector(SetComment), for: .touchUpInside)
+
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        //self.navigationController?.isToolbarHidden = true
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         print(Posts.lat!)
+        tableView.estimatedRowHeight = 80
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
         //self.navigationController?.isNavigationBarHidden = true
         //self.navigationItem.title = Posts.username!
         
 
 
         
-        //tableView.addSubview(button)
+        //tableView.addSubview(CommentView)
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -58,66 +146,56 @@ class PostTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 2
+        //FetchComment()
+        return CommentList.count
     }
 
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 { //맵
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MapTableViewCell", for: indexPath) as! MapTableViewCell
-            
-            if Posts.lat != nil { //위치 정보가 존재하면 맵을 불러옮
-                cell.MapView.snp.makeConstraints({ (make) in
-                    make.width.equalTo(self.view.frame.width)
-                    make.height.equalTo(self.view.frame.height/3.5)
-                })
-                cell.MapView.delegate = self
-                cell.MapView.baseMapType = .standard
-                cell.MapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: Posts.lat!, longitude: Posts.lon!)), zoomLevel: 0, animated: false)
-                if self.MapImage != nil {
-                    item.append(poiItem(latitude: Posts.lat!, longitude: Posts.lon!))
-                } else {
-                    cell.MapView.baseMapType = .hybrid
-                }
-                
-                cell.MapView.addPOIItems(item)
-                //cell.MapView.fitAreaToShowAllPOIItems()
-                print(cell.MapView.mapCenterPoint.mapPointGeo())
-            } else {
-                cell.MapView.baseMapType = .hybrid
-                cell.Label.text = "이 사진은 위치정보가 없습니다."
-                cell.Label.textColor = UIColor.white
-            }
-
-            return cell
-        } else { // 댓글
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = "Fuck"
-            return cell
-        }
-        // Configure the cell...
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return CommentView
+    }
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CommonVariable.screenHeight/8
     }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerview = UIView()
-        headerview.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view.frame.width)
-            make.height.equalTo(self.view.frame.height/4)
-        }
-        headerview.addSubview(PostImageView)
-        PostImageView.snp.makeConstraints { (make) in
-            make.size.equalTo(headerview)
-        }
-        return headerview
+        return MapView
     }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return self.view.frame.height/4
+        return self.view.bounds.height/3.5
+    }
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let dic = self.CommentList[indexPath.row]
+            print(indexPath.row)
+            if dic["Type"] == "Comment" {
+                print(dic)
+                let cell = Bundle.main.loadNibNamed("CommentTableViewCell", owner: self, options: nil)?.first as! CommentTableViewCell
+                cell.ProFileImage.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
+                cell.Comment.text = "\(dic["Author"]!) \(dic["Comment"]!)"
+                cell.Comment.numberOfLines = 0
+                cell.Comment.enabledTypes = [.hashtag, .mention, .url]
+                cell.Comment.handleHashtagTap { (hashtag) in
+                    let alertview = CDAlertView(title: "현재 위치는 ", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
+                    let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
+                        return
+                    })
+                    alertview.add(action: OKAction)
+                    alertview.show()
+                    return
+                }
+                cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
+                cell.ReplyBut.tag = indexPath.row
+                cell.ReplyBut.setTitle("답글 달기", for: .normal)
+                cell.ReplyBut.tintColor = UIColor.lightGray
+                cell.ReplyBut.addTarget(self, action: #selector(SetCommentReply), for: .touchUpInside)
+                return cell
+            } else {
+                let cell = Bundle.main.loadNibNamed("CommentReplyTableViewCell", owner: self, options: nil)?.first as! CommentReplyTableViewCell
+                return cell
+            }
+        // Configure the cell...
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return self.view.frame.height/3.5
-        } else {
-            return 200
-        }
+        return 80
     }
     /*
     // Override to support conditional editing of the table view.
@@ -178,5 +256,74 @@ extension PostTableViewController : MTMapViewDelegate {
     }
     func mapView(_ mapView: MTMapView!, singleTapOn mapPoint: MTMapPoint!) {
         print("시발 여길 왜 누르세요!!!!@!!")
+    }
+}
+extension PostTableViewController {
+    func FetchComment() { // 댓글 가져오기
+        self.CommentList.removeAll()
+        ref?.child("Comment").child(self.Posts.PostId!).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.value is NSNull {
+                print("Nothing")
+            } else {
+                if let item = snapshot.value as? [String : AnyObject] {
+                    for (_,value) in item {
+                        if let dic = value as? [String : String] {
+                            self.CommentList.append(dic)
+                            self.tableView.reloadData()
+                            print("들오와")
+                        }
+                    }
+                }
+            }
+        })
+        ref?.removeAllObservers()
+    }
+    @objc func SetComment() { //댓글 저장
+        print("??????")
+        CommonVariable.formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        CommonVariable.formatter.locale = Locale(identifier: "ko_KR")
+        let Date = CommonVariable.formatter.string(from: CommonVariable.date)
+        let key = (ref?.child("Comment").child(self.Posts.PostId!).childByAutoId().key)!
+        if !(self.CommentTextfield.text!.isEmpty) {
+            self.CommentArray = ["ProFileImage" : self.Profileimage, "PostKey" : self.Posts.PostId!, "Comment" : self.CommentTextfield.text!, "Author" : self.CommentName, "Date" : Date, "Type" : "Comment", "CommentKey" : key]
+            ref?.child("Comment").child(self.Posts.PostId!).updateChildValues([key : self.CommentArray])
+            self.CommentTextfield.text = ""
+            FetchComment()
+        }
+    }
+    @objc func SetCommentReply(_ sender : UIButton) { //리댓글 저장
+        let tag = sender.tag
+        print(self.CommentList[tag]["CommentKey"]!)
+        return
+    }
+    func FetchUser() { //프로필 따오기 댓글창
+        ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("UserProfile").observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.value is NSNull {
+                self.CommentProfileImage.image = UIImage(named: "Man.png")
+            } else {
+                if let item = snapshot.value as? [String : String] {
+                    self.CommentProfileImage.sd_setImage(with: URL(string: item["ProFileImage"]!), completed: nil)
+                    self.Profileimage = item["ProFileImage"]!
+                    self.CommentName = item["사용자 명"]!
+                }
+            }
+        })
+        ref?.removeAllObservers()
+    }
+}
+extension UIResponder {
+    
+    func next<T: UIResponder>(_ type: T.Type) -> T? {
+        return next as? T ?? next?.next(type)
+    }
+}
+extension UITableViewCell {
+    
+    var tableView: UITableView? {
+        return next(UITableView.self)
+    }
+    
+    var indexPath: IndexPath? {
+        return tableView?.indexPath(for: self)
     }
 }

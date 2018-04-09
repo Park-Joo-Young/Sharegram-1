@@ -311,13 +311,13 @@ typealias ElementTuple = (range: NSRange, element: ActiveElement, type: ActiveTy
         mutAttrString.addAttributes(attributes, range: range)
 
         attributes[NSAttributedStringKey.foregroundColor] = mentionColor
-
+        let Captioncolor = UIColor(red: 36/255, green: 123/255, blue: 229/255, alpha: 1.0)
         for (type, elements) in activeElements {
 
             switch type {
-            case .mention: attributes[NSAttributedStringKey.foregroundColor] = mentionColor
-            case .hashtag: attributes[NSAttributedStringKey.foregroundColor] = hashtagColor
-            case .url: attributes[NSAttributedStringKey.foregroundColor] = URLColor
+            case .mention: attributes[NSAttributedStringKey.foregroundColor] = Captioncolor
+            case .hashtag: attributes[NSAttributedStringKey.foregroundColor] = Captioncolor
+            case .url: attributes[NSAttributedStringKey.foregroundColor] = Captioncolor
             case .custom: attributes[NSAttributedStringKey.foregroundColor] = customColor[type] ?? defaultCustomColor
             }
             

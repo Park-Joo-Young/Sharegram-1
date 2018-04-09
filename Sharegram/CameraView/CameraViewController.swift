@@ -90,13 +90,13 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, Ge
             locationManager.requestWhenInUseAuthorization()
         }
     }
-    func getLocation(_ lat: Double, _ lon: Double) {
+    func getLocation(_ lat: Double, _ lon: Double) { // 정확한 위치를 받아왔을 때 그 위치로 변경.
         object.lat = lat
         object.lon = lon
         PHPhotoLibrary.shared().performChanges({
             print("일단찍자?")
             let request = PHAssetChangeRequest.creationRequestForAsset(from: self.capture!)
-            request.location = self.location
+            request.location = CLLocation(latitude: lat, longitude: lon)
         }, completionHandler: nil)
         print(object.lat)
         print(object.lon)

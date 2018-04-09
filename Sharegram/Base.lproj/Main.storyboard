@@ -393,7 +393,6 @@
                     <navigationItem key="navigationItem" title="Search" id="lV6-HM-eDP"/>
                     <connections>
                         <outlet property="WholePostCollectionView" destination="sSe-gl-ohN" id="fT3-eg-o07"/>
-                        <segue destination="E2M-rk-TfS" kind="show" identifier="Post" id="SMT-ND-XLX"/>
                         <segue destination="O3q-ed-yJn" kind="show" identifier="Koloda" id="xZJ-IS-Q3a"/>
                     </connections>
                 </viewController>
@@ -447,57 +446,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SWx-yI-J0e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5502" y="-928"/>
+            <point key="canvasLocation" x="4758" y="-1044"/>
         </scene>
         <!--Post View Controller-->
-        <scene sceneID="LMV-hJ-Xvk">
-            <objects>
-                <viewController storyboardIdentifier="Post" hidesBottomBarWhenPushed="YES" id="E2M-rk-TfS" customClass="PostViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="x9Z-1Z-io6">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gBs-Jv-cqy">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="T2Q-aO-Yoj">
-                                    <size key="itemSize" width="375" height="605"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="qiy-Ns-FvW">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="605"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="605"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </view>
-                                    </collectionViewCell>
-                                </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="E2M-rk-TfS" id="0Xg-CZ-btH"/>
-                                    <outlet property="delegate" destination="E2M-rk-TfS" id="95E-FA-rpk"/>
-                                </connections>
-                            </collectionView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <viewLayoutGuide key="safeArea" id="Dfr-YR-A5h"/>
-                    </view>
-                    <connections>
-                        <outlet property="PostCollection" destination="gBs-Jv-cqy" id="Y9m-CM-9Qu"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jbw-iL-bCr" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4668" y="-1114"/>
-        </scene>
-        <!--Post View11 Controller-->
         <scene sceneID="PQ5-RL-PxL">
             <objects>
-                <viewController id="O3q-ed-yJn" customClass="PostView11Controller" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="O3q-ed-yJn" customClass="PostViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eIV-F5-51X">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -539,7 +493,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jsk-ry-S39" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5502" y="-248"/>
+            <point key="canvasLocation" x="4759" y="-344"/>
         </scene>
         <!--Post Table View Controller-->
         <scene sceneID="Qdb-qu-afV">
@@ -906,6 +860,6 @@
         <image name="icon-settings" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PrX-HD-SbJ"/>
+        <segue reference="M3a-hU-ztO"/>
     </inferredMetricsTieBreakers>
 </document>
