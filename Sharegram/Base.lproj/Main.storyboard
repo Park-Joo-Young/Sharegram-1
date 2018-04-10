@@ -148,11 +148,18 @@
                                 </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
-                        <barButtonItem key="rightBarButtonItem" title="Next" id="EBo-xd-r8G">
-                            <connections>
-                                <action selector="ActNext:" destination="Rvv-tI-1uk" id="P1V-xI-Itu"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Write" id="EBo-xd-r8G">
+                                <connections>
+                                    <action selector="ActNext:" destination="Rvv-tI-1uk" id="P1V-xI-Itu"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Filter" id="LcT-hx-Gfz">
+                                <connections>
+                                    <action selector="ImageFiltering:" destination="Rvv-tI-1uk" id="3ab-np-dYh"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="PhotoCollection" destination="Jln-xa-sYF" id="kWw-Jq-GBh"/>

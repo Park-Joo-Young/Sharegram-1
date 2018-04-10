@@ -184,8 +184,6 @@ class PostTableViewController: UITableViewController {
                     alertview.show()
                     return
                 }
-                cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
-                cell.LikeBut.tintColor = UIColor.black
                 cell.ReplyBut.tag = indexPath.row
                 cell.ReplyBut.setTitle("답글 달기", for: .normal)
                 cell.ReplyBut.tintColor = UIColor.lightGray
@@ -208,8 +206,6 @@ class PostTableViewController: UITableViewController {
                     alertview.show()
                     return
                 }
-                cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
-                cell.LikeBut.tintColor = UIColor.black
                 return cell
             }
         // Configure the cell...

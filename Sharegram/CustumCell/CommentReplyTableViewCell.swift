@@ -9,10 +9,10 @@
 import UIKit
 import SnapKit
 import ActiveLabel
+
 class CommentReplyTableViewCell: UITableViewCell {
     @IBOutlet var ProFileImage: UIImageView!
     @IBOutlet var TimeAgo: UILabel!
-    @IBOutlet var LikeBut: UIButton!
     @IBOutlet var arrow: UIImageView!
     var Comment = ActiveLabel()
     override func awakeFromNib() {
@@ -36,15 +36,9 @@ class CommentReplyTableViewCell: UITableViewCell {
             make.height.equalTo(self.bounds.height/4)
             make.top.equalTo(Comment.snp.bottom)
         }
-        LikeBut.snp.makeConstraints { (make) in
-            make.width.equalTo(self.bounds.width/8)
-            make.height.equalTo(self.bounds.height/4)
-            make.right.equalTo(self)
-            make.centerY.equalTo(ProFileImage)
-        }
         arrow.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(10)
-            make.size.equalTo(LikeBut)
+            make.size.equalTo(TimeAgo)
             make.top.equalTo(ProFileImage)
         }
         arrow.image = UIImage(named: "Replyarrow.png")

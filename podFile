@@ -18,4 +18,5 @@ target 'Sharegram' do
 	pod 'ScrollableSegmentedControl'
 	pod 'Koloda'
 	pod 'CDAlertView'
+	pod 'Sharaku'
 end

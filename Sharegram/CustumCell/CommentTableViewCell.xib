@@ -30,10 +30,6 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zRh-eG-fDG">
-                        <rect key="frame" x="274" y="18" width="46" height="30"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </button>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fTY-C0-c4L">
                         <rect key="frame" x="137" y="40" width="46" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -43,7 +39,6 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="LikeBut" destination="zRh-eG-fDG" id="Kdj-1e-tLt"/>
                 <outlet property="ProFileImage" destination="eKO-XE-T6k" id="4ya-Z2-yip"/>
                 <outlet property="ReplyBut" destination="fTY-C0-c4L" id="a26-Po-Dgw"/>
                 <outlet property="TimeAgo" destination="oZE-hm-HtS" id="UYF-2I-EfN"/>

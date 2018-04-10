@@ -40,39 +40,28 @@ class WriteViewController: UIViewController{
     @IBOutlet weak var writeBut: UIButton!
     
     @IBAction func ActBut(_ sender: UIButton) { // 작성 버튼을 눌렀을 때
-        let date = Date()
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
-        
-        let year =  components.year!
-        let month = components.month!
-        let day = components.day!
-        let hour = components.hour!
-        let min = components.minute!
-        let dateString = "\(year)년\(month)월\(day)일\(hour)시\(min)분"
-        let ImagePath = "PostImage/\((Auth.auth().currentUser?.email)!)/\(dateString).png"
+        CommonVariable.formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        CommonVariable.formatter.locale = Locale(identifier: "ko_KR")
+        let Date = CommonVariable.formatter.string(from: CommonVariable.date)
+        let ImagePath = "PostImage/\((Auth.auth().currentUser?.email)!)/\(Date).png"
         
         if LocationSwitch.isOn { //위치 공유 허용 상태이면 즉 On 상태일 때, 카메라로 사진을 찍어서 가져왔을 때
             
-            DataSave(ImagePath, dateString, identifier: 0)
+            DataSave(ImagePath, Date, identifier: 0)
         } else { //단순히 라이브러리 사진을 게시글로 작성할 때, 아니면 자신의 위치를 공유하지 않을 때
             if writeImage == nil { //그냥 글만 쓸 때
                 return
             } else { // 사진이 있는데 라이브러리사진인 경우, 위치를 가져오나 공유하기 싫을 때
                 print("??")
-                DataSave(ImagePath, dateString, identifier: 1)
+                DataSave(ImagePath, Date, identifier: 1)
             }
         }
     }
     func SubFuncDataSave() {
         self.CountUpHasgTag()
         self.ref?.child("WholePosts").updateChildValues([self.key : self.PostArray]) // 전체 게시물 등록
-       self.displayMessage(title: "게시물이", message: "등록되었습니다.")
-        //self.ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("Posts").childByAutoId().setValue(self.PostArray) {(error, ref) -> Void in // 유저 자신의 게시물에 등록
-//            if error == nil { //완성 됐을 때
-//                self.displayMessage(title: "게시물이", message: "등록되었습니다.")
-//            }
-//        }
+       //self.displayMessage(title: "게시물이", message: "등록되었습니다.")
+        object.DisplayMessage("게시물이", "등록되었습니다.")
         
     }
     func DataSave(_ Path : String, _ date : String, identifier : Int) { // 데이터 저장

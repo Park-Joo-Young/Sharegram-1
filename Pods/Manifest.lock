@@ -86,6 +86,7 @@ PODS:
   - SDWebImage/WebP (4.3.0):
     - libwebp (~> 0.5)
     - SDWebImage/Core
+  - Sharaku (1.0.2)
   - SnapKit (4.0.0)
 
 DEPENDENCIES:
@@ -100,6 +101,7 @@ DEPENDENCIES:
   - Popover
   - ScrollableSegmentedControl
   - SDWebImage/WebP
+  - Sharaku
   - SnapKit (~> 4.0.0)
 
 SPEC CHECKSUMS:
@@ -122,8 +124,9 @@ SPEC CHECKSUMS:
   Popover: 28c1ac8e937ab2b3965bd2da7dd18324357abc41
   ScrollableSegmentedControl: a90ae91537fd670a46b177301d035223e3bd149e
   SDWebImage: 6da6c8bca115addc4de8613362e1b15f66333825
+  Sharaku: c18de569fc99f6e936f46ca812b571826cc658a7
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
 
-PODFILE CHECKSUM: 2258cde01783679bfba753c6486ec4268d559e5f
+PODFILE CHECKSUM: 95de8af06c4abec2aee98056182bbe5acba99bc1
 
 COCOAPODS: 1.4.0

@@ -14,7 +14,6 @@ class CommentTableViewCell: UITableViewCell {
 
     @IBOutlet var ProFileImage: UIImageView!
     @IBOutlet var TimeAgo: UILabel!
-    @IBOutlet var LikeBut: UIButton!
     @IBOutlet var ReplyBut: UIButton!
     var Comment = ActiveLabel()
     override func awakeFromNib() {
@@ -43,12 +42,6 @@ class CommentTableViewCell: UITableViewCell {
             make.size.equalTo(TimeAgo)
             make.top.equalTo(TimeAgo)
             make.left.equalTo(TimeAgo.snp.right).offset(30)
-        }
-        LikeBut.snp.makeConstraints { (make) in
-            make.width.equalTo(self.bounds.width/8)
-            make.height.equalTo(self.bounds.height/4)
-            make.right.equalTo(self)
-            make.centerY.equalTo(ProFileImage)
         }
     }
 
