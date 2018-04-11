@@ -22,7 +22,6 @@ struct CommonVariable {
     static let formatter = DateFormatter()
     static let calendar = Calendar.current
     static let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
-    
     static let year =  components.year!
     static let month = components.month!
     static let day = components.day!

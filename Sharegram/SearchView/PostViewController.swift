@@ -23,21 +23,14 @@ class PostViewController: UIViewController {
     //var imageset = Set<UIImage>()
     var Customindex = 1
     var Hash : [AnyToken]!
-    var postview = PostView()
     var LikeBut = UIButton()
-    
+    var index = 0
     @IBOutlet weak var NextBut: UIButton!
     @IBOutlet weak var PreviousBut: UIButton!
     @IBOutlet weak var LikeCountLabel: UILabel!
 
     override func viewWillAppear(_ animated: Bool) {
         ref = Database.database().reference()
-        fetchUser(Id)
-        fetchPost()
-        LikeCheck()
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
         self.view.addSubview(Kolodaview)
         self.view.addSubview(LikeBut)
         
@@ -49,7 +42,6 @@ class PostViewController: UIViewController {
             make.centerX.equalTo(self.view)
             make.top.equalTo(self.view).offset(100)
         }
-
         NextBut.snp.makeConstraints { (make) in
             make.left.equalTo(LikeBut.snp.right).offset(30)
             make.top.equalTo(Kolodaview.snp.bottom).offset(20)
@@ -73,7 +65,13 @@ class PostViewController: UIViewController {
             make.top.equalTo(NextBut)
         }
         LikeBut.addTarget(self, action: #selector(likePressed), for: .touchUpInside)
-        
+        fetchUser(Id)
+        fetchPost()
+
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
         //Do any additional setup after loading the view.
     }
 
@@ -101,9 +99,9 @@ class PostViewController: UIViewController {
 
 }
 extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
-    func kolodaDidRunOutOfCards(_ koloda: KolodaView) {
-        return
-    }
+//    func kolodaDidRunOutOfCards(_ koloda: KolodaView) {
+//        return
+//    }
     
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
         //performSegue(withIdentifier: "PostTable", sender: self)
@@ -117,18 +115,17 @@ extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
     }
     
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
-        print("시발!!!!!!!!!!!!!!!!")
-
-        
-        print("\(koloda.countOfVisibleCards) \(index)")
-        postview = Bundle.main.loadNibNamed("PostView", owner: self, options: nil)?.first as! PostView
+        self.index = index
+        if index == 0 {
+            LikeCheck()
+        }
+        let postview = Bundle.main.loadNibNamed("PostView", owner: self, options: nil)?.first as! PostView
         let tap = UITapGestureRecognizer(target: self, action: #selector(UserNameTap))
         postview.layer.borderWidth = 1.0
         postview.layer.borderColor = UIColor.black.cgColor
         postview.layer.cornerRadius = postview.frame.height / 25.0
         postview.clipsToBounds = true
         postview.PostImage.sd_setImage(with: URL(string: Posts[index].image!), completed: nil)
-        print(Posts[index].caption!)
         postview.ProFileImage.isUserInteractionEnabled = true
         postview.ProFileImage.sd_setImage(with: URL(string: ProFileUrl), completed: nil)
         postview.ProFileImage.addGestureRecognizer(tap)
@@ -176,9 +173,11 @@ extension PostViewController {
                 if let item = snapshot.value as? [String : AnyObject] { //있으면 중복 체크를 위해 데이터 가져옴
                     for (_ ,value) in item {
                         if value["postID"] as? String == self.Posts[self.Kolodaview.currentCardIndex].PostId {
-                            if (value["LikePeople"] as? [String : String]) != nil {
+                            print("씨발아")
+                            if value["LikePeople"] as? [String : AnyObject] != nil {
                                 for (_, value1) in (value["LikePeople"] as? [String : String])! {
                                     if value1 == (Auth.auth().currentUser?.uid)! { //내가 좋아요를 눌러놨으면 라이크 버튼
+                                        print("씨발아")
                                         self.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
                                         break
                                     } else {
@@ -277,6 +276,7 @@ extension PostViewController {
             for (_, value) in item {
                 if let Description = value["Description"] as? String, let Author = value["Author"] as? String, let Date = value["Date"] as? String, let ID = value["ID"] as? String, let Like = value["Like"] as? String, let image = value["image"] as? String , let postID = value["postID"] as? String , let latitude = value["latitude"] as? String, let longitude = value["longitude"] as? String {
                     let post = Post()
+                    
                     if ID == self.Id { // 그 당사자의 아이디와 일치하는 게시물들만 포스트에 넣기
                         if value["latitude"] == nil && value["longitude"] == nil { //위치가 없으면
                             post.caption = Description
@@ -302,14 +302,16 @@ extension PostViewController {
                             self.Posts.append(post)
                         }
                     }
-                    if self.Posts.count == Int(snapshot.childrenCount) {
-                        self.Kolodaview.reloadData()
+                    if self.Posts.count == Int(snapshot.childrenCount) {// 게시물 다 땃어 이제 날짜순 정렬해서 리로드
+                        self.DateSort(self.Posts)
+                        //self.Kolodaview.reloadData()
                     }
                 }
             }
             
         })
         ref?.removeAllObservers()
+
     }
     func fetchUser(_ id : String) {
         
@@ -324,10 +326,15 @@ extension PostViewController {
     
     @IBAction func Previous(_ sender: UIButton) {
         Kolodaview.revertAction()
+        LikeCheck()
     }
     @IBAction func Next(_ sender: UIButton) {
         Kolodaview.swipe(.right, force: false)
-        print(self.Kolodaview.currentCardIndex)
+        if self.Kolodaview.currentCardIndex == self.Posts.count {
+            return
+        } else {
+            LikeCheck()
+        }
     }
     @objc func UserNameTap() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "UserProFile") as! UserProFileViewController
@@ -337,5 +344,25 @@ extension PostViewController {
     }
     @objc func DetailViewPresent() { // 댓글 창으로
         performSegue(withIdentifier: "PostTable", sender: self)
+    }
+    func DateSort(_ post : [Post]) {
+        let date = Date()
+        let format = DateFormatter()
+
+        TimeZone.ReferenceType.default = TimeZone(abbreviation: "KST")!
+        format.dateFormat = "yyyy-MM-dd"
+        format.timeZone = TimeZone.ReferenceType.default
+        CommonVariable.formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        //CommonVariable.formatter.locale = Locale(identifier: "ko_kr")
+        //CommonVariable.formatter.timeZone = TimeZone.init(abbreviation: "KST")
+        for i in 0..<post.count {
+            let Date = format.string(from: date)
+            //print(Date)
+            let caption = post[i].timeAgo!.components(separatedBy: " ").map{ String($0) }
+            let StartDate = format.date(from: Date)!.addingTimeInterval(32400)
+            let endDate = format.date(from: caption[0])!.addingTimeInterval(32400) //게시물 작성한 날짜
+            let interval = StartDate.timeIntervalSince(endDate) / 86400
+            print(interval)
+        }
     }
 }

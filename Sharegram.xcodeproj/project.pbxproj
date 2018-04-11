@@ -55,7 +55,6 @@
 		18A5CC71205D3947001967CF /* unlike.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A5CC6E205D3947001967CF /* unlike.png */; };
 		18A88818203E8B9C004E4814 /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A88816203E8B9C004E4814 /* PostCollectionViewCell.swift */; };
 		18A88819203E8B9C004E4814 /* PostCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A88817203E8B9C004E4814 /* PostCollectionViewCell.xib */; };
-		18AA5078205BC809003A93AD /* MapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AA5077205BC809003A93AD /* MapTableViewCell.swift */; };
 		18AA50F3205BCD85003A93AD /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18AA50F2205BCD85003A93AD /* OpenGLES.framework */; };
 		18AA50F5205BCD8E003A93AD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18AA50F4205BCD8E003A93AD /* SystemConfiguration.framework */; };
 		18AA50F7205BCD98003A93AD /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18AA50F6205BCD98003A93AD /* CoreLocation.framework */; };
@@ -156,7 +155,6 @@
 		18A5CC6E205D3947001967CF /* unlike.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlike.png; sourceTree = "<group>"; };
 		18A88816203E8B9C004E4814 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		18A88817203E8B9C004E4814 /* PostCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCollectionViewCell.xib; sourceTree = "<group>"; };
-		18AA5077205BC809003A93AD /* MapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTableViewCell.swift; sourceTree = "<group>"; };
 		18AA50F2205BCD85003A93AD /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		18AA50F4205BCD8E003A93AD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		18AA50F6205BCD98003A93AD /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -307,7 +305,6 @@
 				18655769203AB8DC00831EAF /* SubSearchViewController.swift */,
 				181C14AC205400A600BCA077 /* PostViewController.swift */,
 				185EECDB2058FED100B3826E /* PostTableViewController.swift */,
-				18AA5077205BC809003A93AD /* MapTableViewCell.swift */,
 			);
 			path = SearchView;
 			sourceTree = "<group>";
@@ -703,7 +700,6 @@
 				182C972A20107D8F002E5311 /* Mustard.swift in Sources */,
 				18777FFA204AC822004EE278 /* ProFileEditTableViewCell.swift in Sources */,
 				181C14AD205400A600BCA077 /* PostViewController.swift in Sources */,
-				18AA5078205BC809003A93AD /* MapTableViewCell.swift in Sources */,
 				186FDFF12005E61D007A454C /* CreateUserViewController.swift in Sources */,
 				3A76C19320046761004253CF /* ViewController.swift in Sources */,
 				3AA85BEA2007390500BAB348 /* ProfileViewController.swift in Sources */,
