@@ -358,19 +358,20 @@ extension PostTableViewController {
         ref?.removeAllObservers()
     }
 }
-extension UIResponder {
-    
-    func next<T: UIResponder>(_ type: T.Type) -> T? {
-        return next as? T ?? next?.next(type)
-    }
-}
-extension UITableViewCell {
-    
-    var tableView: UITableView? {
-        return next(UITableView.self)
-    }
-    
-    var indexPath: IndexPath? {
-        return tableView?.indexPath(for: self)
-    }
-}
+//extension UIResponder {
+//
+//    func next<T: UIResponder>(_ type: T.Type) -> T? {
+//        return next as? T ?? next?.next(type)
+//    }
+//}
+//extension UITableViewCell {
+//
+//    var tableView: UITableView? {
+//        return next(UITableView.self)
+//    }
+//
+//    var indexPath: IndexPath? {
+//        return tableView?.indexPath(for: self)
+//    }
+//}
+

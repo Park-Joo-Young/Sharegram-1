@@ -67,11 +67,11 @@ class PostViewController: UIViewController {
         LikeBut.addTarget(self, action: #selector(likePressed), for: .touchUpInside)
         fetchUser(Id)
         fetchPost()
-
+        LikeCheck()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //Do any additional setup after loading the view.
     }
 
@@ -89,6 +89,7 @@ class PostViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "PostTable" {
+            //self.Kolodaview.resetCurrentCardIndex()
             let destination = segue.destination as! PostTableViewController
             destination.Posts = self.Posts[Kolodaview.currentCardIndex]
             //destination.MapImage = self.postview.PostImage.image!
@@ -99,9 +100,9 @@ class PostViewController: UIViewController {
 
 }
 extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
-//    func kolodaDidRunOutOfCards(_ koloda: KolodaView) {
-//        return
-//    }
+    func kolodaDidRunOutOfCards(_ koloda: KolodaView) {
+        return
+    }
     
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
         //performSegue(withIdentifier: "PostTable", sender: self)
@@ -115,10 +116,6 @@ extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
     }
     
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
-        self.index = index
-        if index == 0 {
-            LikeCheck()
-        }
         let postview = Bundle.main.loadNibNamed("PostView", owner: self, options: nil)?.first as! PostView
         let tap = UITapGestureRecognizer(target: self, action: #selector(UserNameTap))
         postview.layer.borderWidth = 1.0
@@ -153,8 +150,9 @@ extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
             postview.UserName.text = Posts[index].username!
             postview.UserName.addGestureRecognizer(tap)
         }
-        postview.TimeLabel.text = "1시간 전"
+        postview.TimeLabel.text = Posts[index].timeAgo
         postview.TimeLabel.textColor = UIColor.lightGray
+        postview.TimeLabel.adjustsFontSizeToFitWidth = true
         //버튼 제대로 표시
         postview.CommentBut.addTarget(self, action: #selector(DetailViewPresent), for: .touchUpInside)
         return postview
@@ -288,6 +286,7 @@ extension PostViewController {
                             post.username = Author
                             post.PostId = postID
                             post.timeAgo = Date
+                            post.timeInterval = 0
                             self.Posts.append(post)
                         } else {
                             post.caption = Description
@@ -299,12 +298,12 @@ extension PostViewController {
                             post.username = Author
                             post.PostId = postID
                             post.timeAgo = Date
+                            post.timeInterval = 0
                             self.Posts.append(post)
                         }
                     }
                     if self.Posts.count == Int(snapshot.childrenCount) {// 게시물 다 땃어 이제 날짜순 정렬해서 리로드
-                        self.DateSort(self.Posts)
-                        //self.Kolodaview.reloadData()
+                        self.DateFetch()
                     }
                 }
             }
@@ -318,7 +317,6 @@ extension PostViewController {
         ref?.child("User").child(id).child("UserProfile").observe(.value, with: { (snapshot) in
             if let item = snapshot.value as? [String : String] {
                 self.ProFileUrl = item["ProFileImage"]!
-                //self.Ko.reloadData()
             }
         })
         ref?.removeAllObservers()
@@ -326,7 +324,11 @@ extension PostViewController {
     
     @IBAction func Previous(_ sender: UIButton) {
         Kolodaview.revertAction()
-        LikeCheck()
+        if self.Kolodaview.currentCardIndex == 0 {
+            return
+        } else {
+            LikeCheck()
+        }
     }
     @IBAction func Next(_ sender: UIButton) {
         Kolodaview.swipe(.right, force: false)
@@ -345,24 +347,53 @@ extension PostViewController {
     @objc func DetailViewPresent() { // 댓글 창으로
         performSegue(withIdentifier: "PostTable", sender: self)
     }
-    func DateSort(_ post : [Post]) {
+    func DateSort() { //날짜 순 정렬 구조체 반환 함수
+        for i in (1..<self.Posts.count).reversed() {
+            for j in 0..<i {
+                if self.Posts[j].timeInterval! < self.Posts[j+1].timeInterval! { //맨 앞값이 작으면 가장 최근 포스트이기에
+                    print("제일 작다는디?")
+                    continue
+                }
+                else if self.Posts[j].timeInterval! > self.Posts[j+1].timeInterval! { //뒤에 값이 작으면
+                    let postTemp = self.Posts[j]
+                    self.Posts[j] = self.Posts[j+1]
+                    self.Posts[j+1] = postTemp
+                }
+            }
+        }
+        self.Kolodaview.reloadData()
+        return
+    }
+    func DateFetch() { // 날짜 따오기
         let date = Date()
         let format = DateFormatter()
-
         TimeZone.ReferenceType.default = TimeZone(abbreviation: "KST")!
         format.dateFormat = "yyyy-MM-dd"
         format.timeZone = TimeZone.ReferenceType.default
         CommonVariable.formatter.dateFormat = "yyyy-MM-dd HH:mm"
-        //CommonVariable.formatter.locale = Locale(identifier: "ko_kr")
+        CommonVariable.formatter.locale = Locale(identifier: "ko_kr")
         //CommonVariable.formatter.timeZone = TimeZone.init(abbreviation: "KST")
-        for i in 0..<post.count {
+        for i in 0..<self.Posts.count {
             let Date = format.string(from: date)
-            //print(Date)
-            let caption = post[i].timeAgo!.components(separatedBy: " ").map{ String($0) }
+            let caption = self.Posts[i].timeAgo!.components(separatedBy: " ").map{ String($0) }
             let StartDate = format.date(from: Date)!.addingTimeInterval(32400)
             let endDate = format.date(from: caption[0])!.addingTimeInterval(32400) //게시물 작성한 날짜
-            let interval = StartDate.timeIntervalSince(endDate) / 86400
-            print(interval)
+            let interval = StartDate.timeIntervalSince(endDate)
+            if interval < 1 { // 하루 미만이면
+                let start = CommonVariable.formatter.date(from: CommonVariable.formatter.string(from: date))!.addingTimeInterval(32400)
+                let end = CommonVariable.formatter.date(from: self.Posts[i].timeAgo!)!.addingTimeInterval(32400)
+                let interval = Int(start.timeIntervalSince(end) / 60) //분 계산
+                self.Posts[i].timeInterval = Int(interval * 60)
+                if interval > 60 { // 1시간 이상
+                   self.Posts[i].timeAgo = "\(interval / 60)시간 전"
+                }
+                //print(interval)
+                self.Posts[i].timeAgo = "\(interval)분 전"
+                continue
+            }
+            self.Posts[i].timeInterval = Int(interval)
         }
+        DateSort()
+        return
     }
 }
