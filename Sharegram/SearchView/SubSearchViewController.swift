@@ -121,8 +121,8 @@ class SubSearchViewController: UIViewController {
         SwipeRight.direction = .right
         //SearchResultTable.addGestureRecognizer(SwipeRight)
         SearchResultTable.separatorStyle = .none
-        SearchResultTable.rowHeight = UITableViewAutomaticDimension
         SearchResultTable.estimatedRowHeight = 100
+        SearchResultTable.rowHeight = UITableViewAutomaticDimension
     }
     override func viewDidLoad() {
         super.viewDidLoad()

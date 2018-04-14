@@ -47,7 +47,7 @@ class PostView: UIView {
             make.width.equalTo(PostImage.bounds.width / 3)
             make.height.equalTo(PostImage.bounds.height / 3.5)
         }
-        ProFileImage.layer.cornerRadius = self.ProFileImage.frame.size.width / 2
+        ProFileImage.layer.cornerRadius = self.ProFileImage.frame.size.height / 2
         ProFileImage.clipsToBounds = true
         UserName.snp.makeConstraints { (make) in
             make.width.equalTo(self.bounds.width/2)
@@ -80,13 +80,11 @@ class PostView: UIView {
         }
         Caption.snp.makeConstraints { (make) in
             make.width.equalTo(self.bounds.width/1.5)
-            make.height.equalTo(ProFileImage.frame.height/1.8)
+            make.height.lessThanOrEqualTo(ProFileImage.frame.height/1.8)
             make.left.equalTo(ProFileImage.snp.right).offset(5)
             make.right.equalTo(self)
             make.centerY.equalTo(ProFileImage)
         }
-        Caption.numberOfLines = 0
-        Caption.adjustsFontSizeToFitWidth = true
         TimeLabel.snp.makeConstraints { (make) in
             make.size.equalTo(UserName)
             make.top.equalTo(ProFileImage.snp.bottom).offset(5)

@@ -19,7 +19,7 @@ class CommentReplyTableViewCell: UITableViewCell {
         super.awakeFromNib()
         self.addSubview(Comment)
         ProFileImage.snp.makeConstraints { (make) in
-            make.left.equalTo(self).offset(ProFileImage.frame.width-20)
+            make.left.equalTo(arrow.snp.right).offset(10)
             make.width.equalTo(self.bounds.width/5)
             make.height.equalTo(self.bounds.height-20)
             make.centerY.equalTo(self)

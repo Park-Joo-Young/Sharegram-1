@@ -11,32 +11,38 @@ import Firebase
 import SDWebImage
 import SnapKit
 import CDAlertView
+import CoreLocation
 
-class PostTableViewController: UITableViewController {
+class PostTableViewController: UITableViewController { //댓글창과 지도를 보이기 위함.
     var Posts = Post()
     var PostImageView = UIImageView()
     var button = UIButton()
-    var item = [MTMapPOIItem]()
-    var MapImage : UIImage!
-    var MapView = UIView()
-    var Map = MTMapView()
+    var item = [MTMapPOIItem]() // 마커
+    var MapImage : UIImage! // 맵 이미지
+    var MapView = UIView() // 맵 뷰
+    var Map = MTMapView() // 맵
     var CommentView = UIView()
     var CommentBut = UIButton()
     var CommentProfileImage = UIImageView()
     var CommentTextfield = UITextField()
     var Profileimage = ""
-    var CommentName = ""
+    var CommentName = "" //댓글 이름
     var CommentArray : [String : String] = [:]
     var CommentList : [[String : String]] = [[:]]
     var ref : DatabaseReference?
+    var DistanceArray : [[String : String]] = []
+    var PostLocation = CLLocation()
     
     override func viewWillAppear(_ animated: Bool) {
         ref = Database.database().reference()
-        tableView.estimatedRowHeight = 80
-        tableView.rowHeight = UITableViewAutomaticDimension
         FetchUser()
         FetchComment()
-        PostImageView.sd_setImage(with: URL(string: Posts.image!), completed: nil)
+        PostLocation = CLLocation(latitude: Posts.lat!, longitude: Posts.lon!)
+        tableView.estimatedRowHeight = 80
+        tableView.rowHeight = UITableViewAutomaticDimension
+
+        
+        PostImageView.sd_setImage(with:URL(string: Posts.image!), completed: nil)
         MapImage = PostImageView.image
         UIGraphicsBeginImageContext(CGSize(width: 100, height: 100))
         MapImage.draw(in: CGRect(x: 0, y: 0, width: 100, height: 100))
@@ -53,6 +59,7 @@ class PostTableViewController: UITableViewController {
             make.bottom.equalTo(MapView)
         }
         if Posts.lat != nil { //위치 정보가 존재하면 맵을 불러옮
+            print(Posts.lat)
             Map.delegate = self
             Map.baseMapType = .standard
             Map.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: Posts.lat!, longitude: Posts.lon!)), zoomLevel: 0, animated: false)
@@ -65,6 +72,7 @@ class PostTableViewController: UITableViewController {
             Map.addPOIItems(item)
             print(Map.mapCenterPoint.mapPointGeo())
         } else {
+            print("tlqkf")
             Map.baseMapType = .hybrid
         }
         
@@ -114,9 +122,6 @@ class PostTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(Posts.lat!)
-
-        
         //self.navigationController?.isNavigationBarHidden = true
         //self.navigationItem.title = Posts.username!
         
@@ -184,6 +189,7 @@ class PostTableViewController: UITableViewController {
                     alertview.show()
                     return
                 }
+                cell.Comment.sizeToFit()
                 cell.ReplyBut.tag = indexPath.row
                 cell.ReplyBut.setTitle("답글 달기", for: .normal)
                 cell.ReplyBut.tintColor = UIColor.lightGray
@@ -206,6 +212,7 @@ class PostTableViewController: UITableViewController {
                     alertview.show()
                     return
                 }
+                cell.Comment.sizeToFit()
                 return cell
             }
         // Configure the cell...
@@ -248,18 +255,19 @@ class PostTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+
     }
-    */
+ 
 
 }
-extension PostTableViewController : MTMapViewDelegate {
+extension PostTableViewController : MTMapViewDelegate, UINavigationControllerDelegate {
     func poiItem(latitude: Double, longitude: Double) -> MTMapPOIItem {
         let item = MTMapPOIItem()
 
@@ -273,6 +281,16 @@ extension PostTableViewController : MTMapViewDelegate {
     func mapView(_ mapView: MTMapView!, singleTapOn mapPoint: MTMapPoint!) {
         print("시발 여길 왜 누르세요!!!!@!!")
     }
+    func mapView(_ mapView: MTMapView!, selectedPOIItem poiItem: MTMapPOIItem!) -> Bool {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "DistanceView") as! DistanceViewController
+        vc.modalPresentationStyle = .overFullScreen
+        vc.PostLocation = self.PostLocation
+        present(vc, animated: true, completion: nil)
+        return true
+    }
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        self.viewWillAppear(true)
+    }
 }
 extension PostTableViewController {
     func FetchComment() { // 댓글 가져오기
@@ -280,6 +298,7 @@ extension PostTableViewController {
         ref?.child("Comment").child(self.Posts.PostId!).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.value is NSNull {
                 print("Nothing")
+                return
             } else {
                 if let item = snapshot.value as? [String : AnyObject] {
                     for (_,value) in item {
@@ -357,21 +376,6 @@ extension PostTableViewController {
         })
         ref?.removeAllObservers()
     }
+    
 }
-//extension UIResponder {
-//
-//    func next<T: UIResponder>(_ type: T.Type) -> T? {
-//        return next as? T ?? next?.next(type)
-//    }
-//}
-//extension UITableViewCell {
-//
-//    var tableView: UITableView? {
-//        return next(UITableView.self)
-//    }
-//
-//    var indexPath: IndexPath? {
-//        return tableView?.indexPath(for: self)
-//    }
-//}
 

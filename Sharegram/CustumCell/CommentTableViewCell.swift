@@ -16,6 +16,7 @@ class CommentTableViewCell: UITableViewCell {
     @IBOutlet var TimeAgo: UILabel!
     @IBOutlet var ReplyBut: UIButton!
     var Comment = ActiveLabel()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -28,10 +29,11 @@ class CommentTableViewCell: UITableViewCell {
         }
         Comment.snp.makeConstraints { (make) in
             make.left.equalTo(ProFileImage.snp.right).offset(5)
-            make.width.equalTo(CommonVariable.screenWidth/2)
+            make.width.lessThanOrEqualTo(CommonVariable.screenWidth/2)
             make.height.equalTo(self.bounds.height/1.5)
             make.top.equalTo(self)
         }
+
         TimeAgo.snp.makeConstraints { (make) in
             make.left.equalTo(Comment)
             make.width.equalTo(self.bounds.width/5)
