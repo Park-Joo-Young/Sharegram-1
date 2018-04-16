@@ -12,9 +12,10 @@ import UIKit
 class Post :NSObject// 게시물 구조체
 {
     var username: String? //Author
+    var userprofileimage : String?
     var timeAgo: String? // Date
     var caption: String? // Description
-    var image: String? // image
+    var image: String? // Postimage
     var numberOfLikes: String? // like
     var lat : Double? //위도
     var lon : Double? //경도

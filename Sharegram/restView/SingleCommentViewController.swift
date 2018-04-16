@@ -23,7 +23,7 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
     
     var ref : DatabaseReference?
     /////////////User//
-    var User = Userinfo()
+    var UserPost = Post()
     //////////////////
     ///////////PostHeaderview//
     var PostCaptionView = UIView() // 작성자 텍스트뷰 헤더뷰
@@ -78,7 +78,7 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
             make.left.equalTo(PostCaptionView.snp.left).offset(10)
             make.top.equalTo(PostCaptionView.snp.top).offset(10)
         }
-        PostUserProFileImage.image = User.AuthorImage
+        PostUserProFileImage.sd_setImage(with: URL(string: self.UserPost.userprofileimage!), completed: nil)
         PostUserProFileImage.layer.borderWidth = 1
         PostUserProFileImage.layer.borderColor = UIColor.lightGray.cgColor
         PostUserProFileImage.contentMode = .scaleToFill
@@ -89,7 +89,7 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
             make.left.equalTo(PostUserProFileImage.snp.right).offset(10)
             make.top.equalTo(PostUserProFileImage)
         }
-        PostUserName.text = User.AuthorName
+        PostUserName.text = UserPost.username
         
         PostUserCaption.snp.makeConstraints { (make) in
             make.width.equalTo(width - PostUserProFileImage.bounds.width)
@@ -98,7 +98,7 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
             make.top.equalTo(PostUserName.snp.bottom)
         }
         PostUserCaption.numberOfLines = 0
-        PostUserCaption.text = self.User.AuthorCaption
+        PostUserCaption.text = UserPost.caption!
         PostUserCaption.enabledTypes = [.hashtag, .mention, .url]
         
         CommentView.addSubview(CommentProfileImage)
@@ -234,13 +234,17 @@ extension SingleCommentViewController : UITableViewDataSource , UITableViewDeleg
     }
 }
 extension SingleCommentViewController {
-    func FetchUser() { //프로필 따오기 댓글창
+    func FetchUser() { //프로필 따오기 댓글창 형성
         ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("UserProfile").observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.value is NSNull {
                 self.CommentProfileImage.image = UIImage(named: "Man.png")
             } else {
                 if let item = snapshot.value as? [String : String] {
-                    self.CommentProfileImage.sd_setImage(with: URL(string: item["ProFileImage"]!), completed: nil)
+                    if item["ProFileImage"]! == nil {
+                        self.CommentProfileImage.image = UIImage(named: "Man.png")
+                    } else {
+                        self.CommentProfileImage.sd_setImage(with: URL(string: item["ProFileImage"]!), completed: nil)
+                    }
                     self.Profileimage = item["ProFileImage"]!
                     self.CommentName = item["사용자 명"]!
                 }
@@ -250,7 +254,7 @@ extension SingleCommentViewController {
     }
     func FetchComment() { // 댓글 가져오기
         self.CommentList.removeAll()
-        ref?.child("Comment").child(User.PostID).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+        ref?.child("Comment").child(UserPost.PostId!).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.value is NSNull {
                 print("Nothing")
                 return
@@ -285,10 +289,10 @@ extension SingleCommentViewController {
         CommonVariable.formatter.dateFormat = "yyyy-MM-dd HH:mm"
         CommonVariable.formatter.locale = Locale(identifier: "ko_KR")
         let Date = CommonVariable.formatter.string(from: CommonVariable.date)
-        let key = (ref?.child("Comment").child(User.PostID).childByAutoId().key)!
+        let key = (ref?.child("Comment").child(UserPost.PostId!).childByAutoId().key)!
         if !(self.CommentTextfield.text!.isEmpty) {
-            self.CommentArray = ["ProFileImage" : self.Profileimage, "PostKey" : User.PostID, "Comment" : self.CommentTextfield.text!, "Author" : self.CommentName, "Date" : Date, "Type" : "Comment", "CommentKey" : key]
-            ref?.child("Comment").child(User.PostID).updateChildValues([key : self.CommentArray])
+            self.CommentArray = ["ProFileImage" : self.Profileimage, "PostKey" : UserPost.PostId!, "Comment" : self.CommentTextfield.text!, "Author" : self.CommentName, "Date" : Date, "Type" : "Comment", "CommentKey" : key]
+            ref?.child("Comment").child(UserPost.PostId!).updateChildValues([key : self.CommentArray])
             self.CommentTextfield.text = ""
             FetchComment()
         }
@@ -298,14 +302,14 @@ extension SingleCommentViewController {
         CommonVariable.formatter.dateFormat = "yyyy-MM-dd HH:mm"
         CommonVariable.formatter.locale = Locale(identifier: "ko_KR")
         let Date = CommonVariable.formatter.string(from: CommonVariable.date)
-        let key = (ref?.child("Comment").child(User.PostID).child(self.CommentList[tag]["CommentKey"]!).childByAutoId().key)!
+        let key = (ref?.child("Comment").child(UserPost.PostId!).child(self.CommentList[tag]["CommentKey"]!).childByAutoId().key)!
         
         let alert = CDAlertView(title: "\(self.CommentList[tag]["Author"]!)님에게 답글", message: nil, type: CDAlertViewType.notification)
         alert.isTextFieldHidden = false
         print(alert.textFieldText!)
         let write = CDAlertViewAction(title: "작성", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white) { (action) in
-            let ReplyArray = ["Author" : self.CommentName, "Date" : Date, "ReplyKey" : key, "Type" : "Reply", "ProFileImage" : self.Profileimage, "Reply" : alert.textFieldText!, "PostKey" : self.User.PostID]
-            self.ref?.child("Comment").child(self.User.PostID).child(self.CommentList[tag]["CommentKey"]!).child("Reply").updateChildValues([key : ReplyArray])
+            let ReplyArray = ["Author" : self.CommentName, "Date" : Date, "ReplyKey" : key, "Type" : "Reply", "ProFileImage" : self.Profileimage, "Reply" : alert.textFieldText!, "PostKey" : self.UserPost.PostId!]
+            self.ref?.child("Comment").child(self.UserPost.PostId!).child(self.CommentList[tag]["CommentKey"]!).child("Reply").updateChildValues([key : ReplyArray])
             return
         }
         let cancel = CDAlertViewAction(title: "취소", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white) { (action) in

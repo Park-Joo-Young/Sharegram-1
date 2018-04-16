@@ -404,7 +404,7 @@
         <!--Hash Tag View Controller-->
         <scene sceneID="Gf9-bc-S72">
             <objects>
-                <viewController id="kg8-sW-Gnk" customClass="HashTagViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HashTagView" modalPresentationStyle="overCurrentContext" id="kg8-sW-Gnk" customClass="HashTagViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="klt-k8-PUV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -420,14 +420,14 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="u0S-NQ-xF1">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="u0S-NQ-xF1">
                                         <rect key="frame" x="0.0" y="0.0" width="121" height="96"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="121" height="96"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="US4-gj-yTZ">
+                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="US4-gj-yTZ">
                                                     <rect key="frame" x="0.0" y="0.0" width="121" height="96"/>
                                                 </imageView>
                                             </subviews>
@@ -492,7 +492,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="59M-GR-1zB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8732" y="208.24587706146929"/>
+            <point key="canvasLocation" x="7756" y="-1336"/>
         </scene>
         <!--Activity-->
         <scene sceneID="Fhs-WS-U4s">
@@ -623,6 +623,7 @@
                     <connections>
                         <outlet property="WholePostCollectionView" destination="sSe-gl-ohN" id="fT3-eg-o07"/>
                         <segue destination="O3q-ed-yJn" kind="show" identifier="Koloda" id="xZJ-IS-Q3a"/>
+                        <segue destination="AV0-GA-x9O" kind="show" identifier="sub" id="Qyz-Ts-fs6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="676-bI-QDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -671,6 +672,7 @@
                         <outlet property="SearchResultTable" destination="q3k-Hu-azp" id="MMD-Gm-X61"/>
                         <outlet property="navi" destination="IfU-jr-aRr" id="xdj-zz-wJ3"/>
                         <segue destination="7OL-Uf-UOl" kind="show" identifier="SearchToUser" id="PrX-HD-SbJ"/>
+                        <segue destination="kg8-sW-Gnk" kind="show" identifier="SearchToHashtag" id="oGx-8M-vXo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SWx-yI-J0e" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1089,6 +1091,6 @@
         <image name="icon-settings" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="M3a-hU-ztO"/>
+        <segue reference="PrX-HD-SbJ"/>
     </inferredMetricsTieBreakers>
 </document>

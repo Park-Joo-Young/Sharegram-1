@@ -33,31 +33,34 @@ class SearchViewController: UIViewController{
         ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             let item = snapshot.value as! [String : AnyObject]
                 for (_, value) in item {
-                    if let Description = value["Description"] as? String, let Author = value["Author"] as? String, let Date = value["Date"] as? String, let ID = value["ID"] as? String, let Like = value["Like"] as? String, let image = value["image"] as? String , let postID = value["postID"] as? String , let latitude = value["latitude"] as? String, let longitude = value["longitude"] as? String {
+                    print("여기좀 와주세요 아저시!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ㄱ")
+                    if let Description = value["Description"] as? String, let Author = value["Author"] as? String, let Date = value["Date"] as? String, let ID = value["ID"] as? String, let image = value["image"] as? String , let postID = value["postID"] as? String {
                         let post = Post()
-                        if value["latitude"] == nil && value["longitude"] == nil { //위치가 없으면
+                        if value["latitude"] as? String == nil { //위치가 없으면
+                            print("여기좀 와주세요 아저시!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ㄱ")
                             post.caption = Description
                             post.Id = ID
                             post.image = image
-                            post.lat = 0
-                            post.lon = 0
-                            post.numberOfLikes = Like
+                            post.lat = 0.0
+                            post.lon = 0.0
+                            //post.numberOfLikes = Like
                             post.username = Author
                             post.PostId = postID
                             post.timeAgo = Date
-                            print(post.PostId)
+
                             self.Posts.append(post)
                         } else {
                             post.caption = Description
                             post.Id = ID
                             post.image = image
-                            post.lat = Double(latitude)
-                            post.lon = Double(longitude)
-                            post.numberOfLikes = Like
+                            let lat = value["latitude"] as? String
+                            let lon = value["longitude"] as? String
+                            post.lat = Double(lat!)
+                            post.lon = Double(lon!)
+                            //post.numberOfLikes = Like
                             post.username = Author
                             post.PostId = postID
                             post.timeAgo = Date
-                            print(post.image)
                             self.Posts.append(post)
                         }
                     }
@@ -73,6 +76,7 @@ class SearchViewController: UIViewController{
         //self.Posts.removeAll()
         ref = Database.database().reference()
         SearchController.searchBar.showsCancelButton = false
+        SearchController.searchBar.resignFirstResponder()
         SnapWholePosts()
         
         WholePostCollectionView.snp.makeConstraints { (make) in
@@ -83,6 +87,7 @@ class SearchViewController: UIViewController{
             make.right.equalTo(self.view)
         }
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -94,9 +99,8 @@ class SearchViewController: UIViewController{
         SearchController.searchBar.searchBarStyle = .prominent
         SearchController.searchBar.sizeToFit()
         SearchController.searchBar.barTintColor = UIColor.lightGray
-    
+        //self.definesPresentationContext = true
         self.navigationItem.titleView = SearchController.searchBar
-//        self.definesPresentationContext = false
         
 
 
@@ -116,26 +120,25 @@ class SearchViewController: UIViewController{
     }
 }
 
-extension SearchViewController : UISearchResultsUpdating, UISearchControllerDelegate {
+extension SearchViewController : UISearchControllerDelegate {
+
     func willPresentSearchController(_ searchController: UISearchController) {
-         //performSegue(withIdentifier: "Search", sender: self)
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Search") as! SubSearchViewController
-        vc.modalPresentationStyle = .overCurrentContext
-        present(vc, animated: true, completion: nil)
-        //performSegue(withIdentifier: "search", sender: self)
+          let vc = self.storyboard?.instantiateViewController(withIdentifier: "Search") as! SubSearchViewController
+
+        //performSegue(withIdentifier: "sub", sender: self)
+//         vc.modalPresentationStyle = .overCurrentContext
+//         present(vc, animated: false, completion: nil)
+         //self.navigationItem.backBarButtonItem?.title = ""
+         //navigationController?.pushViewController(vc, animated: true)
     }
     func presentSearchController(_ searchController: UISearchController) {
-       
+       //performSegue(withIdentifier: "sub", sender: self)
+        performSegue(withIdentifier: "sub", sender: self)
 //        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Test")
 //        vc?.modalPresentationStyle = .popover
 //        vc?.preferredContentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height - (self.navigationController?.navigationBar.frame.height)!)
 //        //vc?.modalTransitionStyle = .flipHorizontal
 //        self.present(vc!, animated: true, completion:  nil)
-
-        
-    }
-    func updateSearchResults(for searchController: UISearchController) {
-         //performSegue(withIdentifier: "Search", sender: self)
     }
 }
 

@@ -120,24 +120,22 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, Ge
         if segue.identifier == "write" {
             let destination = segue.destination as! WriteViewController
             destination.writeImage = myImageView.image
-            destination.object.lat = object.lat
-            destination.object.lon = object.lon
             if self.asset?.location == nil { //사진 찍고 바로 넘어갔을 때
                 if self.location == nil { //카메라를 찍지 않았다.
                     asset = fetchResult[0]
-                    destination.object.lat = (self.asset?.location?.coordinate.latitude)!
-                    destination.object.lon = (self.asset?.location?.coordinate.longitude)!
+                    destination.object.lat = 0
+                    destination.object.lon = 0
                     return
-                } else {
+                } else { // 카메라를 찍었기때문에 셀프 로케이션이 존재한다.
                     destination.object.lat = object.lat
                     destination.object.lon = object.lon
                 }
-            } else { //클릭을 해서 있는 사진을 골랐을 경우 ( 위치)
+            } else { //클릭을 해서 있는 사진을 골랐을 경우 ( 위치) asset.location이 있을 때
                 destination.object.lat = (self.asset?.location?.coordinate.latitude)!
                 destination.object.lon = (self.asset?.location?.coordinate.longitude)!
             }
         }
-        else if segue.identifier == "AccurateLocation" {
+        else if segue.identifier == "AccurateLocation" { // 사진을 찍어서 위치값이 있을 때
             let destination = segue.destination as! AccurateLocationMapViewController
             destination.object.lat = self.object.lat
             destination.object.lon = self.object.lon
@@ -162,27 +160,7 @@ extension CameraViewController : UIImagePickerControllerDelegate {
                 convertToAddressWith(coordinate: location)
             }
         }
-
-                
-//                PHPhotoLibrary.shared().performChanges({
-//                    print("일단찍자?")
-//                    let request = PHAssetChangeRequest.creationRequestForAsset(from: self.capture!)
-//                    request.location = self.location
-//                }, completionHandler: nil)
-
-                //convertToAddressWith(coordinate: location)
     }
-//        let mediaType = info[UIImagePickerControllerMediaType] as! NSString
-//        if mediaType.isEqual(to: kUTTypeImage as NSString as String) {
-//            if flag {
-//                //UIImageWriteToSavedPhotosAlbum(capture, self, nil, nil) //사진 저장
-        
-//            }
-//
-//            imageArray.removeAll()
-//            self.PhotoCollection.reloadData()
-//            myImageView.image = capture
-//        }
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }

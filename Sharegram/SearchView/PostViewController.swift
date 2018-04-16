@@ -144,11 +144,8 @@ extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
             alertview.show()
             return
         }
-        if Posts[index].numberOfLikes == "0" {
-            LikeCountLabel.text = "마음에 드신다면 하트를 눌러주세요"
-        } else {
-            LikeCountLabel.text = "좋아요" + Posts[index].numberOfLikes! + "개"
-        }
+        LikeCountLabel.text = "마음에 드신다면 하트를 눌러주세요"
+
         postview.UserName.isUserInteractionEnabled = true
         if postview.UserName.isUserInteractionEnabled == true {
             postview.UserName.text = Posts[index].username!
@@ -276,17 +273,16 @@ extension PostViewController {
             let item = snapshot.value as! [String : AnyObject]
             
             for (_, value) in item {
-                if let Description = value["Description"] as? String, let Author = value["Author"] as? String, let Date = value["Date"] as? String, let ID = value["ID"] as? String, let Like = value["Like"] as? String, let image = value["image"] as? String , let postID = value["postID"] as? String , let latitude = value["latitude"] as? String, let longitude = value["longitude"] as? String {
+                if let Description = value["Description"] as? String, let Author = value["Author"] as? String, let Date = value["Date"] as? String, let ID = value["ID"] as? String, let image = value["image"] as? String , let postID = value["postID"] as? String {
                     let post = Post()
                     
                     if ID == self.Id { // 그 당사자의 아이디와 일치하는 게시물들만 포스트에 넣기
-                        if value["latitude"] == nil && value["longitude"] == nil { //위치가 없으면
+                        if value["latitude"] as? String == nil { //위치가 없으면
                             post.caption = Description
                             post.Id = ID
                             post.image = image
                             post.lat = 0
                             post.lon = 0
-                            post.numberOfLikes = Like
                             post.username = Author
                             post.PostId = postID
                             post.timeAgo = Date
@@ -296,9 +292,10 @@ extension PostViewController {
                             post.caption = Description
                             post.Id = ID
                             post.image = image
-                            post.lat = Double(latitude)
-                            post.lon = Double(longitude)
-                            post.numberOfLikes = Like
+                            let lat = value["latitude"] as? String
+                            let lon = value["longitude"] as? String
+                            post.lat = Double(lat!)
+                            post.lon = Double(lon!)
                             post.username = Author
                             post.PostId = postID
                             post.timeAgo = Date

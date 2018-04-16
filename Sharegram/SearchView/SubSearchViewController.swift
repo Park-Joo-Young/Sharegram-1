@@ -26,11 +26,13 @@ class SubSearchViewController: UIViewController {
     var keyList : [String] = []
     var SearchTagList : [String] = []
     var UserKeyForPrepare : String = ""
+    var index : Int = 0
     func delay(_ delay: Double, closure: @escaping ()->()) {
         let when = DispatchTime.now() + delay
         DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
     override func viewDidAppear(_ animated: Bool) {
+        //super.viewDidAppear(true)
         delay(0.001) {
             self.SearchController.searchBar.becomeFirstResponder()
             print("됐는데")
@@ -68,19 +70,30 @@ class SubSearchViewController: UIViewController {
         }
         self.SearchResultTable.reloadData()
     }
+
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
+        //self.navigationItem.hidesBackButton = true
         ref = Database.database().reference()
-        navi.snp.makeConstraints { (make) in
-            make.top.equalTo(self.view).offset(10)
-            make.height.equalTo(self.view.frame.height/10)
-            make.left.equalTo(self.view)
-            make.right.equalTo(self.view)
-        }
-        UINavigationBar.appearance().barTintColor = UIColor.white
+        print("여기가 처음")
+        SearchController = UISearchController(searchResultsController: nil)
+        SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
+        SearchController.hidesNavigationBarDuringPresentation = false
+        SearchController.dimsBackgroundDuringPresentation = false
+        SearchController.searchBar.searchBarStyle = .prominent
+        SearchController.searchBar.sizeToFit()
+        SearchController.searchBar.delegate = self
+        self.definesPresentationContext = true
+        navigationItem.titleView = SearchController.searchBar
+//        navi.snp.makeConstraints { (make) in
+//            make.top.equalTo(self.view).offset(10)
+//            make.height.equalTo(self.view.frame.height/10)
+//            make.left.equalTo(self.view)
+//            make.right.equalTo(self.view)
+//        }
+//        UINavigationBar.appearance().barTintColor = UIColor.white
         self.view.addSubview(segment)
         segment.snp.makeConstraints { (make) in
-            make.top.equalTo(navi.snp.bottom)
+            make.top.equalTo(self.view).offset(70)
             make.width.equalTo(self.view.frame.width)
             make.height.equalTo(self.view.frame.height/20)
             make.centerX.equalTo(self.view)
@@ -100,11 +113,6 @@ class SubSearchViewController: UIViewController {
         let largerRedTextSelectAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: UIColor.orange]
         segment.setTitleTextAttributes(largerRedTextHighlightAttributes, for: .highlighted)
         segment.setTitleTextAttributes(largerRedTextSelectAttributes, for: .selected)
-        
-        //        seg.items = ["인기", "사람", "태그"]
-        //        seg.borderColor = UIColor(white: 1.0, alpha: 0.3)
-        //        seg.selectedIndex = 0
-        //        seg.addTarget(self, action: #selector(ActSegClicked), for: .valueChanged)
         
         SearchResultTable.snp.makeConstraints { (make) in
             make.top.equalTo(segment.snp.bottom)
@@ -127,18 +135,10 @@ class SubSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.navigationItem.hidesBackButton = true
-        SearchController = UISearchController(searchResultsController: nil)
-        SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
-        SearchController.hidesNavigationBarDuringPresentation = false
-        SearchController.dimsBackgroundDuringPresentation = false
-        SearchController.searchBar.searchBarStyle = .prominent
-        SearchController.searchBar.sizeToFit()
-        SearchController.searchBar.delegate = self
-        SearchController.definesPresentationContext = true
-        self.definesPresentationContext = true
 
 
-        navi.topItem?.titleView = SearchController.searchBar
+
+        //navi.topItem?.titleView = SearchController.searchBar
         
         //self.navigationItem.titleView = SearchController.sea rchBar
         // Do any additional setup after loading the view.
@@ -206,7 +206,6 @@ class SubSearchViewController: UIViewController {
             self.UserList.removeAll()
             self.SearchResultTable.reloadData()
             return
-            //self.dismiss(animated: true, completion: nil)
         }
     }
     func UserKeyForPrepare(_ key1 : String) {
@@ -242,6 +241,12 @@ class SubSearchViewController: UIViewController {
             if segue.identifier == "SearchToUser" {
                 let destination = segue.destination as! UserProFileViewController
                 destination.UserKey = self.UserKeyForPrepare
+            }
+        } else if segment.selectedSegmentIndex == 2 {
+            if segue.identifier == "SearchToHashtag" {
+                print("시바랍리바립자ㅣ아ㅣㅂㅈ잊바ㅣㅇㅂ지아ㅣ빙지ㅏㅂ잉ㅈ빕ㅇ지ㅏㅂ지아이ㅏ비ㅏㅈ입이ㅏㅏㅣ")
+                let destination = segue.destination as! HashTagViewController
+                destination.HashTagName = self.SearchTagList[self.index]
             }
         }
 
@@ -291,15 +296,20 @@ extension SubSearchViewController : UITableViewDelegate {
 }
 extension SubSearchViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.index = indexPath.row
         if segment.selectedSegmentIndex == 1 { // 사람인 상태에서 검색에서 누를 시
             self.UserKeyForPrepare(self.SearchList[indexPath.row])
+        } else if segment.selectedSegmentIndex == 2 { //태그 검색하고 누르면
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "HashTagView") as! HashTagViewController
+            vc.HashTagName = self.SearchTagList[self.index]
+            vc.modalPresentationStyle = .popover
+            present(vc, animated: true, completion: nil)
         }
     }
 }
 extension SubSearchViewController : UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        dismiss(animated: true, completion: nil)
-        //performSegue(withIdentifier: "segue", sender: self)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 extension SubSearchViewController : UISearchResultsUpdating{
