@@ -41,6 +41,8 @@
 		186FDFF82005F871007A454C /* ShareGram.png in Resources */ = {isa = PBXBuildFile; fileRef = 186FDFF72005F871007A454C /* ShareGram.png */; };
 		18708F9C20853D1F008F6B8F /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18708F9A20853D1F008F6B8F /* CollectionViewCell.swift */; };
 		18708F9D20853D1F008F6B8F /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18708F9B20853D1F008F6B8F /* CollectionViewCell.xib */; };
+		18708F9F20854F6D008F6B8F /* ActivityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18708F9E20854F6D008F6B8F /* ActivityTableViewController.swift */; };
+		18708FA120855597008F6B8F /* HomePostCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18708FA020855597008F6B8F /* HomePostCollectionViewController.swift */; };
 		1874E5B42032D2EA00D94576 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1874E5B32032D2EA00D94576 /* ADVSegmentedControl.swift */; };
 		18757E71207A4831007E4A3D /* CommentReplyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18757E6F207A4831007E4A3D /* CommentReplyTableViewCell.swift */; };
 		18757E72207A4831007E4A3D /* CommentReplyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18757E70207A4831007E4A3D /* CommentReplyTableViewCell.xib */; };
@@ -146,6 +148,8 @@
 		186FDFF72005F871007A454C /* ShareGram.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShareGram.png; sourceTree = "<group>"; };
 		18708F9A20853D1F008F6B8F /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		18708F9B20853D1F008F6B8F /* CollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		18708F9E20854F6D008F6B8F /* ActivityTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTableViewController.swift; sourceTree = "<group>"; };
+		18708FA020855597008F6B8F /* HomePostCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePostCollectionViewController.swift; sourceTree = "<group>"; };
 		1874E5B32032D2EA00D94576 /* ADVSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADVSegmentedControl.swift; sourceTree = "<group>"; };
 		18757E6F207A4831007E4A3D /* CommentReplyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentReplyTableViewCell.swift; sourceTree = "<group>"; };
 		18757E70207A4831007E4A3D /* CommentReplyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentReplyTableViewCell.xib; sourceTree = "<group>"; };
@@ -345,6 +349,7 @@
 			isa = PBXGroup;
 			children = (
 				3AA85BE1200738C100BAB348 /* HomeViewController.swift */,
+				18708FA020855597008F6B8F /* HomePostCollectionViewController.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -369,6 +374,7 @@
 			isa = PBXGroup;
 			children = (
 				3AA85BE7200738F100BAB348 /* ActivityViewController.swift */,
+				18708F9E20854F6D008F6B8F /* ActivityTableViewController.swift */,
 			);
 			path = ActivityView;
 			sourceTree = "<group>";
@@ -735,8 +741,10 @@
 				3A76C19920046761004253CF /* Sharegram.xcdatamodeld in Sources */,
 				3AA85BE2200738C100BAB348 /* HomeViewController.swift in Sources */,
 				185EECDA2058EEB100B3826E /* DistanceViewController.swift in Sources */,
+				18708FA120855597008F6B8F /* HomePostCollectionViewController.swift in Sources */,
 				3A76C19120046761004253CF /* AppDelegate.swift in Sources */,
 				3AA85BE6200738E300BAB348 /* CameraViewController.swift in Sources */,
+				18708F9F20854F6D008F6B8F /* ActivityTableViewController.swift in Sources */,
 				18708F9C20853D1F008F6B8F /* CollectionViewCell.swift in Sources */,
 				04A800B4202C3488003F0594 /* Post.swift in Sources */,
 				04AD8E0E202C2B8E00FD1733 /* PostCell.swift in Sources */,

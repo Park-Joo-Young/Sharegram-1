@@ -263,6 +263,7 @@ class SubSearchViewController: UIViewController {
 extension SubSearchViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
            if segment.selectedSegmentIndex == 2 {
+                print(self.SearchTagList)
                 return self.SearchTagList.count
             } else {
                 return self.SearchList.count
