@@ -31,14 +31,18 @@ class SubSearchViewController: UIViewController {
         let when = DispatchTime.now() + delay
         DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
-    override func viewDidAppear(_ animated: Bool) {
-        //super.viewDidAppear(true)
-        delay(0.001) {
-            self.SearchController.searchBar.becomeFirstResponder()
-            print("됐는데")
-        }
+    override func viewWillDisappear(_ animated: Bool) {
+        self.SearchController.isActive = false
+        self.SearchController.searchBar.removeFromSuperview()
+        self.definesPresentationContext = false
+        super.viewWillDisappear(animated)
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.definesPresentationContext = true
+     }
     func SearchHashTag(_ str : String ) {
+        SearchTagList.removeAll()
         let tag = "#" + str
         ref?.child("WholePosts").observe(.childAdded, with: { (snapshot) in
             if snapshot.value is NSNull {
@@ -75,15 +79,7 @@ class SubSearchViewController: UIViewController {
         //self.navigationItem.hidesBackButton = true
         ref = Database.database().reference()
         print("여기가 처음")
-        SearchController = UISearchController(searchResultsController: nil)
-        SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
-        SearchController.hidesNavigationBarDuringPresentation = false
-        SearchController.dimsBackgroundDuringPresentation = false
-        SearchController.searchBar.searchBarStyle = .prominent
-        SearchController.searchBar.sizeToFit()
-        SearchController.searchBar.delegate = self
-        self.definesPresentationContext = true
-        navigationItem.titleView = SearchController.searchBar
+
 //        navi.snp.makeConstraints { (make) in
 //            make.top.equalTo(self.view).offset(10)
 //            make.height.equalTo(self.view.frame.height/10)
@@ -98,21 +94,7 @@ class SubSearchViewController: UIViewController {
             make.height.equalTo(self.view.frame.height/20)
             make.centerX.equalTo(self.view)
         }
-        segment.segmentStyle = .textOnly
-        segment.insertSegment(withTitle: "인기", at: 0)
-        segment.insertSegment(withTitle: "사람", at: 1)
-        segment.insertSegment(withTitle: "태그", at: 2)
-        segment.underlineSelected = true
-        segment.addTarget(self, action: #selector(ActSegClicked), for: .valueChanged)
-        segment.segmentContentColor = UIColor.black
-        segment.selectedSegmentContentColor = UIColor.black
-        segment.backgroundColor = UIColor.white
-        segment.selectedSegmentIndex = 0
         
-        let largerRedTextHighlightAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: UIColor.blue]
-        let largerRedTextSelectAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: UIColor.orange]
-        segment.setTitleTextAttributes(largerRedTextHighlightAttributes, for: .highlighted)
-        segment.setTitleTextAttributes(largerRedTextSelectAttributes, for: .selected)
         
         SearchResultTable.snp.makeConstraints { (make) in
             make.top.equalTo(segment.snp.bottom)
@@ -132,16 +114,41 @@ class SubSearchViewController: UIViewController {
         SearchResultTable.estimatedRowHeight = 100
         SearchResultTable.rowHeight = UITableViewAutomaticDimension
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.navigationItem.hidesBackButton = true
-
-
+        //self.navigationController?.isNavigationBarHidden = true
+        SearchController = UISearchController(searchResultsController: nil)
+        //SearchController.delegate = self
+        SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
+        SearchController.hidesNavigationBarDuringPresentation = false
+        SearchController.dimsBackgroundDuringPresentation = false
+        SearchController.searchBar.searchBarStyle = .prominent
+        SearchController.searchBar.sizeToFit()
+        SearchController.searchBar.barTintColor = UIColor.white
+        //self.navigationItem.titleView = SearchController.searchBar
+        segment.segmentStyle = .textOnly
+        segment.insertSegment(withTitle: "인기", at: 0)
+        segment.insertSegment(withTitle: "사람", at: 1)
+        segment.insertSegment(withTitle: "태그", at: 2)
+        segment.underlineSelected = true
+        segment.addTarget(self, action: #selector(ActSegClicked), for: .valueChanged)
+        segment.segmentContentColor = UIColor.black
+        segment.selectedSegmentContentColor = UIColor.black
+        segment.backgroundColor = UIColor.white
+        segment.selectedSegmentIndex = 0
+        
+        let largerRedTextHighlightAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: UIColor.blue]
+        let largerRedTextSelectAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: UIColor.orange]
+        segment.setTitleTextAttributes(largerRedTextHighlightAttributes, for: .highlighted)
+        segment.setTitleTextAttributes(largerRedTextSelectAttributes, for: .selected)
 
         //navi.topItem?.titleView = SearchController.searchBar
         
         //self.navigationItem.titleView = SearchController.sea rchBar
         // Do any additional setup after loading the view.
+        self.SearchResultTable.tableHeaderView = SearchController.searchBar
     }
 //    func preferredStatusBarStyle() -> UIStatusBarStyle {
 //        return .lightContent
@@ -244,7 +251,6 @@ class SubSearchViewController: UIViewController {
             }
         } else if segment.selectedSegmentIndex == 2 {
             if segue.identifier == "SearchToHashtag" {
-                print("시바랍리바립자ㅣ아ㅣㅂㅈ잊바ㅣㅇㅂ지아ㅣ빙지ㅏㅂ잉ㅈ빕ㅇ지ㅏㅂ지아이ㅏ비ㅏㅈ입이ㅏㅏㅣ")
                 let destination = segue.destination as! HashTagViewController
                 destination.HashTagName = self.SearchTagList[self.index]
             }
@@ -256,16 +262,11 @@ class SubSearchViewController: UIViewController {
 }
 extension SubSearchViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if SearchController.isActive {
-            print(self.SearchList.count)
-            if segment.selectedSegmentIndex == 2 {
+           if segment.selectedSegmentIndex == 2 {
                 return self.SearchTagList.count
             } else {
                 return self.SearchList.count
             }
-        } else {
-            return 0
-        }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print("ddd")
@@ -304,14 +305,11 @@ extension SubSearchViewController : UITableViewDataSource {
             vc.HashTagName = self.SearchTagList[self.index]
             vc.modalPresentationStyle = .popover
             present(vc, animated: true, completion: nil)
+            //performSegue(withIdentifier: "SearchToHashtag", sender: self)
         }
     }
 }
-extension SubSearchViewController : UISearchBarDelegate {
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.dismiss(animated: true, completion: nil)
-    }
-}
+
 extension SubSearchViewController : UISearchResultsUpdating{
     func updateSearchResults(for searchController: UISearchController) {
         if !((searchController.searchBar.text?.isEmpty)!){ // 기록 중이면 필터를 검사한다

@@ -44,7 +44,8 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
             make.right.equalTo(self.view)
         }
         UINavigationBar.appearance().barTintColor = UIColor.white
-        
+        navi.topItem?.title = "게시글"
+        navi.tintColor = UIColor.black
         self.view.addSubview(ProFileImage)
         self.view.addSubview(UserName)
         self.view.addSubview(ExceptionBut)

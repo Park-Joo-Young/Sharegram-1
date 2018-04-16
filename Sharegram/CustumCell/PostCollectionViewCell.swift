@@ -19,9 +19,7 @@ class PostCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var PostImage: UIImageView!
     @IBOutlet weak var LikeBut: UIButton!
     @IBOutlet weak var CommnetBut: UIButton!
-    @IBOutlet weak var ConfigureBut: UIButton!
     @IBOutlet weak var LikeCountLabel: UILabel!
-    @IBOutlet weak var UserNameLabel: UILabel!
     @IBOutlet weak var TimeLabel: UILabel!
     var Caption = ActiveLabel()
     
@@ -30,11 +28,14 @@ class PostCollectionViewCell: UICollectionViewCell {
         // Initialization code
         self.addSubview(Caption)
         ProFileImage.snp.makeConstraints { (make) in
-            make.top.equalTo(self).offset(10)
+            make.top.equalTo(self).offset(5)
             make.left.equalTo(self)
             make.width.equalTo(PostImage.frame.width/3)
             make.height.equalTo(PostImage.frame.height/5)
         }
+        ProFileImage.layer.cornerRadius = 30
+        ProFileImage.clipsToBounds = true
+        
         UserName.snp.makeConstraints { (make) in
             make.width.equalTo(self.frame.width/3)
             make.height.equalTo(self.frame.height/30)
@@ -50,7 +51,7 @@ class PostCollectionViewCell: UICollectionViewCell {
         PostImage.snp.makeConstraints { (make) in
             make.width.equalTo(self)
             make.top.equalTo(ProFileImage.snp.bottom).offset(10)
-            make.height.equalTo(self.frame.height/2.2)
+            make.height.equalTo(self.frame.height/3)
         }
         LikeBut.snp.makeConstraints { (make) in
             make.width.equalTo(PostImage.frame.width/10)
@@ -63,11 +64,6 @@ class PostCollectionViewCell: UICollectionViewCell {
             make.left.equalTo(LikeBut.snp.right).offset(10)
             make.top.equalTo(LikeBut)
         }
-        ConfigureBut.snp.makeConstraints { (make) in
-            make.size.equalTo(LikeBut)
-            make.left.equalTo(CommnetBut.snp.right).offset(10)
-            make.top.equalTo(LikeBut)
-        }
         LikeCountLabel.snp.makeConstraints { (make) in
             make.width.equalTo(self.frame.width - 10)
             make.height.equalTo(self.frame.height / 30)
@@ -77,7 +73,7 @@ class PostCollectionViewCell: UICollectionViewCell {
         }
         Caption.snp.makeConstraints { (make) in
             make.width.equalTo(self.frame.width/1.5)
-            make.height.equalTo(LikeCountLabel.frame.height*2)
+            make.height.lessThanOrEqualTo(LikeCountLabel.frame.height*2)
             make.left.equalTo(LikeCountLabel)
             make.top.equalTo(LikeCountLabel.snp.bottom).offset(10)
         }

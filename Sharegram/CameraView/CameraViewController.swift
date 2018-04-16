@@ -93,6 +93,8 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, Ge
     override func viewDidLoad() {
         super.viewDidLoad()
         //isAuthorizedtoGetUserLocation()
+        UINavigationBar.appearance().barTintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = UIColor.black
         isAuthorizedtoGetUserLocation()
 
         myImageView.snp.makeConstraints { (make) in

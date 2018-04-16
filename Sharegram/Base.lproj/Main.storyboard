@@ -293,7 +293,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Title" id="Qou-EM-XxA">
-                                        <barButtonItem key="leftBarButtonItem" title="back" style="plain" id="kmg-vq-wJF">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" style="plain" id="kmg-vq-wJF">
                                             <connections>
                                                 <action selector="Back:" destination="9bf-vb-x0h" id="2HY-UJ-x4G"/>
                                             </connections>
@@ -318,7 +318,7 @@
         <!--Single Post View Controller-->
         <scene sceneID="2J2-2T-p8g">
             <objects>
-                <viewController storyboardIdentifier="SinglePost" id="3x5-zL-4e3" customClass="SinglePostViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SinglePost" hidesBottomBarWhenPushed="YES" id="3x5-zL-4e3" customClass="SinglePostViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="m7G-iX-mvK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -342,6 +342,7 @@
                     </view>
                     <connections>
                         <outlet property="navi" destination="K0w-y3-hPO" id="IUq-gR-ePh"/>
+                        <segue destination="Jel-jn-Zy5" kind="show" id="W65-Zk-zqK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v31-7h-QmO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -378,7 +379,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pnU-6R-Glx" id="INN-fu-4yH">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -399,7 +400,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ash-kr-Vci" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7789.6000000000004" y="207.34632683658174"/>
+            <point key="canvasLocation" x="8732" y="203"/>
         </scene>
         <!--Hash Tag View Controller-->
         <scene sceneID="Gf9-bc-S72">
@@ -466,7 +467,11 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Title" id="LX9-Q9-84h">
-                                        <barButtonItem key="leftBarButtonItem" title="Item" id="dai-As-7Xy"/>
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="dai-As-7Xy">
+                                            <connections>
+                                                <action selector="Back:" destination="kg8-sW-Gnk" id="RoG-NX-dOu"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -492,7 +497,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="59M-GR-1zB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7756" y="-1336"/>
+            <point key="canvasLocation" x="7663" y="-1336"/>
         </scene>
         <!--Activity-->
         <scene sceneID="Fhs-WS-U4s">
@@ -546,7 +551,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aG5-AI-vWt" id="REZ-k6-wjW">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -647,7 +652,7 @@
                                         <rect key="frame" x="0.0" y="28" width="240" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IeS-yK-dli" id="3t2-V8-yku">
-                                            <rect key="frame" x="0.0" y="0.0" width="240" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -672,7 +677,6 @@
                         <outlet property="SearchResultTable" destination="q3k-Hu-azp" id="MMD-Gm-X61"/>
                         <outlet property="navi" destination="IfU-jr-aRr" id="xdj-zz-wJ3"/>
                         <segue destination="7OL-Uf-UOl" kind="show" identifier="SearchToUser" id="PrX-HD-SbJ"/>
-                        <segue destination="kg8-sW-Gnk" kind="show" identifier="SearchToHashtag" id="oGx-8M-vXo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SWx-yI-J0e" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -739,7 +743,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="146"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5gV-fh-rVX" id="Jee-hy-PhK">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="145.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="146"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -747,7 +751,7 @@
                                 <rect key="frame" x="0.0" y="174" width="375" height="95"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ue5-RW-0WJ" id="5hi-rA-LfL">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="94.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="95"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -910,7 +914,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="57"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1h3-QT-d2S" id="Dhg-od-2RX">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="56.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="57"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="az8-RL-0RG" userLabel="Profileimage">
@@ -954,7 +958,7 @@
                                         <rect key="frame" x="0.0" y="85" width="375" height="578"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YOn-Ss-7CG" id="Dne-Ox-0vn">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="577.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="578"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hxz-Nk-5h7">
@@ -1091,6 +1095,6 @@
         <image name="icon-settings" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PrX-HD-SbJ"/>
+        <segue reference="M3a-hU-ztO"/>
     </inferredMetricsTieBreakers>
 </document>

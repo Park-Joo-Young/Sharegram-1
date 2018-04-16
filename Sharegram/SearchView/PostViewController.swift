@@ -136,14 +136,11 @@ extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
         postview.Caption.enabledTypes = [.hashtag, .mention, .url]
         postview.Caption.isUserInteractionEnabled = true
         postview.Caption.handleHashtagTap { (hashtag) in
-            let alertview = CDAlertView(title: "현재 위치는 ", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
-            let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
-                return
-            })
-            alertview.add(action: OKAction)
-            alertview.show()
-            return
-        }
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "HashTagView") as! HashTagViewController
+            vc.HashTagName = hashtag
+            vc.modalTransitionStyle = .crossDissolve
+            self.present(vc, animated: true, completion: nil)
+            }
         LikeCountLabel.text = "마음에 드신다면 하트를 눌러주세요"
 
         postview.UserName.isUserInteractionEnabled = true

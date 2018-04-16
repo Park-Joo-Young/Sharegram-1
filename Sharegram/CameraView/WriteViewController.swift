@@ -62,7 +62,7 @@ class WriteViewController: UIViewController{
         self.ref?.child("WholePosts").updateChildValues([self.key : self.PostArray]) // 전체 게시물 등록
        //self.displayMessage(title: "게시물이", message: "등록되었습니다.")
         object.DisplayMessage("게시물이", "등록되었습니다.")
-        
+        self.writeBut.isEnabled = false
     }
     func DataSave(_ Path : String, _ date : String, identifier : Int) { // 데이터 저장
         let uploadImage = UIImageJPEGRepresentation(writeImage, 0.9)!

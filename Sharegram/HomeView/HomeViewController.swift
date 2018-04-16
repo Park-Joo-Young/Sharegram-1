@@ -29,30 +29,8 @@ class HomeViewController: UITableViewController {
         } catch let logoutError{
             print(logoutError)
         }
-        //  print(Auth.auth().currentUser)
-        
-        //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        //        storyboard.instantiateViewController(withIdentifier: "LoginViewController")
-        //        self.present(LoginViewController, animated: true, completion: nil)
         self.dismiss(animated: true, completion: nil)
     }
-    //    func loadPosts() {
-    //        ref?.child("Posts").observe(.childAdded) {(DataSnapshot: DataSnapshot) in
-    //            if DataSnapshot.value is NSNull {
-    //                print("null")
-    //            } else {
-    //                if let dic = DataSnapshot.value as? [String:Any]{
-    //
-    //                    let captionText = dic["caption"] as! String
-    //                    let PhotoStrings = dic["PhotoString"] as! String
-    //                    let post = Post(captionText: captionText, photoString: PhotoStrings)
-    //                    self.posts.append(post)
-    //                    print(self.posts)
-    //                    self.hometableView.reloadData()
-    //                }
-    //            }
-    //        }
-    //    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

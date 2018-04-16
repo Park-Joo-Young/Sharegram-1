@@ -124,8 +124,8 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
         super.viewDidLoad()
         //self.navigationController?.isNavigationBarHidden = true
         //self.navigationItem.title = Posts.username!
-        
-
+        UINavigationBar.appearance().barTintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = UIColor.black
 
         
         //tableView.addSubview(CommentView)
@@ -194,6 +194,7 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
                 cell.ReplyBut.setTitle("답글 달기", for: .normal)
                 cell.ReplyBut.tintColor = UIColor.lightGray
                 cell.ReplyBut.addTarget(self, action: #selector(SetCommentReply), for: .touchUpInside)
+                cell.TimeAgo.text = dic["Date"]
                 return cell
             } else {
                 let cell = Bundle.main.loadNibNamed("CommentReplyTableViewCell", owner: self, options: nil)?.first as! CommentReplyTableViewCell
@@ -213,6 +214,7 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
                     return
                 }
                 cell.Comment.sizeToFit()
+                cell.TimeAgo.text = dic["Date"]
                 return cell
             }
         // Configure the cell...
@@ -262,7 +264,8 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-
+        let destination = segue.destination as! DistanceViewController
+        destination.PostLocation = self.PostLocation
     }
  
 
@@ -283,7 +286,7 @@ extension PostTableViewController : MTMapViewDelegate, UINavigationControllerDel
     }
     func mapView(_ mapView: MTMapView!, selectedPOIItem poiItem: MTMapPOIItem!) -> Bool {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "DistanceView") as! DistanceViewController
-        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
         vc.PostLocation = self.PostLocation
         present(vc, animated: true, completion: nil)
         return true

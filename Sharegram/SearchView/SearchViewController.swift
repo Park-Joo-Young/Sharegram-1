@@ -73,10 +73,12 @@ class SearchViewController: UIViewController{
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        self.definesPresentationContext = true
         //self.Posts.removeAll()
+        //self.definesPresentationContext = true
         ref = Database.database().reference()
-        SearchController.searchBar.showsCancelButton = false
-        SearchController.searchBar.resignFirstResponder()
+
+        //SearchController.searchBar.resignFirstResponder()
         SnapWholePosts()
         
         WholePostCollectionView.snp.makeConstraints { (make) in
@@ -87,21 +89,27 @@ class SearchViewController: UIViewController{
             make.right.equalTo(self.view)
         }
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    override func viewDidAppear(_ animated: Bool) {
         SearchController = UISearchController(searchResultsController: nil)
         SearchController.delegate = self
         SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
         SearchController.hidesNavigationBarDuringPresentation = false
         SearchController.dimsBackgroundDuringPresentation = false
-        SearchController.searchBar.searchBarStyle = .prominent
+        SearchController.searchBar.searchBarStyle = .minimal
         SearchController.searchBar.sizeToFit()
         SearchController.searchBar.barTintColor = UIColor.lightGray
-        //self.definesPresentationContext = true
         self.navigationItem.titleView = SearchController.searchBar
-        
+        SearchController.searchBar.showsCancelButton = false
+        //self.navigationController?.navigationBar.isTranslucent = true
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        print("시발")
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.definesPresentationContext = true
+        UINavigationBar.appearance().barTintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = UIColor.black
 
 
         // Do any additional setup after loading the view.
@@ -124,21 +132,19 @@ extension SearchViewController : UISearchControllerDelegate {
 
     func willPresentSearchController(_ searchController: UISearchController) {
           let vc = self.storyboard?.instantiateViewController(withIdentifier: "Search") as! SubSearchViewController
-
-        //performSegue(withIdentifier: "sub", sender: self)
+        print("시발 ..222")
+                //self.definesPresentationContext = false
+        //self.definesPresentationContext = true
+            //self.performSegue(withIdentifier: "sub", sender: self)
 //         vc.modalPresentationStyle = .overCurrentContext
 //         present(vc, animated: false, completion: nil)
          //self.navigationItem.backBarButtonItem?.title = ""
          //navigationController?.pushViewController(vc, animated: true)
     }
     func presentSearchController(_ searchController: UISearchController) {
-       //performSegue(withIdentifier: "sub", sender: self)
+        print("시발 ..1111")
         performSegue(withIdentifier: "sub", sender: self)
-//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Test")
-//        vc?.modalPresentationStyle = .popover
-//        vc?.preferredContentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height - (self.navigationController?.navigationBar.frame.height)!)
-//        //vc?.modalTransitionStyle = .flipHorizontal
-//        self.present(vc!, animated: true, completion:  nil)
+
     }
 }
 

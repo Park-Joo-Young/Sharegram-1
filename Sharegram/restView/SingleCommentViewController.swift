@@ -195,6 +195,7 @@ extension SingleCommentViewController : UITableViewDataSource , UITableViewDeleg
             cell.ReplyBut.setTitle("답글 달기", for: .normal)
             cell.ReplyBut.tintColor = UIColor.lightGray
             cell.ReplyBut.addTarget(self, action: #selector(SetCommentReply), for: .touchUpInside)
+            cell.TimeAgo.text = dic["Date"]
             return cell
         } else {
             let cell = Bundle.main.loadNibNamed("CommentReplyTableViewCell", owner: self, options: nil)?.first as! CommentReplyTableViewCell
@@ -214,6 +215,7 @@ extension SingleCommentViewController : UITableViewDataSource , UITableViewDeleg
                 return
             }
             cell.Comment.sizeToFit()
+            cell.TimeAgo.text = dic["Date"]
             return cell
         }
     }

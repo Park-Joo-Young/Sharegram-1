@@ -31,6 +31,8 @@ class DistanceViewController: UIViewController {
             make.right.equalTo(self.view)
         }
         UINavigationBar.appearance().barTintColor = UIColor.white
+        navi.topItem?.title = "게시글"
+        navi.tintColor = UIColor.black
         DistancePostView.snp.makeConstraints { (make) in
             make.width.equalTo(CommonVariable.screenWidth)
             //make.height.equalTo(CommonVariable.screenHeight)
@@ -71,7 +73,9 @@ extension DistanceViewController : UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.index = indexPath.row
         if self.DistanceArray.count != 0 {
-           performSegue(withIdentifier: "DistancePost", sender: self)
+           let vc = self.storyboard?.instantiateViewController(withIdentifier: "SinglePost") as! SinglePostViewController
+            vc.UserPost = self.DistanceArray[self.index]
+            present(vc, animated: true, completion: nil)
         }
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

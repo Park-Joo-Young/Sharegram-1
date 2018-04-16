@@ -47,12 +47,7 @@
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etu-dO-xfr">
                         <rect key="frame" x="78" y="455" width="49" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" image="comnent.png"/>
-                    </button>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YtF-u8-dw5">
-                        <rect key="frame" x="146" y="454" width="46" height="30"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" title="Button"/>
+                        <state key="normal" image="comment.png"/>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HkI-Fn-9Hg">
                         <rect key="frame" x="20" y="507" width="42" height="21"/>
@@ -74,7 +69,6 @@
             <size key="customSize" width="370" height="589"/>
             <connections>
                 <outlet property="CommnetBut" destination="etu-dO-xfr" id="sNl-OA-yMn"/>
-                <outlet property="ConfigureBut" destination="YtF-u8-dw5" id="5Ue-9K-A53"/>
                 <outlet property="ExceptionBut" destination="bqF-5l-NKB" id="raM-Ud-dWX"/>
                 <outlet property="LikeBut" destination="KLR-j5-4XH" id="GYa-Wp-CC9"/>
                 <outlet property="LikeCountLabel" destination="HkI-Fn-9Hg" id="7FM-i4-PH5"/>
@@ -87,7 +81,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="comnent.png" width="32" height="32"/>
+        <image name="comment.png" width="32" height="32"/>
         <image name="unlike.png" width="32" height="32"/>
     </resources>
 </document>
