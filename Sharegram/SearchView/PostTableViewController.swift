@@ -195,6 +195,7 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
                 cell.ReplyBut.tintColor = UIColor.lightGray
                 cell.ReplyBut.addTarget(self, action: #selector(SetCommentReply), for: .touchUpInside)
                 cell.TimeAgo.text = dic["Date"]
+                cell.TimeAgo.font = UIFont.systemFont(ofSize: 10)
                 return cell
             } else {
                 let cell = Bundle.main.loadNibNamed("CommentReplyTableViewCell", owner: self, options: nil)?.first as! CommentReplyTableViewCell
@@ -215,6 +216,7 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
                 }
                 cell.Comment.sizeToFit()
                 cell.TimeAgo.text = dic["Date"]
+                cell.TimeAgo.font = UIFont.systemFont(ofSize: 10)
                 return cell
             }
         // Configure the cell...

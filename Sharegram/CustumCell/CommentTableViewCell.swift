@@ -36,14 +36,14 @@ class CommentTableViewCell: UITableViewCell {
 
         TimeAgo.snp.makeConstraints { (make) in
             make.left.equalTo(Comment)
-            make.width.equalTo(self.bounds.width/5)
+            make.width.equalTo(self.bounds.width/3)
             make.height.equalTo(self.bounds.height/4)
             make.top.equalTo(Comment.snp.bottom)
         }
         ReplyBut.snp.makeConstraints { (make) in
             make.size.equalTo(TimeAgo)
             make.top.equalTo(TimeAgo)
-            make.left.equalTo(TimeAgo.snp.right).offset(30)
+            make.left.equalTo(TimeAgo.snp.right).offset(10)
         }
     }
 

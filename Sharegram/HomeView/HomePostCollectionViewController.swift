@@ -83,6 +83,37 @@ class HomePostCollectionViewController: UICollectionViewController {
         cell.LikeCountLabel.text = "0"
         cell.TimeLabel.text = dic.timeAgo
         cell.UserName.text = dic.username!
+        cell.CommnetBut.tag = indexPath.row
+        cell.CommnetBut.addTarget(self, action: #selector(CommentView(_:)), for: .touchUpInside)
+        ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.value is NSNull {
+                print("Nothing")
+            } else {
+                if let item = snapshot.value as? [String : AnyObject] { //있으면 중복 체크를 위해 데이터 가져옴
+                    for (_ ,value) in item {
+                        if value["postID"] as? String == self.HomePost[indexPath.row].PostId! {
+                            print("씨발아")
+                            if value["LikePeople"] as? [String : AnyObject] != nil {
+                                for (_, value1) in (value["LikePeople"] as? [String : String])! {
+                                    if value1 == (Auth.auth().currentUser?.uid)! { //내가 좋아요를 눌러놨으면 라이크 버튼
+                                        print("씨발아")
+                                        cell.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
+                                        break
+                                    } else {
+                                        cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
+                                        break
+                                    }
+                                }
+                            } else { //아무것도 좋아요가 없다
+                                cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        ref?.removeAllObservers()
         return cell
     }
 
@@ -119,6 +150,15 @@ class HomePostCollectionViewController: UICollectionViewController {
 
 }
 extension HomePostCollectionViewController {
+    @objc func CommentView(_ sender : UIButton) {
+
+        let tag = sender.tag
+        print(tag)
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SingleComment") as! SingleCommentViewController
+        vc.UserPost = self.HomePost[tag]
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
+    }
     func FetchMyPost() { //내포스트 따기
         self.HomePost.removeAll()
         self.fetchUser(self.UserKey)

@@ -32,7 +32,7 @@ class CommentReplyTableViewCell: UITableViewCell {
         }
         TimeAgo.snp.makeConstraints { (make) in
             make.left.equalTo(Comment)
-            make.width.equalTo(self.bounds.width/5)
+            make.width.equalTo(self.bounds.width/3)
             make.height.equalTo(self.bounds.height/4)
             make.top.equalTo(Comment.snp.bottom)
         }
