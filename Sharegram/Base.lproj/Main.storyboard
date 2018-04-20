@@ -61,6 +61,30 @@
             </objects>
             <point key="canvasLocation" x="856.79999999999995" y="144.3778110944528"/>
         </scene>
+        <!--Extend Image View Controller-->
+        <scene sceneID="tJo-1y-e5X">
+            <objects>
+                <viewController storyboardIdentifier="ExtendImage" id="P8R-wd-LdK" customClass="ExtendImageViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Bgo-FF-sMP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zst-vm-J40">
+                                <rect key="frame" x="0.0" y="10" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="tBQ-YJ-8vY"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageview" destination="zst-vm-J40" id="nkp-MW-nIe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JTe-EP-FGy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="959.20000000000005" y="918.89055472263874"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="pSb-wi-zCa">
             <objects>
@@ -136,19 +160,19 @@
                     </view>
                     <navigationItem key="navigationItem" title="Camera" id="UvH-KN-5SS">
                         <leftBarButtonItems>
-                            <barButtonItem title="Photo" id="cYa-c5-YDM">
+                            <barButtonItem image="photo.png" id="cYa-c5-YDM">
                                 <connections>
                                     <action selector="ActPhoto:" destination="Rvv-tI-1uk" id="Sq5-xb-2AW"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Camera" id="ERj-83-YDN">
+                            <barButtonItem image="camera.png" id="ERj-83-YDN">
                                 <connections>
                                     <action selector="ActCamera:" destination="Rvv-tI-1uk" id="9lt-gg-q1z"/>
                                 </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
                         <rightBarButtonItems>
-                            <barButtonItem title="Write" id="EBo-xd-r8G">
+                            <barButtonItem title="Write" image="write.png" id="EBo-xd-r8G">
                                 <connections>
                                     <action selector="ActNext:" destination="Rvv-tI-1uk" id="P1V-xI-Itu"/>
                                 </connections>
@@ -791,7 +815,7 @@
         <scene sceneID="rIS-R1-6ze">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="S56-pY-xIl" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Search" id="9K4-47-Oce"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="search.png" id="9K4-47-Oce"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="SPe-XD-IEc">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -810,7 +834,7 @@
         <scene sceneID="zAV-yW-lNg">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="TQj-EF-hYL" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Camera" id="br1-nv-rVO"/>
+                    <tabBarItem key="tabBarItem" title="Camera" image="camera.png" id="br1-nv-rVO"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YYA-cx-SBi">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -862,7 +886,7 @@
         <scene sceneID="2un-Ql-HOO">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dFE-bq-eB7" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Activity" id="GAp-Im-HCP"/>
+                    <tabBarItem key="tabBarItem" title="Activity" image="activity.png" id="GAp-Im-HCP"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oBv-Ya-3tL">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -870,7 +894,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="HK2-P2-rse" kind="relationship" relationship="rootViewController" id="6iw-NH-ZjP"/>
+                        <segue destination="S2I-nn-OVn" kind="relationship" relationship="rootViewController" id="2lS-Ht-uj9"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SpZ-H1-mTh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -931,9 +955,26 @@
             </objects>
             <point key="canvasLocation" x="3800.8000000000002" y="-1135.6821589205399"/>
         </scene>
+        <!--Activity View Controller-->
+        <scene sceneID="CnT-RQ-3g6">
+            <objects>
+                <viewController id="S2I-nn-OVn" customClass="ActivityViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bMQ-Ry-eib">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="B1O-wj-c8B"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Evh-rY-Yfq"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ctp-Qm-dcV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3778" y="1782"/>
+        </scene>
         <!--Near-->
         <scene sceneID="GWZ-7M-H9t">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dKs-dx-y9N" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="HK2-P2-rse" customClass="ActivityTableViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="YOv-dv-Lbu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -969,14 +1010,18 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Near" id="qbf-Af-I1A"/>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dKs-dx-y9N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3716" y="1782"/>
+            <point key="canvasLocation" x="4692" y="1524"/>
         </scene>
     </scenes>
     <resources>
         <image name="Next.png" width="32" height="32"/>
         <image name="Previous.png" width="32" height="32"/>
+        <image name="activity.png" width="24" height="24"/>
+        <image name="camera.png" width="32" height="32"/>
+        <image name="photo.png" width="32" height="32"/>
+        <image name="search.png" width="24" height="24"/>
+        <image name="write.png" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="M3a-hU-ztO"/>

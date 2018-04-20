@@ -14,26 +14,23 @@
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ShareGram.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ws8-6k-5rD">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="667" id="6RS-Oh-AdG"/>
-                                    <constraint firstAttribute="width" constant="375" id="nGG-QV-q9t"/>
-                                </constraints>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchImage.png" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ws8-6k-5rD">
+                                <rect key="frame" x="0.0" y="40" width="375" height="436"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Ws8-6k-5rD" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="14n-Qj-Uf1"/>
-                            <constraint firstItem="Ws8-6k-5rD" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="gny-6I-IZ3"/>
-                            <constraint firstItem="Ws8-6k-5rD" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="tMk-lF-mHv"/>
-                            <constraint firstItem="Ws8-6k-5rD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="tdX-5J-Sq9"/>
+                            <constraint firstItem="Ws8-6k-5rD" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="9jb-nn-D3S"/>
+                            <constraint firstAttribute="trailing" secondItem="Ws8-6k-5rD" secondAttribute="trailing" id="OXp-QM-jjQ"/>
+                            <constraint firstItem="nIb-N1-1xr" firstAttribute="bottom" secondItem="Ws8-6k-5rD" secondAttribute="bottom" constant="191" id="cUe-xb-6rG"/>
+                            <constraint firstItem="Ws8-6k-5rD" firstAttribute="top" secondItem="nIb-N1-1xr" secondAttribute="top" constant="20" id="y9F-Jg-dbB"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <viewLayoutGuide key="safeArea" id="nIb-N1-1xr"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -42,6 +39,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ShareGram.png" width="439" height="84"/>
+        <image name="LaunchImage.png" width="1080" height="1920"/>
     </resources>
 </document>

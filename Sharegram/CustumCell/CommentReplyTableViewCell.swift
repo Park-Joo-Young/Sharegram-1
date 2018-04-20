@@ -26,7 +26,7 @@ class CommentReplyTableViewCell: UITableViewCell {
         }
         Comment.snp.makeConstraints { (make) in
             make.left.equalTo(ProFileImage.snp.right).offset(5)
-            make.width.equalTo(CommonVariable.screenWidth/2)
+            make.width.lessThanOrEqualTo(CommonVariable.screenWidth/2)
             make.height.equalTo(self.bounds.height/1.5)
             make.top.equalTo(self)
         }
@@ -38,7 +38,8 @@ class CommentReplyTableViewCell: UITableViewCell {
         }
         arrow.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(10)
-            make.size.equalTo(TimeAgo)
+            make.width.equalTo(TimeAgo.frame.width/2)
+            make.height.equalTo(TimeAgo)
             make.top.equalTo(ProFileImage)
         }
         arrow.image = UIImage(named: "Replyarrow.png")

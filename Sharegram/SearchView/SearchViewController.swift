@@ -133,6 +133,7 @@ extension SearchViewController : UISearchControllerDelegate {
     func willPresentSearchController(_ searchController: UISearchController) {
           let vc = self.storyboard?.instantiateViewController(withIdentifier: "Search") as! SubSearchViewController
         print("시발 ..222")
+        performSegue(withIdentifier: "sub", sender: self)
                 //self.definesPresentationContext = false
         //self.definesPresentationContext = true
             //self.performSegue(withIdentifier: "sub", sender: self)
@@ -142,9 +143,6 @@ extension SearchViewController : UISearchControllerDelegate {
          //navigationController?.pushViewController(vc, animated: true)
     }
     func presentSearchController(_ searchController: UISearchController) {
-        print("시발 ..1111")
-        performSegue(withIdentifier: "sub", sender: self)
-
     }
 }
 

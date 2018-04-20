@@ -26,11 +26,12 @@ class PostCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.frame.size = CGSize(width: CommonVariable.screenWidth, height: CommonVariable.screenHeight)
         self.addSubview(Caption)
         ProFileImage.snp.makeConstraints { (make) in
             make.top.equalTo(self).offset(5)
             make.left.equalTo(self)
-            make.width.equalTo(PostImage.frame.width/3)
+            make.width.equalTo(PostImage.frame.width/4)
             make.height.equalTo(PostImage.frame.height/5)
         }
         ProFileImage.layer.cornerRadius = 30
@@ -49,9 +50,9 @@ class PostCollectionViewCell: UICollectionViewCell {
             make.centerY.equalTo(UserName)
         }
         PostImage.snp.makeConstraints { (make) in
-            make.width.equalTo(self)
+            make.width.equalTo(CommonVariable.screenWidth)
             make.top.equalTo(ProFileImage.snp.bottom).offset(10)
-            make.height.equalTo(self.frame.height/3)
+            make.height.equalTo(CommonVariable.screenHeight/3)
         }
         LikeBut.snp.makeConstraints { (make) in
             make.width.equalTo(PostImage.frame.width/10)

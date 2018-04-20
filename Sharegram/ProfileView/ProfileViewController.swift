@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import Firebase
 import ScrollableSegmentedControl
+import CDAlertView
 
 class ProfileViewController: UIViewController {
     
@@ -91,6 +92,26 @@ class ProfileViewController: UIViewController {
 
 }
 extension ProfileViewController {
+    @objc func ExceptionMenu(_ sender : UIButton) { //기타 메뉴
+        let alert = UIAlertController(title: "기타 메뉴", message: nil, preferredStyle: .actionSheet)
+        let remove = UIAlertAction(title: "게시물 삭제", style: .default) { (action) in
+            let confirm = CDAlertView(title: "삭제 하시겠습니까", message: nil, type: CDAlertViewType.notification)
+            let remove = CDAlertViewAction(title: "삭제", font: UIFont.systemFont(ofSize: 15), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
+                if self.UserPost[sender.tag].Id == self.UserKey {// 내가 내 게시물 삭제
+                    self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).removeValue()
+                }
+            })
+            let cancel = CDAlertViewAction(title: "취소", font: UIFont.systemFont(ofSize: 15), textColor: UIColor.black, backgroundColor: UIColor.white, handler: nil)
+            confirm.add(action: remove)
+            confirm.add(action: cancel)
+            confirm.show()
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alert.addAction(remove)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
+    }
+
     @objc func ActSegClicked(_ sender : ScrollableSegmentedControl) {
         if self.profileview.Segment.selectedSegmentIndex == 0 {
             FetchPost()
@@ -201,6 +222,8 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
             cell.LikeCountLabel.text = "0"
             cell.TimeLabel.text = dic.timeAgo
             cell.UserName.text = dic.username!
+            cell.ExceptionBut.tag = indexPath.row
+            cell.ExceptionBut.addTarget(self, action: #selector(ExceptionMenu), for: .touchUpInside)
             
             return cell
         } else { //2
@@ -224,3 +247,4 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
     }
     
 }
+

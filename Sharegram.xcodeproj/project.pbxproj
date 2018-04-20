@@ -32,6 +32,8 @@
 		1864CCE320491DEA007228E8 /* Man.png in Resources */ = {isa = PBXBuildFile; fileRef = 1864CCE020491DEA007228E8 /* Man.png */; };
 		1865576A203AB8DC00831EAF /* SubSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18655769203AB8DC00831EAF /* SubSearchViewController.swift */; };
 		1865D5FA207FD45B00923EA5 /* SinglePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1865D5F9207FD45B00923EA5 /* SinglePostViewController.swift */; };
+		186660952085B68E00DF043C /* LaunchImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 186660942085B68E00DF043C /* LaunchImage.png */; };
+		186660972085B75600DF043C /* ExtendImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186660962085B75600DF043C /* ExtendImageViewController.swift */; };
 		186850572031682C00BF50C4 /* searchBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 186850562031682C00BF50C4 /* searchBar.png */; };
 		186D20B420400F9200152333 /* HashTag.png in Resources */ = {isa = PBXBuildFile; fileRef = 186D20B320400F9200152333 /* HashTag.png */; };
 		186FDFED2005E497007A454C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186FDFEC2005E497007A454C /* GoogleService-Info.plist */; };
@@ -98,6 +100,11 @@
 		18AA5143205BD58D003A93AD /* shadow_balloon.png in Resources */ = {isa = PBXBuildFile; fileRef = 18AA5127205BD58D003A93AD /* shadow_balloon.png */; };
 		18AA5144205BD58D003A93AD /* th_line.png in Resources */ = {isa = PBXBuildFile; fileRef = 18AA5128205BD58D003A93AD /* th_line.png */; };
 		18AA5149205BD714003A93AD /* objcClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AA5148205BD714003A93AD /* objcClass.m */; };
+		18DF77712089F74A00BA7476 /* activity.png in Resources */ = {isa = PBXBuildFile; fileRef = 18DF776C2089F74900BA7476 /* activity.png */; };
+		18DF77722089F74A00BA7476 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 18DF776D2089F74900BA7476 /* camera.png */; };
+		18DF77732089F74A00BA7476 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 18DF776E2089F74900BA7476 /* search.png */; };
+		18DF77742089F74A00BA7476 /* write.png in Resources */ = {isa = PBXBuildFile; fileRef = 18DF776F2089F74900BA7476 /* write.png */; };
+		18DF77752089F74A00BA7476 /* photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 18DF77702089F74A00BA7476 /* photo.png */; };
 		3A76C19120046761004253CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76C19020046761004253CF /* AppDelegate.swift */; };
 		3A76C19320046761004253CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A76C19220046761004253CF /* ViewController.swift */; };
 		3A76C19620046761004253CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A76C19420046761004253CF /* Main.storyboard */; };
@@ -139,6 +146,8 @@
 		1864CCE020491DEA007228E8 /* Man.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Man.png; sourceTree = "<group>"; };
 		18655769203AB8DC00831EAF /* SubSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubSearchViewController.swift; sourceTree = "<group>"; };
 		1865D5F9207FD45B00923EA5 /* SinglePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostViewController.swift; sourceTree = "<group>"; };
+		186660942085B68E00DF043C /* LaunchImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage.png; sourceTree = "<group>"; };
+		186660962085B75600DF043C /* ExtendImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendImageViewController.swift; sourceTree = "<group>"; };
 		186850562031682C00BF50C4 /* searchBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchBar.png; sourceTree = "<group>"; };
 		186D20B320400F9200152333 /* HashTag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HashTag.png; sourceTree = "<group>"; };
 		186FDFEC2005E497007A454C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -207,6 +216,11 @@
 		18AA5146205BD713003A93AD /* Sharegram-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sharegram-Bridging-Header.h"; sourceTree = "<group>"; };
 		18AA5147205BD714003A93AD /* objcClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objcClass.h; sourceTree = "<group>"; };
 		18AA5148205BD714003A93AD /* objcClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = objcClass.m; sourceTree = "<group>"; };
+		18DF776C2089F74900BA7476 /* activity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = activity.png; sourceTree = "<group>"; };
+		18DF776D2089F74900BA7476 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
+		18DF776E2089F74900BA7476 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
+		18DF776F2089F74900BA7476 /* write.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = write.png; sourceTree = "<group>"; };
+		18DF77702089F74A00BA7476 /* photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo.png; sourceTree = "<group>"; };
 		3A76C18D20046761004253CF /* Sharegram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sharegram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A76C19020046761004253CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A76C19220046761004253CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -279,6 +293,7 @@
 				1865D5F9207FD45B00923EA5 /* SinglePostViewController.swift */,
 				18612E8D2080E8D90033B9BD /* SingleCommentViewController.swift */,
 				189E1BC220821C100078A299 /* HashTagViewController.swift */,
+				186660962085B75600DF043C /* ExtendImageViewController.swift */,
 			);
 			path = restView;
 			sourceTree = "<group>";
@@ -289,12 +304,18 @@
 				185A5948207BE17A006BB456 /* Replyarrow.png */,
 				18839495207765A900945460 /* edit.png */,
 				181C14A92053F92B00BCA077 /* Next.png */,
+				18DF776C2089F74900BA7476 /* activity.png */,
+				18DF776D2089F74900BA7476 /* camera.png */,
+				18DF77702089F74A00BA7476 /* photo.png */,
+				18DF776E2089F74900BA7476 /* search.png */,
+				18DF776F2089F74900BA7476 /* write.png */,
 				181C14A82053F92B00BCA077 /* Previous.png */,
 				186348CC205281D900188D6C /* Cancel.png */,
 				18A5CC6C205D3946001967CF /* comment.png */,
 				18A5CC6D205D3946001967CF /* like.png */,
 				18A5CC6E205D3947001967CF /* unlike.png */,
 				1864CCDC20491A55007228E8 /* UnKnown.png */,
+				186660942085B68E00DF043C /* LaunchImage.png */,
 				18612E8A2080C92F0033B9BD /* exception.png */,
 				186D20B320400F9200152333 /* HashTag.png */,
 				186850562031682C00BF50C4 /* searchBar.png */,
@@ -587,11 +608,15 @@
 				186FDFF82005F871007A454C /* ShareGram.png in Resources */,
 				18AA5140205BD58D003A93AD /* noimage.png in Resources */,
 				18AA513B205BD58D003A93AD /* map_pinup_custom@3x.png in Resources */,
+				18DF77742089F74A00BA7476 /* write.png in Resources */,
 				186348CD205281D900188D6C /* Cancel.png in Resources */,
 				3A76C19E20046761004253CF /* LaunchScreen.storyboard in Resources */,
+				18DF77732089F74A00BA7476 /* search.png in Resources */,
 				18AA5144205BD58D003A93AD /* th_line.png in Resources */,
 				18AA513D205BD58D003A93AD /* map_present_background_update.png in Resources */,
 				18777FFB204AC822004EE278 /* ProFileEditTableViewCell.xib in Resources */,
+				186660952085B68E00DF043C /* LaunchImage.png in Resources */,
+				18DF77712089F74A00BA7476 /* activity.png in Resources */,
 				18708F9D20853D1F008F6B8F /* CollectionViewCell.xib in Resources */,
 				186FDFED2005E497007A454C /* GoogleService-Info.plist in Resources */,
 				18757E72207A4831007E4A3D /* CommentReplyTableViewCell.xib in Resources */,
@@ -616,7 +641,9 @@
 				18AA512D205BD58D003A93AD /* detail_button.png in Resources */,
 				18AA5136205BD58D003A93AD /* map_pin_shadow.png in Resources */,
 				1864CCE220491DEA007228E8 /* Bars.png in Resources */,
+				18DF77722089F74A00BA7476 /* camera.png in Resources */,
 				3A76C19B20046761004253CF /* Assets.xcassets in Resources */,
+				18DF77752089F74A00BA7476 /* photo.png in Resources */,
 				18AA5143205BD58D003A93AD /* shadow_balloon.png in Resources */,
 				18AA513C205BD58D003A93AD /* map_present.png in Resources */,
 				18AA513F205BD58D003A93AD /* map_present_tracking.png in Resources */,
@@ -733,6 +760,7 @@
 				186FDFF12005E61D007A454C /* CreateUserViewController.swift in Sources */,
 				3A76C19320046761004253CF /* ViewController.swift in Sources */,
 				1865D5FA207FD45B00923EA5 /* SinglePostViewController.swift in Sources */,
+				186660972085B75600DF043C /* ExtendImageViewController.swift in Sources */,
 				3AA85BEA2007390500BAB348 /* ProfileViewController.swift in Sources */,
 				185CAAD3205ECAFA00AE138D /* UserProFileViewController.swift in Sources */,
 				1883949920779E7800945460 /* CommentTableViewCell.swift in Sources */,

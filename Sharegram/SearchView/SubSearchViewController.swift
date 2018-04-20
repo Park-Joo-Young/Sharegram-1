@@ -39,7 +39,9 @@ class SubSearchViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.definesPresentationContext = true
+        delay(0.01) {
+            self.SearchController.searchBar.becomeFirstResponder()
+        }
      }
     func SearchHashTag(_ str : String ) {
         SearchTagList.removeAll()
@@ -127,6 +129,8 @@ class SubSearchViewController: UIViewController {
         SearchController.searchBar.searchBarStyle = .prominent
         SearchController.searchBar.sizeToFit()
         SearchController.searchBar.barTintColor = UIColor.white
+        self.definesPresentationContext = true
+        
         //self.navigationItem.titleView = SearchController.searchBar
         segment.segmentStyle = .textOnly
         segment.insertSegment(withTitle: "인기", at: 0)

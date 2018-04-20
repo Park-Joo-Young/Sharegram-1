@@ -196,6 +196,7 @@ extension SingleCommentViewController : UITableViewDataSource , UITableViewDeleg
             cell.ReplyBut.tintColor = UIColor.lightGray
             cell.ReplyBut.addTarget(self, action: #selector(SetCommentReply), for: .touchUpInside)
             cell.TimeAgo.text = dic["Date"]
+            cell.TimeAgo.font = UIFont.systemFont(ofSize: 12)
             return cell
         } else {
             let cell = Bundle.main.loadNibNamed("CommentReplyTableViewCell", owner: self, options: nil)?.first as! CommentReplyTableViewCell
@@ -216,6 +217,7 @@ extension SingleCommentViewController : UITableViewDataSource , UITableViewDeleg
             }
             cell.Comment.sizeToFit()
             cell.TimeAgo.text = dic["Date"]
+            cell.TimeAgo.font = UIFont.systemFont(ofSize: 12)
             return cell
         }
     }

@@ -26,6 +26,8 @@ class PostViewController: UIViewController {
     var LikeBut = UIButton()
     var index = 0
     var postview = PostView()
+    var UserKey : String = (Auth.auth().currentUser?.uid)!
+    
     @IBOutlet weak var NextBut: UIButton!
     @IBOutlet weak var PreviousBut: UIButton!
     @IBOutlet weak var LikeCountLabel: UILabel!
@@ -153,6 +155,8 @@ extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
         postview.TimeLabel.adjustsFontSizeToFitWidth = true
         //버튼 제대로 표시
         postview.CommentBut.addTarget(self, action: #selector(DetailViewPresent), for: .touchUpInside)
+        postview.ExceptionBut.tag = index
+        postview.ExceptionBut.addTarget(self, action: #selector(ExceptionMenu(_:)), for: .touchUpInside)
         return postview
     }
     
@@ -161,6 +165,48 @@ extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
 //    }
 }
 extension PostViewController {
+    @objc func ExceptionMenu(_ sender : UIButton) {
+        print(sender.tag)
+        let alert = UIAlertController(title: "기타 메뉴", message: nil, preferredStyle: .actionSheet)
+        let report = UIAlertAction(title: "신고", style: .default) { (action) in
+            self.PostReport(sender.tag)
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alert.addAction(report)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
+    }
+    func PostReport(_ index : Int) { //게시물 신고
+        let bool : Bool = false
+        let key = (ref?.child("WholePosts").childByAutoId().key)!
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let broadcast = UIAlertAction(title: "허위 게시물입니다.", style: .default) { (action) in
+            if self.Posts[index].Id == self.UserKey { //내가 내 게시물 신고
+                print("내꺼같다.")
+                return
+            } else { //다른 사람 게시물이다.
+                print("다른 사람꺼다")
+                self.ref?.child("WholePosts").child(self.Posts[index].PostId!).child("Report").updateChildValues([key : "허위 게시물"])
+            }
+        }
+        let unfitness = UIAlertAction(title: "부적절합니다.", style: .default) { (action) in
+            if self.Posts[index].Id == self.UserKey { //내가 내 게시물 신고
+                print("내꺼같다.")
+                return
+            } else { //다른 사람 게시물이다.
+                print("다른 사람꺼다")
+                self.ref?.child("WholePosts").child(self.Posts[index].PostId!).child("Report").updateChildValues([key : "부적절 게시물"])
+            }
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { (action) in
+            return
+        }
+        alert.addAction(broadcast)
+        alert.addAction(unfitness)
+        alert.addAction(cancel)
+        alert.view.tintColor = UIColor.red
+        present(alert, animated: true, completion: nil)
+    }
     func LikeCheck() {
         ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.value is NSNull {

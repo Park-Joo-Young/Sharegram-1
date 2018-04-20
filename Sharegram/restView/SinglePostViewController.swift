@@ -87,7 +87,9 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
             make.top.equalTo(ProFileImage.snp.bottom).offset(10)
         }
         PostImage.sd_setImage(with: URL(string: UserPost.image!), completed: nil)
-        
+        PostImage.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap))
+        PostImage.addGestureRecognizer(tap)
         LikeBut.snp.makeConstraints { (make) in
             make.width.equalTo(width/10)
             make.height.equalTo(height/20)
@@ -150,6 +152,12 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
 
 }
 extension SinglePostViewController {
+    @objc func imageTap() {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ExtendImage") as! ExtendImageViewController
+            vc.image = self.UserPost.image!
+            vc.modalTransitionStyle = .crossDissolve
+            present(vc, animated: true, completion: nil)
+    }
     @objc func PresentCommentView() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "SingleComment") as! SingleCommentViewController
         vc.modalPresentationStyle = .fullScreen

@@ -8,14 +8,17 @@
 
 import UIKit
 import Firebase
+import CoreLocation
+
 
 private let reuseIdentifier = "Cell"
 
-class HomePostCollectionViewController: UICollectionViewController {
+class HomePostCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     var ref : DatabaseReference?
     var HomePost = [Post]()
     var UserKey : String = (Auth.auth().currentUser?.uid)!
     var profileimage : String = ""
+    var index : Int = 0
     override func viewWillAppear(_ animated: Bool) {
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
@@ -30,7 +33,6 @@ class HomePostCollectionViewController: UICollectionViewController {
 
         // Register cell classes
         self.collectionView?.register(UINib(nibName: "PostCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
-
         // Do any additional setup after loading the view.
     }
 
@@ -80,11 +82,19 @@ class HomePostCollectionViewController: UICollectionViewController {
         cell.Caption.numberOfLines = 0
         cell.Caption.sizeToFit()
         cell.PostImage.sd_setImage(with: URL(string: dic.image!), completed: nil)
+        cell.PostImage.isUserInteractionEnabled = true
+        cell.PostImage.tag = indexPath.row
+        let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap(_:)))
+        cell.PostImage.addGestureRecognizer(tap)
         cell.LikeCountLabel.text = "0"
         cell.TimeLabel.text = dic.timeAgo
         cell.UserName.text = dic.username!
         cell.CommnetBut.tag = indexPath.row
         cell.CommnetBut.addTarget(self, action: #selector(CommentView(_:)), for: .touchUpInside)
+        cell.ExceptionBut.tag = indexPath.row
+        cell.ExceptionBut.addTarget(self, action: #selector(ExceptionMenu(_:)), for: .touchUpInside)
+        
+        //좋아요 체크
         ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.value is NSNull {
                 print("Nothing")
@@ -150,6 +160,63 @@ class HomePostCollectionViewController: UICollectionViewController {
 
 }
 extension HomePostCollectionViewController {
+    @objc func ExceptionMenu(_ sender : UIButton) {
+        print(sender.tag)
+        let alert = UIAlertController(title: "기타 메뉴", message: nil, preferredStyle: .actionSheet)
+        let report = UIAlertAction(title: "신고", style: .default) { (action) in
+            self.PostReport(sender.tag)
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alert.addAction(report)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
+    }
+    func PostReport(_ index : Int) { //게시물 신고
+        let bool : Bool = false
+        let key = (ref?.child("WholePosts").childByAutoId().key)!
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let broadcast = UIAlertAction(title: "허위 게시물입니다.", style: .default) { (action) in
+            if self.HomePost[index].Id == self.UserKey { //내가 내 게시물 신고
+                print("내꺼같다.")
+                return
+            } else { //다른 사람 게시물이다.
+                print("다른 사람꺼다")
+                self.ref?.child("WholePosts").child(self.HomePost[index].PostId!).child("Report").updateChildValues([key : "허위 게시물"])
+            }
+        }
+        let unfitness = UIAlertAction(title: "부적절합니다.", style: .default) { (action) in
+            if self.HomePost[index].Id == self.UserKey { //내가 내 게시물 신고
+                print("내꺼같다.")
+                return
+            } else { //다른 사람 게시물이다.
+                print("다른 사람꺼다")
+                self.ref?.child("WholePosts").child(self.HomePost[index].PostId!).child("Report").updateChildValues([key : "부적절 게시물"])
+            }
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { (action) in
+            return
+        }
+        alert.addAction(broadcast)
+        alert.addAction(unfitness)
+        alert.addAction(cancel)
+        alert.view.tintColor = UIColor.red
+        present(alert, animated: true, completion: nil)
+    }
+
+    @objc func imageTap(_ sender : UITapGestureRecognizer) {
+        if self.HomePost[(sender.view?.tag)!].lat == 0 {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ExtendImage") as! ExtendImageViewController
+            vc.image = self.HomePost[(sender.view?.tag)!].image!
+            vc.modalTransitionStyle = .crossDissolve
+            present(vc, animated: true, completion: nil)
+        } else { //위치 있으면
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "DistanceView") as! DistanceViewController
+            vc.PostLocation = CLLocation(latitude: self.HomePost[(sender.view?.tag)!].lat!, longitude: self.HomePost[(sender.view?.tag)!].lon!)
+            vc.modalTransitionStyle = .crossDissolve
+            present(vc, animated: true, completion: nil)
+            print((sender.view?.tag)!)
+        }
+    }
     @objc func CommentView(_ sender : UIButton) {
 
         let tag = sender.tag

@@ -31,7 +31,7 @@ class ActivityTableViewController: UITableViewController,CLLocationManagerDelega
         var longitude : Double? = nil
         var latitude : Double? = nil
     }
-    var locationArray = [MyLocation]() //스냅샷한거 배열별로들어감.
+    var locationArray = [Post]() //스냅샷한거 배열별로들어감.
     
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -59,16 +59,17 @@ class ActivityTableViewController: UITableViewController,CLLocationManagerDelega
                                 let location2 = CLLocation(latitude: Double(lat!)!, longitude: Double(lon!)!)
                                 let meter = Int(self.location.distance(from: location2))
                                 print(meter)
-                                var data = MyLocation()
+                                var data = Post()
                                 if meter <= distanse { //100미터
-                                        data.description = Description
-                                        data.postimg = image
-                                        data.longitude = Double(lat!)!
-                                        data.latitude = Double(lat!)!
-                                        data.profilename = Author
-                                        data.postid = postID
-                                        data.date = Date
-                                        
+                                        data.caption = Description
+                                        data.image = image
+                                        data.lon = Double(lon!)!
+                                        data.lat = Double(lat!)!
+                                        data.username = Author
+                                        data.PostId = postID
+                                        data.timeAgo = Date
+                                        data.timeInterval = 0
+                                    data.Id = ID
                                         self.locationArray.append(data)
                                         print(self.locationArray)
                                     
@@ -136,26 +137,15 @@ class ActivityTableViewController: UITableViewController,CLLocationManagerDelega
         if segment.selectedSegmentIndex == 0 { // 100
             print("세그먼트1")
             print(self.locationArray)
-            tableView.reloadData()
             //            self.locationArray.removeAll()
             DataInput(100)
             
-            tableView.reloadData()
-            
         }  else if segment.selectedSegmentIndex == 1 { // 500
             print("세그먼트2")
-            
-            self.locationArray.removeAll()
-            
-            tableView.reloadData()
             DataInput(500)
-            tableView.reloadData()
             
         } else if segment.selectedSegmentIndex == 2{
-            self.locationArray.removeAll()
-            tableView.reloadData()
             DataInput(1000)
-            tableView.reloadData()
         }
         
     }
@@ -180,16 +170,20 @@ class ActivityTableViewController: UITableViewController,CLLocationManagerDelega
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell",for: indexPath)
         let label = cell.viewWithTag(2) as? UILabel
-        label?.text = locationArray[indexPath.row].description
+        label?.text = locationArray[indexPath.row].caption!
         let imageView = cell.viewWithTag(1) as? UIImageView
-        imageView?.sd_setImage(with:URL(string: locationArray[indexPath.row].postimg!))
-        
-        
+        imageView?.sd_setImage(with:URL(string: locationArray[indexPath.row].image!))
         
         return cell
     }
-    
-    override func tableView(_ tableview: UITableView, didSelectRowAt: IndexPath){
-        //여기서 locationArray에 있는 정보를 postcell에 맞게 뿌림
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Debug")
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SinglePost") as! SinglePostViewController
+        vc.UserPost = self.locationArray[indexPath.row]
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
     }
+//    override func tableView(_ tableview: UITableView, didSelectRowAt: IndexPath){
+//
+//    }
 }
