@@ -14,6 +14,15 @@ import CoreLocation
 private let reuseIdentifier = "Cell"
 
 class HomePostCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+    @IBAction func LogOut(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+            dismiss(animated: true, completion: nil)
+        } catch let logoutError{
+            print(logoutError)
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
     var ref : DatabaseReference?
     var HomePost = [Post]()
     var UserKey : String = (Auth.auth().currentUser?.uid)!
@@ -26,6 +35,8 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
         self.collectionView?.dataSource = self
         ref = Database.database().reference()
         FetchMyPost()
+        UINavigationBar.appearance().barTintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = UIColor.black
     }
     override func viewDidLoad() {
         super.viewDidLoad()
