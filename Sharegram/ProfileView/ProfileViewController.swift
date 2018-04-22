@@ -20,6 +20,8 @@ class ProfileViewController: UIViewController {
     var profileimage : String = ""
     var ref : DatabaseReference?
     var UserKey : String = (Auth.auth().currentUser?.uid)!
+    var Hash : [AnyToken]!
+    var captionText : [String] = []
     override func viewWillAppear(_ animated: Bool) {
         ref = Database.database().reference()
         profileview = Bundle.main.loadNibNamed("ProFileView", owner: self, options: nil)?.first as! ProFileView
@@ -92,14 +94,118 @@ class ProfileViewController: UIViewController {
 
 }
 extension ProfileViewController {
+    @objc func likePressed(_ sender : UIButton) { //좋아요 눌렀을 때
+        let key = ref?.child("HashTagPosts").childByAutoId().key
+        let dic = [key! : (Auth.auth().currentUser?.uid)!]
+        ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).child("LikePeople").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.value is NSNull { //첫 좋아요면 무조건 저장
+                self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).child("LikePeople").setValue(dic)
+                sender.setImage(UIImage(named: "like.png"), for: .normal)
+                self.Hash = self.captionText[sender.tag]._tokens(from: HashtagTokenizer())
+                self.HashTagPostLike(self.Hash, 1, sender.tag)
+            } else { //좋아요가 하나라도 존재 할 시
+                if let item = snapshot.value as? [String : String] {
+                    for (key, value) in item {
+                        if value == (Auth.auth().currentUser?.uid)! { //좋아요 취소
+                            self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).child("LikePeople/\(key)").removeValue() // WholePosts 데이터 삭제
+                            sender.setImage(UIImage(named: "unlike.png"), for: .normal)
+                            if self.Hash != nil {
+                                self.HashTagPostLike(self.Hash, 0, sender.tag)
+                            }
+                        } else { //버튼을 누른 사용자의 데이터가 없다. 즉, 이 글 좋아요
+                            self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).child("LikePeople").setValue(dic)
+                            sender.setImage(UIImage(named: "like.png"), for: .normal)
+                            self.Hash = self.captionText[sender.tag]._tokens(from: HashtagTokenizer())
+                            if self.Hash != nil {
+                                self.HashTagPostLike(self.Hash, 1, sender.tag)
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        })
+        ref?.removeAllObservers()
+    }
+    func HashTagPostLike(_ Token : [AnyToken], _ index : Int, _ tag : Int) {
+        for i in 0..<Token.count {
+            let str = Token[i].text.replacingOccurrences(of: "#", with: "")
+            let key = ref?.child("HashTagPosts").childByAutoId().key
+            if index == 1 { // 저장
+                ref?.child("HashTagPosts").child(str).child("Posts").observe(.childAdded, with: { (snapshot) in
+                    if let item = snapshot.value as? [String : String] {
+                        
+                        if self.UserPost[tag].PostId! == item["postID"] {
+                            let dic = [key! : (Auth.auth().currentUser?.uid)!]
+                            print(snapshot.key)
+                            self.ref?.child("HashTagPosts").child(str).child("Posts").child(snapshot.key).child("LikePeople").setValue(dic)
+                            
+                        }
+                    }
+                })
+                ref?.removeAllObservers()
+            } else { // 데이터 삭제
+                ref?.child("HashTagPosts").child(str).child("Posts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                    if snapshot.value is NSNull {
+                        print("아무것도 없습니다.")
+                    } else {
+                        if let item = snapshot.value as? [String : AnyObject] {
+                            for (key , value) in item {
+                                if value["postID"] as? String == self.UserPost[tag].PostId {
+                                    if value["LikePeople"] as? [String : AnyObject] != nil { //좋아요가 존재한다.
+                                        self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople").observe(.value, with: { (snapshot) in
+                                            if let item = snapshot.value as? [String : String] {
+                                                for (key1, value1) in item {
+                                                    if value1 == self.UserKey {
+                                                        self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople/\(key1)").removeValue()
+                                                    }
+                                                }
+                                            }
+                                        })
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
+                })
+                ref?.removeAllObservers()
+            }
+        }
+    }
+    func HashTagPostRemove(_ tag : Int) { //게시물 삭제의 연동
+        self.Hash = self.UserPost[tag].caption!._tokens(from: HashtagTokenizer())
+        for i in 0..<self.Hash.count {
+            let str = self.Hash[i].text.replacingOccurrences(of: "#", with: "")
+            ref?.child("HashTagPosts").child(str).child("Posts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                if let item = snapshot.value as? [String : AnyObject] {
+                    for(key, value) in item {
+                        if let postID = value["postID"] as? String {
+                            if postID == self.UserPost[tag].PostId! { //같은 포스트 아이디를 가진걸 찾았다.
+                                self.ref?.child("HashTagPosts").child(str).child("Posts/\(key)").removeValue()
+                            }
+                        }
+                    }
+                }
+            })
+        }
+    }
+    @objc func CommentView(_ sender : UIButton) {
+        
+        let tag = sender.tag
+        print(tag)
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SingleComment") as! SingleCommentViewController
+        vc.UserPost = self.UserPost[tag]
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
+    }
     @objc func ExceptionMenu(_ sender : UIButton) { //기타 메뉴
         let alert = UIAlertController(title: "기타 메뉴", message: nil, preferredStyle: .actionSheet)
         let remove = UIAlertAction(title: "게시물 삭제", style: .default) { (action) in
             let confirm = CDAlertView(title: "삭제 하시겠습니까", message: nil, type: CDAlertViewType.notification)
             let remove = CDAlertViewAction(title: "삭제", font: UIFont.systemFont(ofSize: 15), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
-                if self.UserPost[sender.tag].Id == self.UserKey {// 내가 내 게시물 삭제
-                    self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).removeValue()
-                }
+                self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).removeValue()
+                self.HashTagPostRemove(sender.tag)
             })
             let cancel = CDAlertViewAction(title: "취소", font: UIFont.systemFont(ofSize: 15), textColor: UIColor.black, backgroundColor: UIColor.white, handler: nil)
             confirm.add(action: remove)
@@ -197,6 +303,7 @@ extension ProfileViewController {
                 self.profileview.MyFostCollectionView.reloadData()
             }
         })
+        ref?.removeAllObservers()
     }
 }
 extension ProfileViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -224,7 +331,10 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
             cell.UserName.text = dic.username!
             cell.ExceptionBut.tag = indexPath.row
             cell.ExceptionBut.addTarget(self, action: #selector(ExceptionMenu), for: .touchUpInside)
-            
+            cell.LikeBut.tag = indexPath.row
+            cell.LikeBut.addTarget(self, action: #selector(likePressed(_:)), for: .touchUpInside)
+            cell.CommnetBut.tag = indexPath.row
+            cell.CommnetBut.addTarget(self, action: #selector(CommentView(_:)), for: .touchUpInside)
             return cell
         } else { //2
             let cell = Bundle.main.loadNibNamed("CollectionViewCell", owner: self, options: nil)?.first as! CollectionViewCell

@@ -18,6 +18,7 @@ class DistanceViewController: UIViewController {
     var PostLocation = CLLocation()
     var ref : DatabaseReference?
     var index : Int = 0
+    var distance : Double = 0
     @IBOutlet var DistancePostView: UICollectionView!
     @IBOutlet var navi: UINavigationBar!
     @IBAction func Back(_ sender: UIBarButtonItem) {
@@ -117,7 +118,7 @@ extension DistanceViewController {
                                 let Location = CLLocation(latitude: Double(lat!)!, longitude: Double(lon!)!)
                                 let meter = self.PostLocation.distance(from: Location)
                                 let post = Post()
-                                if meter <= 100 { //100미터 반경안에 들어오면
+                                if meter <= self.distance { //100미터 반경안에 들어오면
                                     post.caption = Description
                                     post.Id = ID
                                     post.image = image

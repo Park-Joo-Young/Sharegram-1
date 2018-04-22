@@ -256,19 +256,26 @@ extension PostViewController {
                     })
                     ref?.removeAllObservers()
                 } else { // 데이터 삭제
-                ref?.child("HashTagPosts").child(str).child("Posts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                    ref?.child("HashTagPosts").child(str).child("Posts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
                         if snapshot.value is NSNull {
-                            print("좋아요가 아무것도 없습니다.")
+                            print("아무것도 없습니다.")
                         } else {
                             if let item = snapshot.value as? [String : AnyObject] {
                                 for (key , value) in item {
                                     if value["postID"] as? String == self.Posts[self.Kolodaview.currentCardIndex].PostId {
-                                        for (key1 , value1) in (value["LikePeople"] as? [String : String])! {
-                                            if (Auth.auth().currentUser?.uid)! == value1 { // 사용자가 눌렀을 때 값이 안에 있다면 삭제를 시킨다.
-                                                self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople/\(key1)").removeValue()
-                                            }
+                                        if value["LikePeople"] as? [String : AnyObject] != nil { //좋아요가 존재한다.
+                                            self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople").observe(.value, with: { (snapshot) in
+                                                if let item = snapshot.value as? [String : String] {
+                                                    for (key1, value1) in item {
+                                                        if value1 == self.UserKey {
+                                                            self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople/\(key1)").removeValue()
+                                                        }
+                                                    }
+                                                }
+                                            })
                                         }
                                     }
+                                    
                                 }
                             }
                         }

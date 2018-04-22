@@ -19,6 +19,8 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
     var UserKey : String = (Auth.auth().currentUser?.uid)!
     var profileimage : String = ""
     var index : Int = 0
+    var captionText : [String] = []
+    var Hash : [AnyToken]!
     override func viewWillAppear(_ animated: Bool) {
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
@@ -63,7 +65,7 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
     }
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return 0
     }
 
 
@@ -81,6 +83,7 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
         cell.Caption.enabledTypes = [.hashtag, .mention, .url]
         cell.Caption.numberOfLines = 0
         cell.Caption.sizeToFit()
+        self.captionText.append(dic.caption!)
         cell.PostImage.sd_setImage(with: URL(string: dic.image!), completed: nil)
         cell.PostImage.isUserInteractionEnabled = true
         cell.PostImage.tag = indexPath.row
@@ -93,7 +96,8 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
         cell.CommnetBut.addTarget(self, action: #selector(CommentView(_:)), for: .touchUpInside)
         cell.ExceptionBut.tag = indexPath.row
         cell.ExceptionBut.addTarget(self, action: #selector(ExceptionMenu(_:)), for: .touchUpInside)
-        
+        cell.LikeBut.tag = indexPath.row
+        cell.LikeBut.addTarget(self, action: #selector(likePressed(_:)), for: .touchUpInside)
         //좋아요 체크
         ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.value is NSNull {
@@ -213,6 +217,7 @@ extension HomePostCollectionViewController {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "DistanceView") as! DistanceViewController
             vc.PostLocation = CLLocation(latitude: self.HomePost[(sender.view?.tag)!].lat!, longitude: self.HomePost[(sender.view?.tag)!].lon!)
             vc.modalTransitionStyle = .crossDissolve
+            vc.distance = 250.0
             present(vc, animated: true, completion: nil)
             print((sender.view?.tag)!)
         }
@@ -337,5 +342,86 @@ extension HomePostCollectionViewController {
             }
         })
         ref?.removeAllObservers()
+    }
+    @objc func likePressed(_ sender : UIButton) { //좋아요 눌렀을 때
+        let key = ref?.child("HashTagPosts").childByAutoId().key
+        let dic = [key! : (Auth.auth().currentUser?.uid)!]
+        ref?.child("WholePosts").child(self.HomePost[sender.tag].PostId!).child("LikePeople").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.value is NSNull { //첫 좋아요면 무조건 저장
+                self.ref?.child("WholePosts").child(self.HomePost[sender.tag].PostId!).child("LikePeople").setValue(dic)
+                let cell = self.collectionView?.cellForItem(at: IndexPath(row: sender.tag, section: 0)) //해당 셀 가져와서
+                sender.setImage(UIImage(named: "like.png"), for: .normal)
+                self.Hash = self.captionText[sender.tag]._tokens(from: HashtagTokenizer())
+                self.HashTagPostLike(self.Hash, 1, sender.tag)
+            } else { //좋아요가 하나라도 존재 할 시
+                if let item = snapshot.value as? [String : String] {
+                    print("??")
+                    for (key, value) in item {
+                        if value == (Auth.auth().currentUser?.uid)! { //좋아요 취소
+                            self.ref?.child("WholePosts").child(self.HomePost[sender.tag].PostId!).child("LikePeople/\(key)").removeValue() // WholePosts 데이터 삭제
+                            sender.setImage(UIImage(named: "unlike.png"), for: .normal)
+                            if self.Hash != nil {
+                                self.HashTagPostLike(self.Hash, 0, sender.tag)
+                            }
+                        } else { //버튼을 누른 사용자의 데이터가 없다. 즉, 이 글 좋아요
+                            self.ref?.child("WholePosts").child(self.HomePost[sender.tag].PostId!).child("LikePeople").setValue(dic)
+                            sender.setImage(UIImage(named: "like.png"), for: .normal)
+                            self.Hash = self.captionText[sender.tag]._tokens(from: HashtagTokenizer())
+                            if self.Hash != nil {
+                                self.HashTagPostLike(self.Hash, 1, sender.tag)
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        })
+        ref?.removeAllObservers()
+    }
+    func HashTagPostLike(_ Token : [AnyToken], _ index : Int, _ tag : Int) {
+        for i in 0..<Token.count {
+            let str = Token[i].text.replacingOccurrences(of: "#", with: "")
+            let key = ref?.child("HashTagPosts").childByAutoId().key
+            if index == 1 { // 저장
+                ref?.child("HashTagPosts").child(str).child("Posts").observe(.childAdded, with: { (snapshot) in
+                    if let item = snapshot.value as? [String : String] {
+                        
+                        if self.HomePost[tag].PostId! == item["postID"] {
+                            let dic = [key! : (Auth.auth().currentUser?.uid)!]
+                            print(snapshot.key)
+                            self.ref?.child("HashTagPosts").child(str).child("Posts").child(snapshot.key).child("LikePeople").setValue(dic)
+                            
+                        }
+                    }
+                })
+                ref?.removeAllObservers()
+            } else { // 좋아요 삭제
+                ref?.child("HashTagPosts").child(str).child("Posts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                    if snapshot.value is NSNull {
+                        print("아무것도 없습니다.")
+                    } else {
+                        if let item = snapshot.value as? [String : AnyObject] {
+                            for (key , value) in item {
+                                if value["postID"] as? String == self.HomePost[tag].PostId {
+                                    if value["LikePeople"] as? [String : AnyObject] != nil { //좋아요가 존재한다.
+                                        self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople").observe(.value, with: { (snapshot) in
+                                            if let item = snapshot.value as? [String : String] {
+                                                for (key1, value1) in item {
+                                                    if value1 == self.UserKey {
+                                                        self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople/\(key1)").removeValue()
+                                                    }
+                                                }
+                                            }
+                                        })
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
+                })
+                ref?.removeAllObservers()
+            }
+        }
     }
 }

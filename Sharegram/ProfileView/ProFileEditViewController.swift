@@ -144,7 +144,7 @@ extension ProFileEditViewController : UIImagePickerControllerDelegate ,UINavigat
             let cell = ProFileEditTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! ProFileEditTableViewCell
             cell.ProFileimage.image = capture
             //cell.ProFileimage.contentMode = .scaleAspectFill
-            cell.ProFileimage.layer.cornerRadius = cell.ProFileimage.frame.height / 4.0
+            cell.ProFileimage.layer.cornerRadius = 30
             cell.ProFileimage.layer.borderWidth = 2.0
             cell.ProFileimage.layer.borderColor = UIColor.black.cgColor
         }

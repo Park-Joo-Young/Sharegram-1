@@ -290,6 +290,7 @@ extension PostTableViewController : MTMapViewDelegate, UINavigationControllerDel
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "DistanceView") as! DistanceViewController
         vc.modalTransitionStyle = .crossDissolve
         vc.PostLocation = self.PostLocation
+        vc.distance = 250.0
         present(vc, animated: true, completion: nil)
         return true
     }

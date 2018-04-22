@@ -108,9 +108,6 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, Ge
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
         }
-        let collectionLayout = PhotoCollection.collectionViewLayout as? UICollectionViewFlowLayout
-        collectionLayout?.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 15, right: 0)
-        collectionLayout?.invalidateLayout()
         // Do any additional setup after loading the view.
     }
     // MARK: - Navigation

@@ -28,6 +28,8 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
     var ref : DatabaseReference?
     var Hash : [AnyToken]!
     var User = Userinfo()
+    var UserKey : String = (Auth.auth().currentUser?.uid)!
+    
     @IBAction func Back(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -302,10 +304,16 @@ extension SinglePostViewController {
                         if let item = snapshot.value as? [String : AnyObject] {
                             for (key , value) in item {
                                 if value["postID"] as? String == self.UserPost.PostId! {
-                                    for (key1 , value1) in (value["LikePeople"] as? [String : String])! {
-                                        if (Auth.auth().currentUser?.uid)! == value1 { // 사용자가 눌렀을 때 값이 안에 있다면 삭제를 시킨다.
-                                            self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople/\(key1)").removeValue()
-                                        }
+                                    if value["LikePeople"] as? [String : AnyObject] != nil { //좋아요가 존재한다.
+                                        self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople").observe(.value, with: { (snapshot) in
+                                            if let item = snapshot.value as? [String : String] {
+                                                for (key1, value1) in item {
+                                                    if value1 == self.UserKey {
+                                                        self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople/\(key1)").removeValue()
+                                                    }
+                                                }
+                                            }
+                                        })
                                     }
                                 }
                             }
