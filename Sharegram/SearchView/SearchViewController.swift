@@ -80,14 +80,7 @@ class SearchViewController: UIViewController{
 
         //SearchController.searchBar.resignFirstResponder()
         SnapWholePosts()
-        
-        WholePostCollectionView.snp.makeConstraints { (make) in
-            make.width.equalTo(CommonVariable.screenWidth)
-            make.height.equalTo(CommonVariable.screenHeight)
-            make.top.equalTo(self.view)
-            make.left.equalTo(self.view)
-            make.right.equalTo(self.view)
-        }
+
     }
     override func viewDidAppear(_ animated: Bool) {
         SearchController = UISearchController(searchResultsController: nil)
@@ -110,7 +103,15 @@ class SearchViewController: UIViewController{
         self.definesPresentationContext = true
         UINavigationBar.appearance().barTintColor = UIColor.white
         navigationController?.navigationBar.tintColor = UIColor.black
-
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
+        
+        WholePostCollectionView.snp.makeConstraints { (make) in
+            make.width.equalTo(CommonVariable.screenWidth)
+            make.height.equalTo(CommonVariable.screenHeight)
+            make.top.equalTo(self.view)
+            make.left.equalTo(self.view)
+            make.right.equalTo(self.view)
+        }
 
         // Do any additional setup after loading the view.
 

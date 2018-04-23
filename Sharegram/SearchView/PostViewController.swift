@@ -36,6 +36,13 @@ class PostViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         ref = Database.database().reference()
+        
+        fetchUser(Id)
+        fetchPost()
+        LikeCheck()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
         self.view.addSubview(Kolodaview)
         self.view.addSubview(LikeBut)
         
@@ -70,13 +77,6 @@ class PostViewController: UIViewController {
             make.top.equalTo(NextBut)
         }
         LikeBut.addTarget(self, action: #selector(likePressed), for: .touchUpInside)
-        fetchUser(Id)
-        fetchPost()
-        LikeCheck()
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
         //Do any additional setup after loading the view.
     }
 
@@ -126,13 +126,11 @@ extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
         let tap = UITapGestureRecognizer(target: self, action: #selector(UserNameTap))
         postview.layer.borderWidth = 1.0
         postview.layer.borderColor = UIColor.black.cgColor
-        postview.layer.cornerRadius = postview.frame.height / 25.0
         postview.clipsToBounds = true
         postview.PostImage.sd_setImage(with: URL(string: Posts[index].image!), completed: nil)
         postview.ProFileImage.isUserInteractionEnabled = true
         postview.ProFileImage.sd_setImage(with: URL(string: ProFileUrl), completed: nil)
         postview.ProFileImage.addGestureRecognizer(tap)
-        
         postview.Caption.text = Posts[index].caption!
         postview.Caption.numberOfLines = 0
         postview.Caption.enabledTypes = [.hashtag, .mention, .url]
@@ -143,14 +141,17 @@ extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
             vc.modalTransitionStyle = .crossDissolve
             self.present(vc, animated: true, completion: nil)
             }
+        postview.Caption.font = UIFont(name: "BM DoHyeon OTF", size : 13)!
         LikeCountLabel.text = "마음에 드신다면 하트를 눌러주세요"
 
         postview.UserName.isUserInteractionEnabled = true
         if postview.UserName.isUserInteractionEnabled == true {
             postview.UserName.text = Posts[index].username!
+            postview.UserName.font = UIFont(name: "BM DoHyeon OTF", size : 13)!
             postview.UserName.addGestureRecognizer(tap)
         }
         postview.TimeLabel.text = Posts[index].timeAgo
+        postview.TimeLabel.font = UIFont(name: "BM DoHyeon OTF", size : 13)!
         postview.TimeLabel.textColor = UIColor.lightGray
         postview.TimeLabel.adjustsFontSizeToFitWidth = true
         //버튼 제대로 표시
@@ -166,7 +167,6 @@ extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
 }
 extension PostViewController {
     @objc func ExceptionMenu(_ sender : UIButton) {
-        print(sender.tag)
         let alert = UIAlertController(title: "기타 메뉴", message: nil, preferredStyle: .actionSheet)
         let report = UIAlertAction(title: "신고", style: .default) { (action) in
             self.PostReport(sender.tag)
@@ -177,7 +177,6 @@ extension PostViewController {
         present(alert, animated: true, completion: nil)
     }
     func PostReport(_ index : Int) { //게시물 신고
-        let bool : Bool = false
         let key = (ref?.child("WholePosts").childByAutoId().key)!
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let broadcast = UIAlertAction(title: "허위 게시물입니다.", style: .default) { (action) in

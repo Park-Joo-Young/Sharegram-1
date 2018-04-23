@@ -48,9 +48,13 @@ class UserProFileViewController: UIViewController { //다른 사람이 사람을
         profileview.FollowerCount.snp.makeConstraints { (make) in
             make.left.equalTo(profileview.ProFileImage.snp.right).offset(70)
         }
+        profileview.FollowerCount.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+        profileview.FollowerLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+        profileview.FollowingCount.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+        profileview.FollowingLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
         
         profileview.ProFileEditBut.setTitle("팔로잉", for: .normal)
-        //profileview.ProFileImage.image = UIImage(named: "icon-profile-filled.png")
+        profileview.ProFileEditBut.titleLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
         profileview.ProFileEditBut.snp.makeConstraints { (make) in
             make.left.equalTo(profileview.FollowerCount.snp.left)
             make.width.equalTo(self.view.frame.width/1.5)
@@ -59,6 +63,7 @@ class UserProFileViewController: UIViewController { //다른 사람이 사람을
         print(UserKey)
         if (Auth.auth().currentUser?.uid)! == UserKey {
             profileview.ProFileEditBut.setTitle("자신입니다.", for: .normal)
+            profileview.ProFileEditBut.titleLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             profileview.ProFileEditBut.isEnabled = false
         }
         FollowCheck()
@@ -101,6 +106,7 @@ extension UserProFileViewController {
     @objc func ExceptionMenu(_ sender : UIButton) {
         print(sender.tag)
         let alert = UIAlertController(title: "기타 메뉴", message: nil, preferredStyle: .actionSheet)
+        alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 15)!]), forKey: "attributedTitle")
         let report = UIAlertAction(title: "신고", style: .default) { (action) in
             self.PostReport(sender.tag)
         }
@@ -113,6 +119,7 @@ extension UserProFileViewController {
         let bool : Bool = false
         let key = (ref?.child("WholePosts").childByAutoId().key)!
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 15)!]), forKey: "attributedTitle")
         let broadcast = UIAlertAction(title: "허위 게시물입니다.", style: .default) { (action) in
             if self.UserPost[index].Id == self.UserKey { //내가 내 게시물 신고
                 print("내꺼같다.")
@@ -232,7 +239,7 @@ extension UserProFileViewController {
     func fetchUser() {
         ref?.child("User").child(self.UserKey).child("UserProfile").observe(.value, with: { (snapshot) in
             if let item = snapshot.value as? [String : String] {
-                if item["ProFileImage"]! != nil {
+                if item["ProFileImage"] != nil {
                     self.profileimage = item["ProFileImage"]!
                     self.profileview.ProFileImage.sd_setImage(with: URL(string: item["ProFileImage"]!), completed: nil)
                 } else {

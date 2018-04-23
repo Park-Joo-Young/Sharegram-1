@@ -58,6 +58,8 @@
 		1883949920779E7800945460 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883949720779E7800945460 /* CommentTableViewCell.swift */; };
 		1883949A20779E7800945460 /* CommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1883949820779E7800945460 /* CommentTableViewCell.xib */; };
 		188C042A200C92D800C4E697 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188C0429200C92D800C4E697 /* WriteViewController.swift */; };
+		1896EB4A208DCCE500703C9B /* BMDOHYEON.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1896EB49208DCCE400703C9B /* BMDOHYEON.otf */; };
+		1896EB4E208DD84B00703C9B /* backarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1896EB4D208DD84A00703C9B /* backarrow.png */; };
 		189E1BC320821C100078A299 /* HashTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189E1BC220821C100078A299 /* HashTagViewController.swift */; };
 		18A5CC6F205D3947001967CF /* comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A5CC6C205D3946001967CF /* comment.png */; };
 		18A5CC70205D3947001967CF /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A5CC6D205D3946001967CF /* like.png */; };
@@ -172,6 +174,8 @@
 		1883949720779E7800945460 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		1883949820779E7800945460 /* CommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentTableViewCell.xib; sourceTree = "<group>"; };
 		188C0429200C92D800C4E697 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
+		1896EB49208DCCE400703C9B /* BMDOHYEON.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BMDOHYEON.otf; sourceTree = "<group>"; };
+		1896EB4D208DD84A00703C9B /* backarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backarrow.png; sourceTree = "<group>"; };
 		189E1BC220821C100078A299 /* HashTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTagViewController.swift; sourceTree = "<group>"; };
 		18A5CC6C205D3946001967CF /* comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment.png; sourceTree = "<group>"; };
 		18A5CC6D205D3946001967CF /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
@@ -302,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				185A5948207BE17A006BB456 /* Replyarrow.png */,
+				1896EB4D208DD84A00703C9B /* backarrow.png */,
 				18839495207765A900945460 /* edit.png */,
 				181C14A92053F92B00BCA077 /* Next.png */,
 				18DF776C2089F74900BA7476 /* activity.png */,
@@ -483,6 +488,7 @@
 				3A76C19220046761004253CF /* ViewController.swift */,
 				3A76C19420046761004253CF /* Main.storyboard */,
 				3A76C19A20046761004253CF /* Assets.xcassets */,
+				1896EB49208DCCE400703C9B /* BMDOHYEON.otf */,
 				3A76C19C20046761004253CF /* LaunchScreen.storyboard */,
 				3A76C19F20046761004253CF /* Info.plist */,
 				3A76C19720046761004253CF /* Sharegram.xcdatamodeld */,
@@ -612,6 +618,7 @@
 				186348CD205281D900188D6C /* Cancel.png in Resources */,
 				3A76C19E20046761004253CF /* LaunchScreen.storyboard in Resources */,
 				18DF77732089F74A00BA7476 /* search.png in Resources */,
+				1896EB4A208DCCE500703C9B /* BMDOHYEON.otf in Resources */,
 				18AA5144205BD58D003A93AD /* th_line.png in Resources */,
 				18AA513D205BD58D003A93AD /* map_present_background_update.png in Resources */,
 				18777FFB204AC822004EE278 /* ProFileEditTableViewCell.xib in Resources */,
@@ -621,6 +628,7 @@
 				186FDFED2005E497007A454C /* GoogleService-Info.plist in Resources */,
 				18757E72207A4831007E4A3D /* CommentReplyTableViewCell.xib in Resources */,
 				18AA5134205BD58D003A93AD /* map_pin_red.png in Resources */,
+				1896EB4E208DD84B00703C9B /* backarrow.png in Resources */,
 				18A5CC70205D3947001967CF /* like.png in Resources */,
 				18AA512C205BD58D003A93AD /* daum_th_line.png in Resources */,
 				18AA512E205BD58D003A93AD /* info_box.png in Resources */,

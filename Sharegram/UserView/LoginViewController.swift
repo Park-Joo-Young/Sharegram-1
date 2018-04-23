@@ -36,6 +36,9 @@ class LoginViewController: UIViewController {
             make.centerX.equalTo(su)
             make.top.equalTo(su).offset(100)
         }
+        let attr = NSDictionary(object: UIFont(name: "BM DoHyeon OTF", size : 15)!, forKey: NSAttributedStringKey.font as NSCopying)
+        segment.setTitleTextAttributes(attr as? [NSAttributedStringKey : Any], for: .normal)
+        
         EmailText.snp.makeConstraints({ (make) in
             make.width.equalTo(CommonVariable.screenWidth/1.5)
             make.height.equalTo(CommonVariable.screenHeight/20)

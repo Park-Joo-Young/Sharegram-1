@@ -69,11 +69,13 @@ extension AccurateLocationMapViewController {
             }
             address = addrList.joined(separator: " ")
             let alertview = CDAlertView(title: address, message: "이 위치가 맞으십니까?", type: CDAlertViewType.notification)
-            let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.clear, handler: { (action) in
+            let OKAction = CDAlertViewAction(title: "Ok", font: UIFont(name: "BM DoHyeon OTF", size : 16)!, textColor: UIColor.black, backgroundColor: UIColor.clear, handler: { (action) in
                 self.delegate?.getLocation(self.location.coordinate.latitude, self.location.coordinate.longitude)
                 self.navigationController?.popViewController(animated: true) //이전 화면으로 돌아간다 위치와 함께
             })
-            let Cancel = CDAlertViewAction(title: "Cancel")
+            let Cancel = CDAlertViewAction(title: "Ok", font: UIFont(name: "BM DoHyeon OTF", size : 16)!, textColor: UIColor.black, backgroundColor: UIColor.clear, handler: { (action) in
+                return
+            })
             alertview.add(action: OKAction)
             alertview.add(action: Cancel)
             alertview.show()

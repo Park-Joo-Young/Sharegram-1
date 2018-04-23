@@ -50,12 +50,20 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
         FetchUser()
         FetchComment()
         
+        
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        PostUserProFileImage.layer.cornerRadius = 30
+        PostUserProFileImage.clipsToBounds = true
         navi.snp.makeConstraints { (make) in
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
             make.top.equalTo(self.view).offset(20)
         }
         UINavigationBar.appearance().barTintColor = UIColor.white
+        navi.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
+        navi.tintColor = UIColor.black
         CommentTable.snp.makeConstraints { (make) in
             make.top.equalTo(navi.snp.bottom).offset(5)
             make.width.equalTo(width)
@@ -90,7 +98,7 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
             make.top.equalTo(PostUserProFileImage)
         }
         PostUserName.text = UserPost.username
-        
+        PostUserName.font = UIFont(name: "BM DoHyeon OTF", size : 17)!
         PostUserCaption.snp.makeConstraints { (make) in
             make.width.equalTo(width - PostUserProFileImage.bounds.width)
             make.height.lessThanOrEqualTo(PostCaptionView.bounds.height-10-PostUserName.bounds.height)
@@ -99,6 +107,7 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
         }
         PostUserCaption.numberOfLines = 0
         PostUserCaption.text = UserPost.caption!
+        PostUserCaption.font = UIFont(name: "BM DoHyeon OTF", size : 17)!
         PostUserCaption.enabledTypes = [.hashtag, .mention, .url]
         
         CommentView.addSubview(CommentProfileImage)
@@ -130,7 +139,7 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
         CommentTextfield.layer.borderColor = UIColor.lightGray.cgColor
         CommentTextfield.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
         CommentTextfield.leftViewMode = .always
-        
+        CommentTextfield.font = UIFont(name: "BM DoHyeon OTF", size : 17)!
         CommentBut.snp.makeConstraints { (make) in
             make.width.equalTo(CommentView.bounds.width/7)
             make.height.equalTo(CommentView.bounds.height/3)
@@ -139,11 +148,6 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
         }
         CommentBut.setImage(UIImage(named: "edit.png"), for: .normal)
         CommentBut.addTarget(self, action: #selector(SetComment), for: .touchUpInside)
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        PostUserProFileImage.layer.cornerRadius = 30
-        PostUserProFileImage.clipsToBounds = true
         // Do any additional setup after loading the view.
     }
 

@@ -40,7 +40,7 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -76,7 +76,7 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
     }
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
 
@@ -94,6 +94,7 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
         cell.Caption.enabledTypes = [.hashtag, .mention, .url]
         cell.Caption.numberOfLines = 0
         cell.Caption.sizeToFit()
+        cell.Caption.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
         self.captionText.append(dic.caption!)
         cell.PostImage.sd_setImage(with: URL(string: dic.image!), completed: nil)
         cell.PostImage.isUserInteractionEnabled = true
@@ -102,7 +103,9 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
         cell.PostImage.addGestureRecognizer(tap)
         cell.LikeCountLabel.text = "0"
         cell.TimeLabel.text = dic.timeAgo
+        cell.TimeLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
         cell.UserName.text = dic.username!
+        cell.UserName.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
         cell.CommnetBut.tag = indexPath.row
         cell.CommnetBut.addTarget(self, action: #selector(CommentView(_:)), for: .touchUpInside)
         cell.ExceptionBut.tag = indexPath.row
@@ -178,6 +181,7 @@ extension HomePostCollectionViewController {
     @objc func ExceptionMenu(_ sender : UIButton) {
         print(sender.tag)
         let alert = UIAlertController(title: "기타 메뉴", message: nil, preferredStyle: .actionSheet)
+        alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 15)!]), forKey: "attributedTitle")
         let report = UIAlertAction(title: "신고", style: .default) { (action) in
             self.PostReport(sender.tag)
         }
@@ -190,6 +194,7 @@ extension HomePostCollectionViewController {
         let bool : Bool = false
         let key = (ref?.child("WholePosts").childByAutoId().key)!
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 15)!]), forKey: "attributedTitle")
         let broadcast = UIAlertAction(title: "허위 게시물입니다.", style: .default) { (action) in
             if self.HomePost[index].Id == self.UserKey { //내가 내 게시물 신고
                 print("내꺼같다.")
@@ -227,7 +232,7 @@ extension HomePostCollectionViewController {
         } else { //위치 있으면
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "DistanceView") as! DistanceViewController
             vc.PostLocation = CLLocation(latitude: self.HomePost[(sender.view?.tag)!].lat!, longitude: self.HomePost[(sender.view?.tag)!].lon!)
-            vc.modalTransitionStyle = .crossDissolve
+            vc.modalPresentationStyle = .overCurrentContext
             vc.distance = 250.0
             present(vc, animated: true, completion: nil)
             print((sender.view?.tag)!)

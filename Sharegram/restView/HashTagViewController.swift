@@ -40,9 +40,25 @@ class HashTagViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         print(HashTagName)
-        self.view.addSubview(segment)
+
         ref = Database.database().reference()
         
+        
+        HashTagPostFetch()
+
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.addSubview(segment)
+        // Do any additional setup after loading the view.
+        isAuthorizedtoGetUserLocation()
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.distanceFilter = 200.0
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.startUpdatingLocation()
+        }
         navi.snp.makeConstraints { (make) in
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
@@ -57,10 +73,10 @@ class HashTagViewController: UIViewController {
             make.top.equalTo(navi.snp.bottom).offset(20)
             make.left.equalTo(self.view).offset(20)
         }
-       // HashTagPostImage.makeRounded()
+        // HashTagPostImage.makeRounded()
         HashTagPostImage.layer.cornerRadius = 30
         HashTagPostImage.clipsToBounds = true
-
+        
         NumberOfPost.snp.makeConstraints { (make) in
             make.width.equalTo(width/6)
             make.height.equalTo(height/30)
@@ -69,7 +85,7 @@ class HashTagViewController: UIViewController {
         }
         NumberOfPost.textAlignment = .right
         
-
+        
         SubText.snp.makeConstraints { (make) in
             make.size.equalTo(NumberOfPost)
             make.left.equalTo(HashTagFollow.snp.centerX)
@@ -96,6 +112,8 @@ class HashTagViewController: UIViewController {
         segment.insertSegment(withTitle: "최신 컨텐츠", at: 0)
         segment.insertSegment(withTitle: "근처 컨텐츠", at: 1)
         segment.tintColor = UIColor.black
+        let attr = NSDictionary(object: UIFont(name: "BM DoHyeon OTF", size : 15)!, forKey: NSAttributedStringKey.font as NSCopying)
+        segment.setTitleTextAttributes(attr as? [NSAttributedStringKey : Any], for: .normal)
         segment.selectedSegmentContentColor = UIColor.lightGray
         segment.selectedSegmentIndex = 0
         segment.addTarget(self, action: #selector(ActSegClicked(_:)), for: .valueChanged)
@@ -105,20 +123,6 @@ class HashTagViewController: UIViewController {
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
             make.top.equalTo(segment.snp.bottom)
-        }
-        HashTagPostFetch()
-
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        isAuthorizedtoGetUserLocation()
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.distanceFilter = 200.0
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.startUpdatingLocation()
         }
     }
 

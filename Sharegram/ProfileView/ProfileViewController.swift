@@ -24,6 +24,12 @@ class ProfileViewController: UIViewController {
     var captionText : [String] = []
     override func viewWillAppear(_ animated: Bool) {
         ref = Database.database().reference()
+        
+        FetchPost()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
         profileview = Bundle.main.loadNibNamed("ProFileView", owner: self, options: nil)?.first as! ProFileView
         self.view.addSubview(profileview)
         self.view.addSubview(MySettingBut)
@@ -35,9 +41,19 @@ class ProfileViewController: UIViewController {
             make.right.equalTo(self.view)
             make.top.equalTo(self.view).offset(70)
         }
+        profileview.ProFileImage.layer.borderWidth = 1
+        profileview.ProFileImage.layer.masksToBounds = false
+        profileview.ProFileImage.layer.borderColor = UIColor.black.cgColor
+        profileview.ProFileImage.layer.cornerRadius = profileview.ProFileImage.frame.size.width / 2
+       profileview.ProFileImage.clipsToBounds = true
+       profileview.ProFileImage.contentMode = .scaleAspectFill
         profileview.FollowerCount.snp.makeConstraints { (make) in
             make.left.equalTo(profileview.ProFileImage.snp.right).offset(70)
         }
+        profileview.FollowerCount.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+        profileview.FollowerLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+        profileview.FollowingCount.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+        profileview.FollowingLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
         //profileview.ProFileImage.image = UIImage(named: "icon-profile-filled.png")
         profileview.ProFileEditBut.snp.makeConstraints { (make) in
             make.left.equalTo(profileview.FollowerCount.snp.left)
@@ -46,6 +62,8 @@ class ProfileViewController: UIViewController {
         }
         profileview.ProFileEditBut.addTarget(self, action: #selector(ProfileEdit), for: .touchUpInside)
         profileview.ProFileEditBut.setTitle("프로필 수정", for: .normal)
+        profileview.ProFileEditBut.titleLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+        
         profileview.MyFostCollectionView.delegate = self
         profileview.MyFostCollectionView.dataSource = self
         profileview.MyFostCollectionView.register(UINib(nibName: "CollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
@@ -66,11 +84,6 @@ class ProfileViewController: UIViewController {
         MySettingBut.layer.borderWidth = 1.5
         MySettingBut.layer.borderColor = UIColor.lightGray.cgColor
         MySettingBut.tintColor = UIColor.black
-        FetchPost()
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
     }
 
@@ -201,13 +214,14 @@ extension ProfileViewController {
     }
     @objc func ExceptionMenu(_ sender : UIButton) { //기타 메뉴
         let alert = UIAlertController(title: "기타 메뉴", message: nil, preferredStyle: .actionSheet)
+        alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 15)!]), forKey: "attributedTitle")
         let remove = UIAlertAction(title: "게시물 삭제", style: .default) { (action) in
             let confirm = CDAlertView(title: "삭제 하시겠습니까", message: nil, type: CDAlertViewType.notification)
-            let remove = CDAlertViewAction(title: "삭제", font: UIFont.systemFont(ofSize: 15), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
+            let remove = CDAlertViewAction(title: "삭제", font: UIFont(name: "BM DoHyeon OTF", size : 15)!, textColor: UIColor.red, backgroundColor: UIColor.white, handler: { (action) in
                 self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).removeValue()
                 self.HashTagPostRemove(sender.tag)
             })
-            let cancel = CDAlertViewAction(title: "취소", font: UIFont.systemFont(ofSize: 15), textColor: UIColor.black, backgroundColor: UIColor.white, handler: nil)
+            let cancel = CDAlertViewAction(title: "취소", font: UIFont(name: "BM DoHyeon OTF", size : 15)!, textColor: UIColor.black, backgroundColor: UIColor.white, handler: nil)
             confirm.add(action: remove)
             confirm.add(action: cancel)
             confirm.show()
@@ -325,10 +339,13 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
             cell.Caption.enabledTypes = [.hashtag, .mention, .url]
             cell.Caption.numberOfLines = 0
             cell.Caption.sizeToFit()
+            cell.Caption.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             cell.PostImage.sd_setImage(with: URL(string: dic.image!), completed: nil)
             cell.LikeCountLabel.text = "0"
             cell.TimeLabel.text = dic.timeAgo
+            cell.TimeLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             cell.UserName.text = dic.username!
+            cell.UserName.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             cell.ExceptionBut.tag = indexPath.row
             cell.ExceptionBut.addTarget(self, action: #selector(ExceptionMenu), for: .touchUpInside)
             cell.LikeBut.tag = indexPath.row

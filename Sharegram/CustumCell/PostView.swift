@@ -50,7 +50,7 @@ class PostView: UIView {
         ProFileImage.layer.cornerRadius = self.ProFileImage.frame.size.height / 2
         ProFileImage.clipsToBounds = true
         UserName.snp.makeConstraints { (make) in
-            make.width.equalTo(self.bounds.width/2)
+            make.width.equalTo(self.bounds.width/2.5)
             make.height.equalTo(self.bounds.height/30)
             make.left.equalTo(ProFileImage.snp.right).offset(5)
             make.top.equalTo(ProFileImage)
@@ -63,6 +63,7 @@ class PostView: UIView {
             make.height.equalTo(UserName)
             make.top.equalTo(UserName)
         }
+        ExceptionBut.setImage(UIImage(named: "exception.png"), for: .normal)
         PostImage.snp.makeConstraints { (make) in
             make.width.equalTo(self)
             make.top.equalTo(self)

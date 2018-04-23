@@ -19,9 +19,6 @@ class ActivityViewController: UIViewController {
     var item = [MTMapPOIItem]()
     
     override func viewWillAppear(_ animated: Bool) {
-        self.view.addSubview(segment)
-        self.view.addSubview(MapView)
-        
         isAuthorizedtoGetUserLocation() //위치 인증
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
@@ -31,6 +28,14 @@ class ActivityViewController: UIViewController {
             locationManager.startUpdatingLocation()
             
         }
+        MapView.removeAllPOIItems()
+
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
+        self.view.addSubview(segment)
+        self.view.addSubview(MapView)
         segment.snp.makeConstraints { (make) in
             make.width.equalTo(CommonVariable.screenWidth)
             make.height.equalTo(CommonVariable.screenHeight/7)
@@ -47,6 +52,8 @@ class ActivityViewController: UIViewController {
         segment.selectedSegmentContentColor = UIColor.black
         segment.segmentContentColor = UIColor.lightGray
         segment.underlineSelected = false
+        let attr = NSDictionary(object: UIFont(name: "BM DoHyeon OTF", size : 15)!, forKey: NSAttributedStringKey.font as NSCopying)
+        segment.setTitleTextAttributes(attr as? [NSAttributedStringKey : Any], for: .normal)
         
         MapView.snp.makeConstraints { (make) in
             make.width.equalTo(CommonVariable.screenWidth)
@@ -55,11 +62,6 @@ class ActivityViewController: UIViewController {
         }
         MapView.delegate = self
         
-        MapView.removeAllPOIItems()
-
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
 

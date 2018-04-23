@@ -96,7 +96,8 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, Ge
         UINavigationBar.appearance().barTintColor = UIColor.white
         navigationController?.navigationBar.tintColor = UIColor.black
         isAuthorizedtoGetUserLocation()
-
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
+        
         myImageView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view.frame.width)
             make.height.equalTo(self.view.frame.height/2)

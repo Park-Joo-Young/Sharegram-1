@@ -38,7 +38,6 @@ class WriteViewController: UIViewController{
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var LocationSwitch: UISwitch!
     @IBOutlet weak var writeBut: UIButton!
-    
     @IBAction func ActBut(_ sender: UIButton) { // 작성 버튼을 눌렀을 때
         CommonVariable.formatter.dateFormat = "yyyy-MM-dd HH:mm"
         CommonVariable.formatter.locale = Locale(identifier: "ko_KR")
@@ -220,6 +219,8 @@ class WriteViewController: UIViewController{
             make.top.equalTo(writeimageView.snp.bottom).offset(10)
         }
         writeDescription.adjustsFontForContentSizeCategory = true
+        writeDescription.font = UIFont(name: "BM DoHyeon OTF", size : 17)!
+        
         label.snp.makeConstraints { (make) in
             make.width.equalTo(self.view.frame.width/2)
             make.height.equalTo(self.view.frame.height/30)
@@ -227,6 +228,7 @@ class WriteViewController: UIViewController{
             make.top.equalTo(writeDescription.snp.bottom).offset(100)
         }
         label.adjustsFontSizeToFitWidth = true
+        label.font = UIFont(name: "BM DoHyeon OTF", size : 17)!
         LocationSwitch.snp.makeConstraints { (make) in
             make.right.equalTo(self.view).offset(-10)
             make.top.equalTo(label)
@@ -238,6 +240,8 @@ class WriteViewController: UIViewController{
             make.top.equalTo(label.snp.bottom).offset(50)
         }
         writeBut.setTitle("작성", for: .normal)
+        writeBut.tintColor = UIColor.black
+        writeBut.titleLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 17)!
         // Do any additional setup after loading the view.
     }
     

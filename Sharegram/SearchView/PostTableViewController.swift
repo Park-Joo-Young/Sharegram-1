@@ -35,12 +35,24 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
     
     override func viewWillAppear(_ animated: Bool) {
         ref = Database.database().reference()
+        self.definesPresentationContext = true
         FetchUser()
         FetchComment()
+        
+    }
+
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //self.navigationController?.isNavigationBarHidden = true
+        self.navigationItem.backBarButtonItem?.title = " "
+        UINavigationBar.appearance().barTintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = UIColor.black
+        
         PostLocation = CLLocation(latitude: Posts.lat!, longitude: Posts.lon!)
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
-
+        
         
         PostImageView.sd_setImage(with:URL(string: Posts.image!), completed: nil)
         MapImage = PostImageView.image
@@ -51,6 +63,7 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
         CommentView = UIView(frame: CGRect(x: 0, y: 0, width: CommonVariable.screenWidth, height: CommonVariable.screenHeight/8))
         MapView = UIView(frame: CGRect(x: 0, y: 0, width: CommonVariable.screenWidth, height: CommonVariable.screenHeight/3.5))
         MapView.addSubview(Map)
+        MapView.backgroundColor = UIColor.white
         Map.snp.makeConstraints { (make) in
             make.size.equalTo(MapView)
             make.left.equalTo(MapView)
@@ -84,6 +97,7 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
         CommentView.layer.borderWidth = 1.0
         CommentView.layer.borderColor = UIColor.lightGray.cgColor
         CommentView.backgroundColor = UIColor.white
+        
         CommentProfileImage.snp.makeConstraints { (make) in
             make.width.equalTo(CommentView.bounds.width/5)
             make.height.equalTo(CommentView.bounds.height/1.3)
@@ -116,16 +130,6 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
         }
         CommentBut.setImage(UIImage(named: "edit.png"), for: .normal)
         CommentBut.addTarget(self, action: #selector(SetComment), for: .touchUpInside)
-
-    }
-
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        //self.navigationController?.isNavigationBarHidden = true
-        //self.navigationItem.title = Posts.username!
-        UINavigationBar.appearance().barTintColor = UIColor.white
-        navigationController?.navigationBar.tintColor = UIColor.black
 
         
         //tableView.addSubview(CommentView)
@@ -178,9 +182,10 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
                 cell.ProFileImage.layer.cornerRadius = 15.0
                 cell.ProFileImage.clipsToBounds = true
                 cell.Comment.text = "\(dic["Author"]!) \(dic["Comment"]!)"
+                cell.Comment.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
                 cell.Comment.numberOfLines = 0
                 cell.Comment.enabledTypes = [.hashtag, .mention, .url]
-                cell.Comment.handleMentionTap { (hashtag) in
+                cell.Comment.handleMentionTap { (mention) in
                     let alertview = CDAlertView(title: "현재 위치는 ", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
                     let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
                         return
@@ -192,10 +197,12 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
                 cell.Comment.sizeToFit()
                 cell.ReplyBut.tag = indexPath.row
                 cell.ReplyBut.setTitle("답글 달기", for: .normal)
+                cell.ReplyBut.titleLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 13)!
                 cell.ReplyBut.tintColor = UIColor.lightGray
                 cell.ReplyBut.addTarget(self, action: #selector(SetCommentReply), for: .touchUpInside)
                 cell.TimeAgo.text = dic["Date"]
-                cell.TimeAgo.font = UIFont.systemFont(ofSize: 10)
+                cell.TimeAgo.font = UIFont(name: "BM DoHyeon OTF", size : 10)!
+                
                 return cell
             } else {
                 let cell = Bundle.main.loadNibNamed("CommentReplyTableViewCell", owner: self, options: nil)?.first as! CommentReplyTableViewCell
@@ -203,6 +210,7 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
                 cell.ProFileImage.layer.cornerRadius = 15.0
                 cell.ProFileImage.clipsToBounds = true
                 cell.Comment.text = "\(dic["Author"]!) \(dic["Reply"]!)"
+                cell.Comment.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
                 cell.Comment.numberOfLines = 0
                 cell.Comment.enabledTypes = [.hashtag, .mention, .url]
                 cell.Comment.handleMentionTap { (hashtag) in
@@ -217,6 +225,7 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
                 cell.Comment.sizeToFit()
                 cell.TimeAgo.text = dic["Date"]
                 cell.TimeAgo.font = UIFont.systemFont(ofSize: 10)
+                cell.TimeAgo.font = UIFont(name: "BM DoHyeon OTF", size : 10)!
                 return cell
             }
         // Configure the cell...
@@ -275,7 +284,6 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
 extension PostTableViewController : MTMapViewDelegate, UINavigationControllerDelegate {
     func poiItem(latitude: Double, longitude: Double) -> MTMapPOIItem {
         let item = MTMapPOIItem()
-
         item.markerType = .customImage
         item.customImage = MapImage
         item.mapPoint = MTMapPoint(geoCoord: .init(latitude: latitude, longitude: longitude))
@@ -293,9 +301,6 @@ extension PostTableViewController : MTMapViewDelegate, UINavigationControllerDel
         vc.distance = 250.0
         present(vc, animated: true, completion: nil)
         return true
-    }
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        self.viewWillAppear(true)
     }
 }
 extension PostTableViewController {

@@ -13,7 +13,6 @@ import CoreLocation
 
 class DistanceViewController: UIViewController {
     
-    //var DistanceArray : [[String : String]] = []
     var DistanceArray = [Post]()
     var PostLocation = CLLocation()
     var ref : DatabaseReference?
@@ -22,17 +21,25 @@ class DistanceViewController: UIViewController {
     @IBOutlet var DistancePostView: UICollectionView!
     @IBOutlet var navi: UINavigationBar!
     @IBAction func Back(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
         ref = Database.database().reference()
+        
+        DistancePostFetch()
+
+        //navigationController?.isNavigationBarHidden = true
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
         navi.snp.makeConstraints { (make) in
             make.top.equalTo(self.view).offset(10)
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
         }
         UINavigationBar.appearance().barTintColor = UIColor.white
-        navi.topItem?.title = "게시글"
+        navi.topItem?.title = "근처 게시물"
+        navi.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
         navi.tintColor = UIColor.black
         DistancePostView.snp.makeConstraints { (make) in
             make.width.equalTo(CommonVariable.screenWidth)
@@ -42,12 +49,6 @@ class DistanceViewController: UIViewController {
             make.right.equalTo(self.view)
             make.bottom.equalTo(self.view)
         }
-        DistancePostFetch()
-
-        //navigationController?.isNavigationBarHidden = true
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
 

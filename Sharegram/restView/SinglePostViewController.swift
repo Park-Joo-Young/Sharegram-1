@@ -40,6 +40,12 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
     override func viewWillAppear(_ animated: Bool) {
         
         ref = Database.database().reference()
+        
+        fetchUser()
+        LikeCheck()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
         navi.snp.makeConstraints { (make) in
             make.top.equalTo(self.view).offset(10)
             make.left.equalTo(self.view)
@@ -47,7 +53,9 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
         }
         UINavigationBar.appearance().barTintColor = UIColor.white
         navi.topItem?.title = "게시글"
+        navi.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
         navi.tintColor = UIColor.black
+        
         self.view.addSubview(ProFileImage)
         self.view.addSubview(UserName)
         self.view.addSubview(ExceptionBut)
@@ -74,6 +82,7 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
         }
         UserName.adjustsFontSizeToFitWidth = true
         UserName.text = UserPost.username!
+        UserName.font = UIFont(name: "BM DoHyeon OTF", size : 17)!
         ExceptionBut.snp.makeConstraints { (make) in
             make.width.equalTo(width/10)
             make.height.equalTo(height/20)
@@ -120,6 +129,7 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
         Caption.textAlignment = .left
         Caption.adjustsFontSizeToFitWidth = true
         Caption.text = UserPost.caption!
+        Caption.font = UIFont(name: "BM DoHyeon OTF", size : 17)!
         TimeLabel.snp.makeConstraints { (make) in
             make.size.equalTo(UserName)
             make.bottom.equalTo(self.view.snp.bottom).offset(-20)
@@ -127,12 +137,7 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
         }
         TimeLabel.tintColor = UIColor.lightGray
         TimeLabel.text = UserPost.timeAgo!
-        fetchUser()
-        LikeCheck()
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+        TimeLabel.font = UIFont(name: "BM DoHyeon OTF", size : 17)!
         // Do any additional setup after loading the view.
     }
 
@@ -162,7 +167,7 @@ extension SinglePostViewController {
     }
     @objc func PresentCommentView() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "SingleComment") as! SingleCommentViewController
-        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
         vc.UserPost = self.UserPost
         present(vc, animated: true, completion: nil)
     }

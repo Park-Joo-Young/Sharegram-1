@@ -81,14 +81,21 @@ class SubSearchViewController: UIViewController {
         //self.navigationItem.hidesBackButton = true
         ref = Database.database().reference()
         print("여기가 처음")
+        
+    }
 
-//        navi.snp.makeConstraints { (make) in
-//            make.top.equalTo(self.view).offset(10)
-//            make.height.equalTo(self.view.frame.height/10)
-//            make.left.equalTo(self.view)
-//            make.right.equalTo(self.view)
-//        }
-//        UINavigationBar.appearance().barTintColor = UIColor.white
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        SearchController = UISearchController(searchResultsController: nil)
+        //SearchController.delegate = self
+        SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
+        SearchController.hidesNavigationBarDuringPresentation = false
+        SearchController.dimsBackgroundDuringPresentation = false
+        SearchController.searchBar.searchBarStyle = .prominent
+        SearchController.searchBar.sizeToFit()
+        SearchController.searchBar.barTintColor = UIColor.white
+        self.definesPresentationContext = true
+        self.navigationItem.title = "검색"
         self.view.addSubview(segment)
         segment.snp.makeConstraints { (make) in
             make.top.equalTo(self.view).offset(70)
@@ -115,22 +122,6 @@ class SubSearchViewController: UIViewController {
         SearchResultTable.separatorStyle = .none
         SearchResultTable.estimatedRowHeight = 100
         SearchResultTable.rowHeight = UITableViewAutomaticDimension
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        //self.navigationItem.hidesBackButton = true
-        //self.navigationController?.isNavigationBarHidden = true
-        SearchController = UISearchController(searchResultsController: nil)
-        //SearchController.delegate = self
-        SearchController.searchResultsUpdater = self as? UISearchResultsUpdating
-        SearchController.hidesNavigationBarDuringPresentation = false
-        SearchController.dimsBackgroundDuringPresentation = false
-        SearchController.searchBar.searchBarStyle = .prominent
-        SearchController.searchBar.sizeToFit()
-        SearchController.searchBar.barTintColor = UIColor.white
-        self.definesPresentationContext = true
-        
         //self.navigationItem.titleView = SearchController.searchBar
         segment.segmentStyle = .textOnly
         segment.insertSegment(withTitle: "인기", at: 0)
@@ -147,7 +138,8 @@ class SubSearchViewController: UIViewController {
         let largerRedTextSelectAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: UIColor.orange]
         segment.setTitleTextAttributes(largerRedTextHighlightAttributes, for: .highlighted)
         segment.setTitleTextAttributes(largerRedTextSelectAttributes, for: .selected)
-
+        let attr = NSDictionary(object: UIFont(name: "BM DoHyeon OTF", size : 15)!, forKey: NSAttributedStringKey.font as NSCopying)
+        segment.setTitleTextAttributes(attr as? [NSAttributedStringKey : Any], for: .normal)
         //navi.topItem?.titleView = SearchController.searchBar
         
         //self.navigationItem.titleView = SearchController.sea rchBar
@@ -280,8 +272,12 @@ extension SubSearchViewController : UITableViewDelegate {
         
         if segment.selectedSegmentIndex == 2 { //해쉬태그
             cell.textLabel?.text = self.SearchTagList[indexPath.row]
+            cell.textLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             cell.imageView?.image = UIImage(named: "HashTag.png")
-            cell.imageView?.layer.borderWidth = 1.5
+            cell.imageView?.layer.borderWidth = 1
+            cell.imageView?.layer.cornerRadius = 15
+            cell.imageView?.clipsToBounds = true
+            cell.imageView?.contentMode = .scaleAspectFit
             //self.SearchList[indexPath.row].replacingOccurrences(of: "#", with: "")
 //           let tag = self.SearchList[indexPath.row].replacingOccurrences(of: "#", with: "")
 //            ref?.child("HashTagPosts").child(tag).child("Count").observe(.value, with: { (snapshot) in
@@ -294,7 +290,7 @@ extension SubSearchViewController : UITableViewDelegate {
 //            ref?.removeAllObservers()
         } else { //인기 와 사람
             cell.textLabel?.text = self.SearchList[indexPath.row]
-            cell.textLabel?.font = UIFont.systemFont(ofSize: 20)
+            cell.textLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
         }
         //cell.imageView?.image
         return cell
