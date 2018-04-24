@@ -45,6 +45,12 @@ class UserProFileViewController: UIViewController { //다른 사람이 사람을
             make.right.equalTo(self.view)
             make.top.equalTo(self.view).offset(70)
         }
+        profileview.ProFileImage.frame.size = CGSize(width: 100, height: 100)
+        profileview.ProFileImage.layer.borderWidth = 1.0
+        profileview.ProFileImage.layer.masksToBounds = false
+        profileview.ProFileImage.layer.cornerRadius = self.profileview.ProFileImage.frame.size.height / 2.0
+        profileview.ProFileImage.clipsToBounds = true
+        profileview.ProFileImage.contentMode = .scaleToFill
         profileview.FollowerCount.snp.makeConstraints { (make) in
             make.left.equalTo(profileview.ProFileImage.snp.right).offset(70)
         }
@@ -387,6 +393,12 @@ extension UserProFileViewController : UICollectionViewDelegate, UICollectionView
             return cell
         } else if profileview.Segment.selectedSegmentIndex == 1 { //싱글포스트
             let cell = self.profileview.MyFostCollectionView.dequeueReusableCell(withReuseIdentifier: "Postcell", for: indexPath) as! PostCollectionViewCell
+            cell.ProFileImage.frame.size = CGSize(width: 50, height: 50)
+            cell.ProFileImage.layer.borderWidth = 1.0
+            cell.ProFileImage.layer.masksToBounds = false
+            cell.ProFileImage.layer.cornerRadius = cell.ProFileImage.frame.size.height / 2.0
+            cell.ProFileImage.clipsToBounds = true
+            cell.ProFileImage.contentMode = .scaleToFill
             cell.ProFileImage.sd_setImage(with: URL(string: dic.userprofileimage!), completed: nil)
             cell.Caption.text = "\(dic.username!) : \(dic.caption!)"
             cell.Caption.enabledTypes = [.hashtag, .mention, .url]

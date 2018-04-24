@@ -68,8 +68,7 @@ class PostViewController: UIViewController {
         }
         LikeCountLabel.adjustsFontSizeToFitWidth = true
         LikeCountLabel.textColor = UIColor.white
-        let color = UIColor(red: 75/255, green: 76/255, blue: 76/255, alpha: 1)
-        self.view.backgroundColor = color
+        self.view.backgroundColor = UIColor.black
         LikeBut.snp.makeConstraints { (make) in
             make.width.equalTo(CommonVariable.screenWidth/10)
             make.height.equalTo(CommonVariable.screenHeight/20)

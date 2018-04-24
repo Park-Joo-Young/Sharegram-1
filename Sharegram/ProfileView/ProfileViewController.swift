@@ -34,19 +34,19 @@ class ProfileViewController: UIViewController {
         self.view.addSubview(profileview)
         self.view.addSubview(MySettingBut)
         profileview.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view.frame.width)
-            make.height.equalTo(self.view.frame.height)
-            make.centerX.equalTo(self.view)
+            make.width.equalTo(CommonVariable.screenWidth)
+            make.height.equalTo(CommonVariable.screenHeight-50)
+            //make.centerX.equalTo(self.view)
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
             make.top.equalTo(self.view).offset(70)
         }
-        profileview.ProFileImage.layer.borderWidth = 1
+        profileview.ProFileImage.frame.size = CGSize(width: 70, height: 70)
+        profileview.ProFileImage.layer.borderWidth = 1.0
         profileview.ProFileImage.layer.masksToBounds = false
-        profileview.ProFileImage.layer.borderColor = UIColor.black.cgColor
-        profileview.ProFileImage.layer.cornerRadius = profileview.ProFileImage.frame.size.width / 2
-       profileview.ProFileImage.clipsToBounds = true
-       profileview.ProFileImage.contentMode = .scaleAspectFill
+        profileview.ProFileImage.layer.cornerRadius = self.profileview.ProFileImage.frame.size.height / 2.0
+        profileview.ProFileImage.clipsToBounds = true
+        profileview.ProFileImage.contentMode = .scaleToFill
         profileview.FollowerCount.snp.makeConstraints { (make) in
             make.left.equalTo(profileview.ProFileImage.snp.right).offset(70)
         }
@@ -314,10 +314,60 @@ extension ProfileViewController {
                         }
                     }
                 }
-                self.profileview.MyFostCollectionView.reloadData()
+                self.DateFetch()
             }
         })
         ref?.removeAllObservers()
+    }
+    func DateSort() { //날짜 순 정렬 구조체 반환 함수
+        for i in (1..<self.UserPost.count).reversed() {
+            for j in 0..<i {
+                if self.UserPost[j].timeInterval! < self.UserPost[j+1].timeInterval! { //맨 앞값이 작으면 가장 최근 포스트이기에
+                    print("제일 작다는디?")
+                    continue
+                }
+                else if self.UserPost[j].timeInterval! > self.UserPost[j+1].timeInterval! { //뒤에 값이 작으면
+                    let postTemp = self.UserPost[j]
+                    self.UserPost[j] = self.UserPost[j+1]
+                    self.UserPost[j+1] = postTemp
+                }
+            }
+        }
+        self.profileview.MyFostCollectionView.reloadData()
+        return
+    }
+    func DateFetch() { // 날짜 따오기
+        let date = Date()
+        let format = DateFormatter()
+        TimeZone.ReferenceType.default = TimeZone(abbreviation: "KST")!
+        format.dateFormat = "yyyy-MM-dd"
+        format.timeZone = TimeZone.ReferenceType.default
+        CommonVariable.formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        CommonVariable.formatter.locale = Locale(identifier: "ko_kr")
+        //CommonVariable.formatter.timeZone = TimeZone.init(abbreviation: "KST")
+        for i in 0..<self.UserPost.count {
+            let Date = format.string(from: date)
+            let caption = self.UserPost[i].timeAgo!.components(separatedBy: " ").map{ String($0) }
+            let StartDate = format.date(from: Date)!.addingTimeInterval(32400)
+            let endDate = format.date(from: caption[0])!.addingTimeInterval(32400) //게시물 작성한 날짜 일자로 계산
+            let interval = StartDate.timeIntervalSince(endDate)
+            if interval < 1 { // 하루 미만이면
+                let start = CommonVariable.formatter.date(from: CommonVariable.formatter.string(from: date))!.addingTimeInterval(32400)
+                let end = CommonVariable.formatter.date(from: self.UserPost[i].timeAgo!)!.addingTimeInterval(32400)
+                let subinterval = Int(start.timeIntervalSince(end) / 60.0) //분 단위 계산
+                self.UserPost[i].timeInterval = Int(subinterval * 60) // 초 차이
+                print(subinterval)
+                if subinterval > 60 { // 1시간 이상
+                    self.UserPost[i].timeAgo = "\(Int(subinterval / 60))시간 전"
+                }
+                //print(interval)
+                self.UserPost[i].timeAgo = "\(subinterval)분 전"
+                continue
+            }
+            self.UserPost[i].timeInterval = Int(interval)
+        }
+        DateSort()
+        return
     }
 }
 extension ProfileViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -334,6 +384,12 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
             return cell
         } else if profileview.Segment.selectedSegmentIndex == 1 { //싱글포스트
             let cell = self.profileview.MyFostCollectionView.dequeueReusableCell(withReuseIdentifier: "Postcell", for: indexPath) as! PostCollectionViewCell
+            cell.ProFileImage.frame.size = CGSize(width: 50, height: 50)
+            cell.ProFileImage.layer.borderWidth = 1.0
+            cell.ProFileImage.layer.masksToBounds = false
+            cell.ProFileImage.layer.cornerRadius = cell.ProFileImage.frame.size.height / 2.0
+            cell.ProFileImage.clipsToBounds = true
+            cell.ProFileImage.contentMode = .scaleToFill
             cell.ProFileImage.sd_setImage(with: URL(string: dic.userprofileimage!), completed: nil)
             cell.Caption.text = "\(dic.username!) : \(dic.caption!)"
             cell.Caption.enabledTypes = [.hashtag, .mention, .url]
@@ -363,7 +419,7 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
             let width = self.profileview.MyFostCollectionView.frame.width / 3-1
             return CGSize(width: width, height: width)
         } else {
-            return CGSize(width: self.profileview.MyFostCollectionView.frame.width, height: self.profileview.MyFostCollectionView.frame.height)
+            return CGSize(width: self.profileview.MyFostCollectionView.frame.width, height: CommonVariable.screenHeight)
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

@@ -102,6 +102,8 @@ class SearchViewController: UIViewController{
         super.viewDidLoad()
         self.definesPresentationContext = true
         UINavigationBar.appearance().barTintColor = UIColor.white
+        self.tabBarController?.tabBar.barTintColor = UIColor.white
+        self.tabBarController?.tabBar.tintColor = UIColor.black
         navigationController?.navigationBar.tintColor = UIColor.black
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
         

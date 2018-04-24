@@ -71,7 +71,8 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
             make.top.equalTo(navi.snp.bottom).offset(10)
             make.left.equalTo(self.view).offset(5)
         }
-        ProFileImage.layer.cornerRadius = 20.0
+        ProFileImage.frame.size = CGSize(width: 50, height: 50)
+        ProFileImage.layer.cornerRadius = self.ProFileImage.frame.size.height / 2.0
         ProFileImage.clipsToBounds = true
         
         UserName.snp.makeConstraints { (make) in

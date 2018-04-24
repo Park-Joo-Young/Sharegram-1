@@ -94,10 +94,12 @@
         <scene sceneID="pSb-wi-zCa">
             <objects>
                 <tabBarController id="E9R-7G-7Jc" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="7TM-WV-eew">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" itemPositioning="centered" id="7TM-WV-eew">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="0.014831852791878153" green="0.014831852791878153" blue="0.014831852791878153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
                         <segue destination="PYD-73-mey" kind="relationship" relationship="viewControllers" id="gvr-uh-5du"/>
@@ -792,11 +794,13 @@
             </objects>
             <point key="canvasLocation" x="6678" y="-510"/>
         </scene>
-        <!--Home-->
+        <!--Navigation Controller-->
         <scene sceneID="qiX-NV-sAI">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PYD-73-mey" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" id="FS0-YV-oDX"/>
+                    <tabBarItem key="tabBarItem" title="" id="FS0-YV-oDX">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5UN-tJ-oU4">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -811,11 +815,13 @@
             </objects>
             <point key="canvasLocation" x="2782.4000000000001" y="-1135.2323838080961"/>
         </scene>
-        <!--Search-->
+        <!--Navigation Controller-->
         <scene sceneID="rIS-R1-6ze">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="S56-pY-xIl" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Search" image="search.png" id="9K4-47-Oce"/>
+                    <tabBarItem key="tabBarItem" title="" image="search.png" id="9K4-47-Oce">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="SPe-XD-IEc">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -830,11 +836,13 @@
             </objects>
             <point key="canvasLocation" x="2780.8000000000002" y="-343.62818590704649"/>
         </scene>
-        <!--Camera-->
+        <!--Navigation Controller-->
         <scene sceneID="zAV-yW-lNg">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="TQj-EF-hYL" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Camera" image="camera.png" id="br1-nv-rVO"/>
+                    <tabBarItem key="tabBarItem" title="" image="camera.png" id="br1-nv-rVO">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YYA-cx-SBi">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -882,11 +890,13 @@
             </objects>
             <point key="canvasLocation" x="6754" y="-1336"/>
         </scene>
-        <!--Activity-->
+        <!--Navigation Controller-->
         <scene sceneID="2un-Ql-HOO">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dFE-bq-eB7" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Activity" image="activity.png" id="GAp-Im-HCP"/>
+                    <tabBarItem key="tabBarItem" title="" image="activity.png" id="GAp-Im-HCP">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oBv-Ya-3tL">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -901,11 +911,13 @@
             </objects>
             <point key="canvasLocation" x="2775" y="1782"/>
         </scene>
-        <!--Profile-->
+        <!--Navigation Controller-->
         <scene sceneID="mT9-rH-3fx">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="w3h-7s-Vwq" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" id="wNO-ou-7DD"/>
+                    <tabBarItem key="tabBarItem" title="" id="wNO-ou-7DD">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hes-Cf-hST">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>

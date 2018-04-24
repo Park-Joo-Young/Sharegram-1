@@ -28,15 +28,12 @@ class PostCollectionViewCell: UICollectionViewCell {
         // Initialization code
         self.frame.size = CGSize(width: CommonVariable.screenWidth, height: CommonVariable.screenHeight)
         self.addSubview(Caption)
-        ProFileImage.frame.size = CGSize(width: CommonVariable.screenWidth/4, height: CommonVariable.screenHeight/15)
         ProFileImage.snp.makeConstraints { (make) in
             make.top.equalTo(self).offset(5)
             make.left.equalTo(self).offset(5)
-            make.width.equalTo(PostImage.bounds.width/4)
-            make.height.equalTo(PostImage.bounds.height/5)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
         }
-        ProFileImage.layer.cornerRadius = self.ProFileImage.frame.size.height / 2
-        ProFileImage.clipsToBounds = true
         
         UserName.snp.makeConstraints { (make) in
             make.width.equalTo(self.frame.width/3)
@@ -81,7 +78,7 @@ class PostCollectionViewCell: UICollectionViewCell {
         }
         TimeLabel.snp.makeConstraints { (make) in
             make.size.equalTo(LikeCountLabel)
-            make.top.equalTo(Caption.snp.bottom).offset(30)
+            make.bottom.equalTo(self.snp.bottom).offset(-20)
             make.left.equalTo(LikeBut)
         }
         

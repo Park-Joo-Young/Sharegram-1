@@ -38,7 +38,7 @@ class ActivityViewController: UIViewController {
         self.view.addSubview(MapView)
         segment.snp.makeConstraints { (make) in
             make.width.equalTo(CommonVariable.screenWidth)
-            make.height.equalTo(CommonVariable.screenHeight/7)
+            make.height.equalTo(CommonVariable.screenHeight/5)
             make.top.equalTo(self.view)
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)

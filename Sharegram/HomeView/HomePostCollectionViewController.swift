@@ -30,20 +30,25 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
     var index : Int = 0
     var captionText : [String] = []
     var Hash : [AnyToken]!
+    var LikeCount : Int = 0
     override func viewWillAppear(_ animated: Bool) {
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
         ref = Database.database().reference()
         FetchMyPost()
-        UINavigationBar.appearance().barTintColor = UIColor.white
-        navigationController?.navigationBar.tintColor = UIColor.black
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.barTintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = UIColor.black
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
+        self.tabBarController?.tabBar.barTintColor = UIColor.white
+        self.tabBarController?.tabBar.tintColor = UIColor.black
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 20)!], for: .normal)
+        self.tabBarController?.tabBarItem.imageInsets = UIEdgeInsets(top: 9, left: 0, bottom: -9, right: 0)
+        //self.tabBarController?.tabBarItem.setTitleTextAttributes([NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 12)!], for: .normal)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
         // Register cell classes
         self.collectionView?.register(UINib(nibName: "PostCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
         // Do any additional setup after loading the view.
@@ -89,6 +94,12 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
         let dic = self.HomePost[indexPath.row]
         print(dic.userprofileimage!)
         let cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PostCollectionViewCell
+        cell.ProFileImage.frame.size = CGSize(width: 50, height: 50)
+        cell.ProFileImage.layer.borderWidth = 1.0
+        cell.ProFileImage.layer.masksToBounds = false
+        cell.ProFileImage.layer.cornerRadius = cell.ProFileImage.frame.size.height / 2.0
+        cell.ProFileImage.clipsToBounds = true
+        cell.ProFileImage.contentMode = .scaleToFill
         cell.ProFileImage.sd_setImage(with: URL(string: dic.userprofileimage!), completed: nil)
         cell.Caption.text = "\(dic.username!) : \(dic.caption!)"
         cell.Caption.enabledTypes = [.hashtag, .mention, .url]
@@ -104,6 +115,7 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
         cell.LikeCountLabel.text = "0"
         cell.TimeLabel.text = dic.timeAgo
         cell.TimeLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+        cell.TimeLabel.tintColor = UIColor.lightGray
         cell.UserName.text = dic.username!
         cell.UserName.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
         cell.CommnetBut.tag = indexPath.row
@@ -121,18 +133,26 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
                     for (_ ,value) in item {
                         if value["postID"] as? String == self.HomePost[indexPath.row].PostId! {
                             print("씨발아")
-                            if value["LikePeople"] as? [String : AnyObject] != nil {
+                            if value["LikePeople"] as? [String : AnyObject] != nil { //좋아요가 있어!
+                                self.ref?.child("WholePosts").child((value["postID"] as? String)!).child("LikePeople").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                                    print("나중에")
+                                    self.LikeCount = Int(snapshot.childrenCount)
+                                }) // 각 좋아요
+                                self.ref?.removeAllObservers()
                                 for (_, value1) in (value["LikePeople"] as? [String : String])! {
                                     if value1 == (Auth.auth().currentUser?.uid)! { //내가 좋아요를 눌러놨으면 라이크 버튼
                                         print("씨발아")
+                                        cell.LikeCountLabel.text = "좋아요 \(self.LikeCount)개"
                                         cell.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
                                         break
                                     } else {
+                                        cell.LikeCountLabel.text = "좋아요 \(self.LikeCount)개"
                                         cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
                                         break
                                     }
                                 }
                             } else { //아무것도 좋아요가 없다
+                                cell.LikeCountLabel.text = "좋아요가 없습니다."
                                 cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
                                 break
                             }
@@ -349,7 +369,8 @@ extension HomePostCollectionViewController {
                                         }
                                     }
                                 }
-                              self.collectionView?.reloadData()
+                                
+                              self.DateFetch()
                             }
                         })
                     }
@@ -439,5 +460,55 @@ extension HomePostCollectionViewController {
                 ref?.removeAllObservers()
             }
         }
+    }
+    func DateSort() { //날짜 순 정렬 구조체 반환 함수
+        for i in (1..<self.HomePost.count).reversed() {
+            for j in 0..<i {
+                if self.HomePost[j].timeInterval! < self.HomePost[j+1].timeInterval! { //맨 앞값이 작으면 가장 최근 포스트이기에
+                    print("제일 작다는디?")
+                    continue
+                }
+                else if self.HomePost[j].timeInterval! > self.HomePost[j+1].timeInterval! { //뒤에 값이 작으면
+                    let postTemp = self.HomePost[j]
+                    self.HomePost[j] = self.HomePost[j+1]
+                    self.HomePost[j+1] = postTemp
+                }
+            }
+        }
+        collectionView?.reloadData()
+        return
+    }
+    func DateFetch() { // 날짜 따오기
+        let date = Date()
+        let format = DateFormatter()
+        TimeZone.ReferenceType.default = TimeZone(abbreviation: "KST")!
+        format.dateFormat = "yyyy-MM-dd"
+        format.timeZone = TimeZone.ReferenceType.default
+        CommonVariable.formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        CommonVariable.formatter.locale = Locale(identifier: "ko_kr")
+        //CommonVariable.formatter.timeZone = TimeZone.init(abbreviation: "KST")
+        for i in 0..<self.HomePost.count {
+            let Date = format.string(from: date)
+            let caption = self.HomePost[i].timeAgo!.components(separatedBy: " ").map{ String($0) }
+            let StartDate = format.date(from: Date)!.addingTimeInterval(32400)
+            let endDate = format.date(from: caption[0])!.addingTimeInterval(32400) //게시물 작성한 날짜 일자로 계산
+            let interval = StartDate.timeIntervalSince(endDate)
+            if interval < 1 { // 하루 미만이면
+                let start = CommonVariable.formatter.date(from: CommonVariable.formatter.string(from: date))!.addingTimeInterval(32400)
+                let end = CommonVariable.formatter.date(from: self.HomePost[i].timeAgo!)!.addingTimeInterval(32400)
+                let subinterval = Int(start.timeIntervalSince(end) / 60.0) //분 단위 계산
+                self.HomePost[i].timeInterval = Int(subinterval * 60) // 초 차이
+                print(subinterval)
+                if subinterval > 60 { // 1시간 이상
+                    self.HomePost[i].timeAgo = "\(Int(subinterval / 60))시간 전"
+                }
+                //print(interval)
+                self.HomePost[i].timeAgo = "\(subinterval)분 전"
+                continue
+            }
+            self.HomePost[i].timeInterval = Int(interval)
+        }
+        DateSort()
+        return
     }
 }
