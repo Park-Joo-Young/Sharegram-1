@@ -43,40 +43,7 @@ class SubSearchViewController: UIViewController {
             self.SearchController.searchBar.becomeFirstResponder()
         }
      }
-    func SearchHashTag(_ str : String ) {
-        SearchTagList.removeAll()
-        let tag = "#" + str
-        ref?.child("WholePosts").observe(.childAdded, with: { (snapshot) in
-            if snapshot.value is NSNull {
-                print("Nothing")
-            } else {
-                if let item = snapshot.value as? [String : String] {
-                    if item["Description"]!.contains(tag) { //검색한 태그가 있는 포스트를 찾았을 경우
-                        let hashtag = item["Description"]?._tokens(from: HashtagTokenizer()) // 해쉬태그 다 짜르기
-                        let searchPredicate = NSPredicate(format: "SELF CONTAINS %@", tag)
-                        let hashtagarray = self.forloop(hashtag!)
-                        let predicate = (hashtagarray as NSArray).filtered(using: searchPredicate)
-                        self.loop(predicate as! [String])
-                        self.SearchResultTable.reloadData()
-                    }
-                }
-            }
-        })
-    }
-    func forloop(_ Token : [AnyToken]) -> [String]{
-        var array = [String]()
-        for i in 0..<Token.count {
-            array.append(Token[i].text)
-        }
-        return array
-    }
-    func loop(_ array : [String]) {
-        for i in 0..<array.count {
-            self.SearchTagList.append(array[i])
-        }
-        self.SearchResultTable.reloadData()
-    }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         //self.navigationItem.hidesBackButton = true
         ref = Database.database().reference()
@@ -155,6 +122,116 @@ class SubSearchViewController: UIViewController {
     @objc func SwipeRightAction() {
         segment.selectedSegmentIndex -= 1
     }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+
+    
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if segment.selectedSegmentIndex == 1 { // 사람 검색 후 세그가 일어날 때
+            if segue.identifier == "SearchToUser" {
+                let destination = segue.destination as! UserProFileViewController
+                destination.UserKey = self.UserKeyForPrepare
+            }
+        } else if segment.selectedSegmentIndex == 2 {
+            if segue.identifier == "SearchToHashtag" {
+                let destination = segue.destination as! HashTagViewController
+                destination.HashTagName = self.SearchTagList[self.index]
+            }
+        }
+
+    }
+ 
+
+}
+extension SubSearchViewController : UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+           if segment.selectedSegmentIndex == 2 {
+                print(self.SearchTagList)
+                return self.SearchTagList.count
+            } else {
+                return self.SearchList.count
+            }
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("ddd")
+        print(self.SearchList)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
+        
+        if segment.selectedSegmentIndex == 2 { //해쉬태그
+            cell.textLabel?.text = self.SearchTagList[indexPath.row]
+            cell.textLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+            cell.imageView?.frame.size = CGSize(width: 50, height: 50)
+            cell.imageView?.image = UIImage(named: "HashTag.png")
+            cell.imageView?.layer.borderWidth = 1.0
+            cell.imageView?.layer.masksToBounds = false
+            cell.imageView?.layer.cornerRadius = (cell.imageView?.frame.size.height)! / 2.0
+            cell.imageView?.layer.borderColor = UIColor.black.cgColor
+            cell.imageView?.clipsToBounds = true
+            cell.imageView?.contentMode = .scaleToFill
+        } else { //인기 와 사람
+            cell.textLabel?.text = self.SearchList[indexPath.row]
+            cell.textLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+        }
+        //cell.imageView?.image
+        return cell
+    }
+}
+extension SubSearchViewController : UITableViewDataSource {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.index = indexPath.row
+        if segment.selectedSegmentIndex == 1 { // 사람인 상태에서 검색에서 누를 시
+            self.UserKeyForPrepare(self.SearchList[indexPath.row])
+        } else if segment.selectedSegmentIndex == 2 { //태그 검색하고 누르면
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "HashTagView") as! HashTagViewController
+            vc.HashTagName = self.SearchTagList[self.index]
+            vc.modalPresentationStyle = .popover
+            present(vc, animated: true, completion: nil)
+            //performSegue(withIdentifier: "SearchToHashtag", sender: self)
+        }
+    }
+}
+
+extension SubSearchViewController : UISearchResultsUpdating{
+    func updateSearchResults(for searchController: UISearchController) {
+        if !((searchController.searchBar.text?.isEmpty)!){ // 기록 중이면 필터를 검사한다
+            print(self.UserList)
+            let searchPredicate = NSPredicate(format: "SELF CONTAINS %@", searchController.searchBar.text!)
+            // 3
+            if segment.selectedSegmentIndex == 0 { //인기
+                
+            } else if segment.selectedSegmentIndex == 1 { //사람
+                let array = (self.UserList as NSArray).filtered(using: searchPredicate)
+                
+                self.SearchList = array as! [String]
+                if !(array.isEmpty) {
+                    self.SearchResultTable.reloadData()
+                }
+            } else { // 2 hashtag
+//                let array = (self.TagList as NSArray).filtered(using: searchPredicate)
+//
+//                self.SearchList = array as! [String]
+//                if !(array.isEmpty) {
+//                    print(self.SearchList)
+//                    self.SearchResultTable.reloadData()
+//                }
+                SearchHashTag(searchController.searchBar.text!)
+            }
+            // 4
+        } else {
+            print("Not")
+        }
+    }
+}
+extension SubSearchViewController {
     func SearchUserList() {
         for i in 0..<self.keyList.count {
             ref?.child("User").child(self.keyList[i]).child("UserProfile").observe(.value, with: { (snapshot) in
@@ -169,7 +246,7 @@ class SubSearchViewController: UIViewController {
             })
         }
     }
-
+    
     @objc func ActSegClicked(_ sender : ScrollableSegmentedControl) {
         if segment.selectedSegmentIndex == 1 { // 사람 클릭
             print("1")
@@ -227,120 +304,38 @@ class SubSearchViewController: UIViewController {
         })
         ref?.removeAllObservers()
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        if segment.selectedSegmentIndex == 1 { // 사람 검색 후 세그가 일어날 때
-            if segue.identifier == "SearchToUser" {
-                let destination = segue.destination as! UserProFileViewController
-                destination.UserKey = self.UserKeyForPrepare
-            }
-        } else if segment.selectedSegmentIndex == 2 {
-            if segue.identifier == "SearchToHashtag" {
-                let destination = segue.destination as! HashTagViewController
-                destination.HashTagName = self.SearchTagList[self.index]
-            }
-        }
-
-    }
- 
-
-}
-extension SubSearchViewController : UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-           if segment.selectedSegmentIndex == 2 {
-                print(self.SearchTagList)
-                return self.SearchTagList.count
+    func SearchHashTag(_ str : String) {
+        SearchTagList.removeAll()
+        let tag = "#" + str
+        ref?.child("WholePosts").observe(.childAdded, with: { (snapshot) in
+            if snapshot.value is NSNull {
+                print("Nothing")
             } else {
-                return self.SearchList.count
-            }
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("ddd")
-        print(self.SearchList)
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        
-        if segment.selectedSegmentIndex == 2 { //해쉬태그
-            cell.textLabel?.text = self.SearchTagList[indexPath.row]
-            cell.textLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
-            cell.imageView?.image = UIImage(named: "HashTag.png")
-            cell.imageView?.layer.borderWidth = 1
-            cell.imageView?.layer.cornerRadius = 15
-            cell.imageView?.clipsToBounds = true
-            cell.imageView?.contentMode = .scaleAspectFit
-            //self.SearchList[indexPath.row].replacingOccurrences(of: "#", with: "")
-//           let tag = self.SearchList[indexPath.row].replacingOccurrences(of: "#", with: "")
-//            ref?.child("HashTagPosts").child(tag).child("Count").observe(.value, with: { (snapshot) in
-//                if let item = snapshot.value as? [String : String] {
-//                    cell.detailTextLabel?.text = "게시물 \(item["Count"]!)개 "
-//                    cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 15)
-//                    cell.detailTextLabel?.tintColor = UIColor.lightGray
-//                }
-//            })
-//            ref?.removeAllObservers()
-        } else { //인기 와 사람
-            cell.textLabel?.text = self.SearchList[indexPath.row]
-            cell.textLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
-        }
-        //cell.imageView?.image
-        return cell
-    }
-}
-extension SubSearchViewController : UITableViewDataSource {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.index = indexPath.row
-        if segment.selectedSegmentIndex == 1 { // 사람인 상태에서 검색에서 누를 시
-            self.UserKeyForPrepare(self.SearchList[indexPath.row])
-        } else if segment.selectedSegmentIndex == 2 { //태그 검색하고 누르면
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "HashTagView") as! HashTagViewController
-            vc.HashTagName = self.SearchTagList[self.index]
-            vc.modalPresentationStyle = .popover
-            present(vc, animated: true, completion: nil)
-            //performSegue(withIdentifier: "SearchToHashtag", sender: self)
-        }
-    }
-}
-
-extension SubSearchViewController : UISearchResultsUpdating{
-    func updateSearchResults(for searchController: UISearchController) {
-        if !((searchController.searchBar.text?.isEmpty)!){ // 기록 중이면 필터를 검사한다
-            print(self.UserList)
-            let searchPredicate = NSPredicate(format: "SELF CONTAINS %@", searchController.searchBar.text!)
-            // 3
-            if segment.selectedSegmentIndex == 0 {
-                
-            } else if segment.selectedSegmentIndex == 1 {
-                let array = (self.UserList as NSArray).filtered(using: searchPredicate)
-                
-                self.SearchList = array as! [String]
-                if !(array.isEmpty) {
-                    print("?")
-                    print(self.SearchList)
-                    self.SearchResultTable.reloadData()
+                if let item = snapshot.value as? [String : String] {
+                    if item["Description"]!.contains(tag) { //검색한 태그가 있는 포스트를 찾았을 경우
+                        let hashtag = item["Description"]?._tokens(from: HashtagTokenizer()) // 해쉬태그 다 짜르기
+                        let searchPredicate = NSPredicate(format: "SELF CONTAINS %@", tag)
+                        let hashtagarray = self.forloop(hashtag!)
+                        let predicate = (hashtagarray as NSArray).filtered(using: searchPredicate)
+                        self.loop(predicate as! [String])
+                        self.SearchResultTable.reloadData()
+                    }
                 }
-            } else { // 2 hashtag
-//                let array = (self.TagList as NSArray).filtered(using: searchPredicate)
-//
-//                self.SearchList = array as! [String]
-//                if !(array.isEmpty) {
-//                    print(self.SearchList)
-//                    self.SearchResultTable.reloadData()
-//                }
-                SearchHashTag(searchController.searchBar.text!)
             }
-            // 4
-        } else {
-            print("Not")
-        }
+        })
     }
+    func forloop(_ Token : [AnyToken]) -> [String]{
+        var array = [String]()
+        for i in 0..<Token.count {
+            array.append(Token[i].text)
+        }
+        return array
+    }
+    func loop(_ array : [String]) {
+        for i in 0..<array.count {
+            self.SearchTagList.append(array[i])
+        }
+        self.SearchResultTable.reloadData()
+    }
+
 }
