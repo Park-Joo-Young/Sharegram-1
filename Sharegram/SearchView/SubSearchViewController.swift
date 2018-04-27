@@ -19,12 +19,12 @@ class SubSearchViewController: UIViewController {
     let segment = ScrollableSegmentedControl()
     //let seg = ADVSegmentedControl()
     var SearchController : UISearchController!
-    var UserList : [String] = [] //사람
+    var UserList : [[String:String]] = [] //사람
     var TagList : [String] = [] // 태그
-    var SearchList : [String] = [] // 검색 결과
+    var SearchList : [[String : String]] = [] // 검색 결과
     var ref : DatabaseReference?
     var keyList : [String] = []
-    var SearchTagList : [String] = []
+    var SearchTagList : [[String : String]] = []
     var UserKeyForPrepare : String = ""
     var index : Int = 0
     func delay(_ delay: Double, closure: @escaping ()->()) {
@@ -95,7 +95,7 @@ class SubSearchViewController: UIViewController {
         segment.insertSegment(withTitle: "사람", at: 1)
         segment.insertSegment(withTitle: "태그", at: 2)
         segment.underlineSelected = true
-        segment.addTarget(self, action: #selector(ActSegClicked), for: .valueChanged)
+        //segment.addTarget(self, action: #selector(ActSegClicked), for: .valueChanged)
         segment.segmentContentColor = UIColor.black
         segment.selectedSegmentContentColor = UIColor.black
         segment.backgroundColor = UIColor.white
@@ -141,11 +141,6 @@ class SubSearchViewController: UIViewController {
                 let destination = segue.destination as! UserProFileViewController
                 destination.UserKey = self.UserKeyForPrepare
             }
-        } else if segment.selectedSegmentIndex == 2 {
-            if segue.identifier == "SearchToHashtag" {
-                let destination = segue.destination as! HashTagViewController
-                destination.HashTagName = self.SearchTagList[self.index]
-            }
         }
 
     }
@@ -164,38 +159,52 @@ extension SubSearchViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print("ddd")
         print(self.SearchList)
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
         
         if segment.selectedSegmentIndex == 2 { //해쉬태그
-            cell.textLabel?.text = self.SearchTagList[indexPath.row]
+            let dic = self.SearchTagList[indexPath.row]
+            print(dic)
+            cell.textLabel?.text = dic["Tag"]
             cell.textLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+            cell.detailTextLabel?.text = "\(dic["Count"]!)게시물"
+            cell.detailTextLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 12)!
             cell.imageView?.frame.size = CGSize(width: 50, height: 50)
-            cell.imageView?.image = UIImage(named: "HashTag.png")
             cell.imageView?.layer.borderWidth = 1.0
             cell.imageView?.layer.masksToBounds = false
             cell.imageView?.layer.cornerRadius = (cell.imageView?.frame.size.height)! / 2.0
             cell.imageView?.layer.borderColor = UIColor.black.cgColor
             cell.imageView?.clipsToBounds = true
             cell.imageView?.contentMode = .scaleToFill
+            cell.imageView?.image = UIImage(named: "HashTag.png")
+            return cell
         } else { //인기 와 사람
-            cell.textLabel?.text = self.SearchList[indexPath.row]
+            let dic = self.SearchList[indexPath.row]
+            cell.textLabel?.text = dic["사용자 명"]
             cell.textLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+            if dic["ProFileImage"] != nil {
+                cell.imageView?.layer.borderWidth = 1.0
+                cell.imageView?.layer.masksToBounds = false
+                cell.imageView?.layer.cornerRadius = (cell.imageView?.frame.size.height)! / 2.0
+                cell.imageView?.layer.borderColor = UIColor.black.cgColor
+                cell.imageView?.clipsToBounds = true
+                cell.imageView?.contentMode = .scaleToFill
+                cell.imageView?.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
+            }
+            return cell
         }
         //cell.imageView?.image
-        return cell
     }
 }
 extension SubSearchViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.index = indexPath.row
         if segment.selectedSegmentIndex == 1 { // 사람인 상태에서 검색에서 누를 시
-            self.UserKeyForPrepare(self.SearchList[indexPath.row])
+            //self.UserKeyForPrepare(self.SearchList[indexPath.row])
         } else if segment.selectedSegmentIndex == 2 { //태그 검색하고 누르면
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "HashTagView") as! HashTagViewController
-            vc.HashTagName = self.SearchTagList[self.index]
+            vc.HashTagName = self.SearchTagList[self.index]["Tag"]!
             vc.modalPresentationStyle = .popover
             present(vc, animated: true, completion: nil)
-            //performSegue(withIdentifier: "SearchToHashtag", sender: self)
         }
     }
 }
@@ -209,20 +218,8 @@ extension SubSearchViewController : UISearchResultsUpdating{
             if segment.selectedSegmentIndex == 0 { //인기
                 
             } else if segment.selectedSegmentIndex == 1 { //사람
-                let array = (self.UserList as NSArray).filtered(using: searchPredicate)
-                
-                self.SearchList = array as! [String]
-                if !(array.isEmpty) {
-                    self.SearchResultTable.reloadData()
-                }
+                SearchUser(searchController.searchBar.text!)
             } else { // 2 hashtag
-//                let array = (self.TagList as NSArray).filtered(using: searchPredicate)
-//
-//                self.SearchList = array as! [String]
-//                if !(array.isEmpty) {
-//                    print(self.SearchList)
-//                    self.SearchResultTable.reloadData()
-//                }
                 SearchHashTag(searchController.searchBar.text!)
             }
             // 4
@@ -239,7 +236,7 @@ extension SubSearchViewController {
                     print("null")
                 } else {
                     if let item = snapshot.value as? [String : String] {
-                        self.UserList.append(item["사용자 명"]!)
+                        self.UserList.append(["Name" : item["사용자 명"]!])
                         self.SearchResultTable.reloadData()
                     }
                 }
@@ -247,47 +244,33 @@ extension SubSearchViewController {
         }
     }
     
-    @objc func ActSegClicked(_ sender : ScrollableSegmentedControl) {
-        if segment.selectedSegmentIndex == 1 { // 사람 클릭
-            print("1")
-            self.UserList.removeAll()
-            self.keyList.removeAll()
-            self.SearchList.removeAll()
-            ref?.child("User").observe(.value, with: { (snapshot) in
-                if snapshot.value is NSNull {
-                    print("Nothing")
-                } else {
-                    for child in snapshot.children {
-                        let user = child as! DataSnapshot
-                        self.keyList.append(user.key)
-                    }
-                    if self.keyList.count == Int(snapshot.childrenCount) {
-                        print("??")
-                        print(self.keyList.count)
-                        self.SearchUserList()
-                    }
-                }
-            })
-        } else if segment.selectedSegmentIndex == 2 { // 태그
-            print("1")
-            self.TagList.removeAll()
-            self.UserList.removeAll()
-            self.SearchList.removeAll()
-            self.SearchResultTable.reloadData()
-            ref?.child("HashTagPosts").observe(.childAdded, with: { (snapshot) in
-                if snapshot.value is NSNull {
-                    print("null")
-                } else {
-                    self.TagList.append("#" + snapshot.key)
-                }
-            })
-        } else {
-            self.TagList.removeAll()
-            self.UserList.removeAll()
-            self.SearchResultTable.reloadData()
-            return
-        }
-    }
+//    @objc func ActSegClicked(_ sender : ScrollableSegmentedControl) {
+//        if segment.selectedSegmentIndex == 1 { // 사람 클릭
+//            print("1")
+//            self.UserList.removeAll()
+//            self.keyList.removeAll()
+//            self.SearchList.removeAll()
+//            self.SearchUser(<#T##str: String##String#>)
+//        } else if segment.selectedSegmentIndex == 2 { // 태그
+//            print("1")
+//            self.TagList.removeAll()
+//            self.UserList.removeAll()
+//            self.SearchList.removeAll()
+//            self.SearchResultTable.reloadData()
+//            ref?.child("HashTagPosts").observe(.childAdded, with: { (snapshot) in
+//                if snapshot.value is NSNull {
+//                    print("null")
+//                } else {
+//                    self.TagList.append("#" + snapshot.key)
+//                }
+//            })
+//        } else {
+//            self.TagList.removeAll()
+//            self.UserList.removeAll()
+//            self.SearchResultTable.reloadData()
+//            return
+//        }
+//    }
     func UserKeyForPrepare(_ key1 : String) {
         ref?.child("User").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if let item = snapshot.value as? [String : AnyObject] {
@@ -304,25 +287,52 @@ extension SubSearchViewController {
         })
         ref?.removeAllObservers()
     }
-    func SearchHashTag(_ str : String) {
-        SearchTagList.removeAll()
-        let tag = "#" + str
-        ref?.child("WholePosts").observe(.childAdded, with: { (snapshot) in
-            if snapshot.value is NSNull {
-                print("Nothing")
-            } else {
-                if let item = snapshot.value as? [String : String] {
-                    if item["Description"]!.contains(tag) { //검색한 태그가 있는 포스트를 찾았을 경우
-                        let hashtag = item["Description"]?._tokens(from: HashtagTokenizer()) // 해쉬태그 다 짜르기
-                        let searchPredicate = NSPredicate(format: "SELF CONTAINS %@", tag)
-                        let hashtagarray = self.forloop(hashtag!)
-                        let predicate = (hashtagarray as NSArray).filtered(using: searchPredicate)
-                        self.loop(predicate as! [String])
-                        self.SearchResultTable.reloadData()
+    func CountingTag(_ tag : String) {
+        let tag1 = tag.replacingOccurrences(of: "#", with: "")
+        print(tag1)
+        ref?.child("HashTagPosts").child(tag1).child("Posts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            self.SearchTagList.append(["Tag" : tag, "Count" : "\(snapshot.childrenCount)"])
+            self.SearchResultTable.reloadData()
+        })
+        ref?.removeAllObservers()
+    }
+    func SearchUser(_ str : String) {
+        SearchList.removeAll()
+        ref?.child("User").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if let item = snapshot.value as? [String : AnyObject] {
+                for(_, value) in item {
+                    if let item = value["UserProfile"] as? [String : String] {
+                        if item["사용자 명"]!.contains(str) { //이름 똑같은 프로필 찾았따.
+                            self.SearchList.append(item)
+                            self.SearchResultTable.reloadData()
+                        }
                     }
                 }
             }
         })
+    }
+    func SearchHashTag(_ str : String) {
+        SearchTagList.removeAll()
+        let tag = "#" + str
+        ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.value is NSNull {
+                print("Nothing")
+            } else {
+                if let item = snapshot.value as? [String : AnyObject] {
+                    for (_, value) in item {
+                        if (value["Description"] as? String)!.contains(tag) {
+                            let hashtag = (value["Description"] as? String)!._tokens(from: HashtagTokenizer()) // 해쉬태그 다 짜르기
+                            let searchPredicate = NSPredicate(format: "SELF CONTAINS %@", tag)
+                            let hashtagarray = self.forloop(hashtag)
+                            let predicate = (hashtagarray as NSArray).filtered(using: searchPredicate)
+                            self.loop(predicate as! [String])
+                            //self.SearchResultTable.reloadData()
+                        }
+                    }
+                }
+            }
+        })
+        ref?.removeAllObservers()
     }
     func forloop(_ Token : [AnyToken]) -> [String]{
         var array = [String]()
@@ -333,8 +343,9 @@ extension SubSearchViewController {
     }
     func loop(_ array : [String]) {
         for i in 0..<array.count {
-            self.SearchTagList.append(array[i])
+            self.CountingTag(array[i])
         }
+        print(self.SearchTagList)
         self.SearchResultTable.reloadData()
     }
 

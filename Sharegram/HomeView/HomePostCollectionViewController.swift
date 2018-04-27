@@ -501,9 +501,11 @@ extension HomePostCollectionViewController {
                 print(subinterval)
                 if subinterval > 60 { // 1시간 이상
                     self.HomePost[i].timeAgo = "\(Int(subinterval / 60))시간 전"
+                } else if subinterval < 60 {
+                    self.HomePost[i].timeAgo = "\(subinterval)분 전"
+                } else if subinterval == 0 {
+                    self.HomePost[i].timeAgo = "방금 전"
                 }
-                //print(interval)
-                self.HomePost[i].timeAgo = "\(subinterval)분 전"
                 continue
             }
             self.HomePost[i].timeInterval = Int(interval)

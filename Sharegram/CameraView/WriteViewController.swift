@@ -46,13 +46,13 @@ class WriteViewController: UIViewController{
         
         if LocationSwitch.isOn { //위치 공유 허용 상태이면 즉 On 상태일 때, 카메라로 사진을 찍어서 가져왔을 때
             
-            DataSave(ImagePath, Date, identifier: 0)
+            DataSave(Date, identifier: 0)
         } else { //단순히 라이브러리 사진을 게시글로 작성할 때, 아니면 자신의 위치를 공유하지 않을 때
             if writeImage == nil { //그냥 글만 쓸 때
                 return
             } else { // 사진이 있는데 라이브러리사진인 경우, 위치를 가져오나 공유하기 싫을 때
                 print("??")
-                DataSave(ImagePath, Date, identifier: 1)
+                DataSave(Date, identifier: 1)
             }
         }
     }
@@ -61,36 +61,53 @@ class WriteViewController: UIViewController{
         self.ref?.child("WholePosts").updateChildValues([self.key : self.PostArray]) // 전체 게시물 등록
        //self.displayMessage(title: "게시물이", message: "등록되었습니다.")
         object.DisplayMessage("게시물이", "등록되었습니다.")
+        self.writeimageView.image = nil
+        self.writeImage = nil
         self.writeBut.isEnabled = false
+        if self.writeimageView.image == nil {
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+
+        return
     }
-    func DataSave(_ Path : String, _ date : String, identifier : Int) { // 데이터 저장
+    func DataSave(_ date : String, identifier : Int) { // 데이터 저장
+        self.PostArray.removeAll()
         let uploadImage = UIImageJPEGRepresentation(writeImage, 0.9)!
         let metadata1 = StorageMetadata()
         key = (self.ref?.child("WholePosts").childByAutoId().key)!
+        let path = "PostImage/\((Auth.auth().currentUser?.email)!)/\(key).png"
+        let storage = Storage.storage().reference(forURL: "gs://sharegram-22845.appspot.com")
+        let imageRef = storage.child(path)
         metadata1.contentType = "image/jpeg"
-        storageRef?.child(Path).putData(uploadImage, metadata: metadata1, completion: { (metadata, error) in
+        let uploadTask = imageRef.putData(uploadImage, metadata: metadata1, completion: { (metadata, error) in
             if error != nil {
                 print(error!.localizedDescription)
                 return
             } else { //이미지 저장이 완벽히 됐을 때
+                imageRef.downloadURL(completion: { (url, error) in
+                    if let url = url {
+                        self.Hash = self.writeDescription.text._tokens(from: HashtagTokenizer())
+                        self.NumberOfHasgTag(self.Hash)
+                        
+                        if identifier == 0 { //위치 공유 할 시
+                            let latitude = String(self.object.lat)
+                            let LocationPath = latitude.replacingOccurrences(of: ".", with: "_")
+                            //print(metadata?.downloadURL()?.absoluteString)
+                            self.PostArray = ["image" : url.absoluteString,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!, "Like" : "0", "postID" : self.key]
+                            self.ref?.child("LocationPosts").child(LocationPath).childByAutoId().setValue(self.PostArray) //위치 공유 게시물 저장 지도에 띄우기 위한
+                            
+                        } else { // 1
+                            
+                            self.PostArray = ["image" : url.absoluteString, "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!, "postID" : (self.ref?.child("WholePosts").childByAutoId().key)!]
+                        }
+
+                    }
+                    self.SubFuncDataSave()
+                })
                 
-                self.Hash = self.writeDescription.text._tokens(from: HashtagTokenizer())
-                self.NumberOfHasgTag(self.Hash)
-                
-                if identifier == 0 { //위치 공유 할 시
-                    let latitude = String(self.object.lat)
-                    let LocationPath = latitude.replacingOccurrences(of: ".", with: "_")
-                    //print(metadata?.downloadURL()?.absoluteString)
-                    self.PostArray = ["image" : (metadata?.downloadURL()?.absoluteString)!,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!, "Like" : "0", "postID" : self.key]
-                    self.ref?.child("LocationPosts").child(LocationPath).childByAutoId().setValue(self.PostArray) //위치 공유 게시물 저장 지도에 띄우기 위한
-                    
-                } else { // 1
-                    
-                    self.PostArray = ["image" : (metadata?.downloadURL()?.absoluteString)!, "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!, "postID" : (self.ref?.child("WholePosts").childByAutoId().key)!]
-                }
-                self.SubFuncDataSave()
             }
         })
+        uploadTask.resume()
     }
     func CountUpHasgTag() { // 해쉬태그 카운트 증가 시키기 + 해쉬태그 게시물 등록
         print(self.HashTagArray)
@@ -126,7 +143,7 @@ class WriteViewController: UIViewController{
         let confirm = UIAlertAction(title: "확인", style: .default) {
             (action : UIAlertAction) -> Void in
             //self.dismiss(animated: true, completion: nil)
-            self.navigationController?.popToRootViewController(animated: true)
+            
         }
         alert.addAction(confirm)
         present(alert, animated: true, completion: nil)
@@ -178,14 +195,17 @@ class WriteViewController: UIViewController{
             })
         }
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
         stringArray.removeAll()
         PostArray.removeAll()
+        writeimageView.image = writeImage
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
         ref = Database.database().reference()
         storageRef = Storage.storage().reference()
         writeDescription.delegate = self
-        writeimageView.image = writeImage
         writeDescription.tintColor = UIColor.lightGray
         
         let Tap = UITapGestureRecognizer(target: self, action: #selector(dismisskeyboard))
@@ -194,7 +214,6 @@ class WriteViewController: UIViewController{
             if snapshot.value is NSNull {
                 print("Null")
             } else {
-                
                 print(snapshot.key)
                 let str = "#" + snapshot.key
                 self.stringArray.append(str)

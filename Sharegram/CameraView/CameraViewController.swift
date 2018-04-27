@@ -257,6 +257,7 @@ extension CameraViewController {
                 imgManager.requestImage(for: fetchResult.object(at: i) , targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: requestOptions, resultHandler: { (image, error) in
                     self.imageArray.append(image!)
                     self.myImageView.image = self.imageArray[0]
+                    self.asset = self.fetchResult[0]
                 })
             }
         } else {
