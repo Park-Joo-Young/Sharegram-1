@@ -288,7 +288,6 @@ extension HomePostCollectionViewController {
                         
                         if ID == self.UserKey {
                             if self.profileimage != "" {
-                                print("27238178412794981023091289490217490129830821094890")
                                 self.imageview.sd_setImage(with: URL(string: self.profileimage), completed: nil)
                                 if self.imageview.image != nil {
                                     let barImage : UIImage = self.imageview.image!.squareMyImage().resizeMyImage(newWidth: 30).roundMyImage.withRenderingMode(.alwaysOriginal)

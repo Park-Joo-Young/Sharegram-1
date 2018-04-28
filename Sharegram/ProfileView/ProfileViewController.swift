@@ -248,7 +248,7 @@ extension ProfileViewController {
                     self.profileimage = item["ProFileImage"]!
                     self.profileview.ProFileImage.sd_setImage(with: URL(string: item["ProFileImage"]!), completed: nil)
                 } else {
-                    self.profileview.ProFileImage.image = UIImage(named: "Man.png")
+                    self.profileview.ProFileImage.image = UIImage(named: "profile.png")
                 }
             }
         })
@@ -284,32 +284,69 @@ extension ProfileViewController {
                         let post = Post()
                         
                         if ID == self.UserKey { // 그 당사자의 아이디와 일치하는 게시물들만 포스트에 넣기
-                            if value["latitude"] as? String == nil { //위치가 없으면
-                                post.caption = Description
-                                post.Id = ID
-                                post.image = image
-                                post.lat = 0
-                                post.lon = 0
-                                post.username = Author
-                                post.PostId = postID
-                                post.timeAgo = Date
-                                post.timeInterval = 0
-                                post.userprofileimage = self.profileimage
-                                self.UserPost.append(post)
-                            } else {
-                                post.caption = Description
-                                post.Id = ID
-                                post.image = image
-                                let lat = value["latitude"] as? String
-                                let lon = value["longitude"] as? String
-                                post.lat = Double(lat!)
-                                post.lon = Double(lon!)
-                                post.username = Author
-                                post.PostId = postID
-                                post.timeAgo = Date
-                                post.timeInterval = 0
-                                post.userprofileimage = self.profileimage
-                                self.UserPost.append(post)
+                            if value["LikePeople"] as? [String : String] != nil { //좋아요가 존재
+                                self.ref?.child("WholePosts").child(postID).child("LikePeople").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                                    if value["latitude"] as? String == nil { //위치가 없으면
+                                        post.caption = Description
+                                        post.Id = ID
+                                        post.image = image
+                                        post.lat = 0
+                                        post.lon = 0
+                                        post.username = Author
+                                        post.PostId = postID
+                                        post.timeAgo = Date
+                                        post.timeInterval = 0
+                                        post.userprofileimage = self.profileimage
+                                        post.numberOfLikes = Int(snapshot.childrenCount)
+                                        self.UserPost.append(post)
+                                    } else {
+                                        post.caption = Description
+                                        post.Id = ID
+                                        post.image = image
+                                        let lat = value["latitude"] as? String
+                                        let lon = value["longitude"] as? String
+                                        post.lat = Double(lat!)
+                                        post.lon = Double(lon!)
+                                        post.username = Author
+                                        post.PostId = postID
+                                        post.timeAgo = Date
+                                        post.timeInterval = 0
+                                        post.userprofileimage = self.profileimage
+                                        post.numberOfLikes = Int(snapshot.childrenCount)
+                                        self.UserPost.append(post)
+                                    }
+                                })
+                            } else { //좋아요가 없다
+                                if value["latitude"] as? String == nil { //위치가 없으면
+                                    post.caption = Description
+                                    post.Id = ID
+                                    post.image = image
+                                    post.lat = 0
+                                    post.lon = 0
+                                    post.username = Author
+                                    post.PostId = postID
+                                    post.timeAgo = Date
+                                    post.timeInterval = 0
+                                    post.userprofileimage = self.profileimage
+                                    post.numberOfLikes = 0
+                                    self.UserPost.append(post)
+                                } else {
+                                    print("위치가 있는거 같은데?")
+                                    post.caption = Description
+                                    post.Id = ID
+                                    post.image = image
+                                    let lat = value["latitude"] as? String
+                                    let lon = value["longitude"] as? String
+                                    post.lat = Double(lat!)
+                                    post.lon = Double(lon!)
+                                    post.username = Author
+                                    post.PostId = postID
+                                    post.timeAgo = Date
+                                    post.timeInterval = 0
+                                    post.userprofileimage = self.profileimage
+                                    post.numberOfLikes = 0
+                                    self.UserPost.append(post)
+                                }
                             }
                         }
                     }
@@ -365,7 +402,6 @@ extension ProfileViewController {
                     self.UserPost[i].timeAgo = "방금 전"
                 }
                 //print(interval)
-                self.UserPost[i].timeAgo = "\(subinterval)분 전"
                 continue
             }
             self.UserPost[i].timeInterval = Int(interval)
@@ -391,6 +427,11 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
         } else if profileview.Segment.selectedSegmentIndex == 1 { //싱글포스트
             let cell = self.profileview.MyFostCollectionView.dequeueReusableCell(withReuseIdentifier: "Postcell", for: indexPath) as! PostCollectionViewCell
             cell.ProFileImage.frame.size = CGSize(width: 50, height: 50)
+            if dic.userprofileimage != "" { //프로필 이미지가 있으면
+               cell.ProFileImage.sd_setImage(with: URL(string: dic.userprofileimage!), completed: nil)
+            } else {
+                cell.ProFileImage.image = UIImage(named: "profile.png")
+            }
             cell.ProFileImage.layer.borderWidth = 1.0
             cell.ProFileImage.layer.masksToBounds = false
             cell.ProFileImage.layer.cornerRadius = cell.ProFileImage.frame.size.height / 2.0
@@ -403,7 +444,8 @@ extension ProfileViewController : UICollectionViewDelegate, UICollectionViewData
             cell.Caption.sizeToFit()
             cell.Caption.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             cell.PostImage.sd_setImage(with: URL(string: dic.image!), completed: nil)
-            cell.LikeCountLabel.text = "0"
+            cell.LikeCountLabel.text = "좋아요 \(dic.numberOfLikes!)개"
+            cell.LikeCountLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             cell.TimeLabel.text = dic.timeAgo
             cell.TimeLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             cell.UserName.text = dic.username!
