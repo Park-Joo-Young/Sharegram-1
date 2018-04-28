@@ -244,7 +244,7 @@ extension ProfileViewController {
     func fetchUser() {
         ref?.child("User").child(self.UserKey).child("UserProfile").observe(.value, with: { (snapshot) in
             if let item = snapshot.value as? [String : String] {
-                if item["ProFileImage"]! != nil {
+                if item["ProFileImage"] != nil {
                     self.profileimage = item["ProFileImage"]!
                     self.profileview.ProFileImage.sd_setImage(with: URL(string: item["ProFileImage"]!), completed: nil)
                 } else {
@@ -359,6 +359,10 @@ extension ProfileViewController {
                 print(subinterval)
                 if subinterval > 60 { // 1시간 이상
                     self.UserPost[i].timeAgo = "\(Int(subinterval / 60))시간 전"
+                } else if subinterval < 60 {
+                    self.UserPost[i].timeAgo = "\(subinterval)분 전"
+                } else if subinterval == 0 {
+                    self.UserPost[i].timeAgo = "방금 전"
                 }
                 //print(interval)
                 self.UserPost[i].timeAgo = "\(subinterval)분 전"
@@ -366,7 +370,9 @@ extension ProfileViewController {
             }
             self.UserPost[i].timeInterval = Int(interval)
         }
-        DateSort()
+        if self.UserPost.count != 0 {
+          DateSort()
+        }
         return
     }
 }

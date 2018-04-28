@@ -31,6 +31,8 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
     var captionText : [String] = []
     var Hash : [AnyToken]!
     var LikeCount : Int = 0
+    var imageview = UIImageView()
+    var barImage: UIImage!
     override func viewWillAppear(_ animated: Bool) {
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
@@ -39,6 +41,7 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationController?.navigationBar.barTintColor = UIColor.white
         navigationController?.navigationBar.tintColor = UIColor.black
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
@@ -71,7 +74,7 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
 
     // MARK: UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: CommonVariable.screenWidth, height: CommonVariable.screenHeight)
+        return CGSize(width: CommonVariable.screenWidth, height: CommonVariable.screenHeight-50)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1.0
@@ -91,78 +94,83 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let dic = self.HomePost[indexPath.row]
-        print(dic.userprofileimage!)
+        
         let cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PostCollectionViewCell
-        cell.ProFileImage.frame.size = CGSize(width: 50, height: 50)
-        cell.ProFileImage.layer.borderWidth = 1.0
-        cell.ProFileImage.layer.masksToBounds = false
-        cell.ProFileImage.layer.cornerRadius = cell.ProFileImage.frame.size.height / 2.0
-        cell.ProFileImage.clipsToBounds = true
-        cell.ProFileImage.contentMode = .scaleToFill
-        cell.ProFileImage.sd_setImage(with: URL(string: dic.userprofileimage!), completed: nil)
-        cell.Caption.text = "\(dic.username!) : \(dic.caption!)"
-        cell.Caption.enabledTypes = [.hashtag, .mention, .url]
-        cell.Caption.numberOfLines = 0
-        cell.Caption.sizeToFit()
-        cell.Caption.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
-        self.captionText.append(dic.caption!)
-        cell.PostImage.sd_setImage(with: URL(string: dic.image!), completed: nil)
-        cell.PostImage.isUserInteractionEnabled = true
-        cell.PostImage.tag = indexPath.row
-        let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap(_:)))
-        cell.PostImage.addGestureRecognizer(tap)
-        cell.LikeCountLabel.text = "0"
-        cell.TimeLabel.text = dic.timeAgo
-        cell.TimeLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
-        cell.TimeLabel.tintColor = UIColor.lightGray
-        cell.UserName.text = dic.username!
-        cell.UserName.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
-        cell.CommnetBut.tag = indexPath.row
-        cell.CommnetBut.addTarget(self, action: #selector(CommentView(_:)), for: .touchUpInside)
-        cell.ExceptionBut.tag = indexPath.row
-        cell.ExceptionBut.addTarget(self, action: #selector(ExceptionMenu(_:)), for: .touchUpInside)
-        cell.LikeBut.tag = indexPath.row
-        cell.LikeBut.addTarget(self, action: #selector(likePressed(_:)), for: .touchUpInside)
-        //좋아요 체크
-        ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.value is NSNull {
-                print("Nothing")
+        if self.HomePost.count != 0 {
+            let dic = self.HomePost[indexPath.row]
+            print(dic.userprofileimage!)
+            if dic.userprofileimage != "" {
+                cell.ProFileImage.sd_setImage(with: URL(string: dic.userprofileimage!), completed: nil)
             } else {
-                if let item = snapshot.value as? [String : AnyObject] { //있으면 중복 체크를 위해 데이터 가져옴
-                    for (_ ,value) in item {
-                        if value["postID"] as? String == self.HomePost[indexPath.row].PostId! {
-                            print("씨발아")
-                            if value["LikePeople"] as? [String : AnyObject] != nil { //좋아요가 있어!
-                                self.ref?.child("WholePosts").child((value["postID"] as? String)!).child("LikePeople").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-                                    print("나중에")
-                                    self.LikeCount = Int(snapshot.childrenCount)
-                                }) // 각 좋아요
-                                self.ref?.removeAllObservers()
-                                for (_, value1) in (value["LikePeople"] as? [String : String])! {
-                                    if value1 == (Auth.auth().currentUser?.uid)! { //내가 좋아요를 눌러놨으면 라이크 버튼
-                                        print("씨발아")
-                                        cell.LikeCountLabel.text = "좋아요 \(self.LikeCount)개"
-                                        cell.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
-                                        break
-                                    } else {
-                                        cell.LikeCountLabel.text = "좋아요 \(self.LikeCount)개"
-                                        cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
-                                        break
+                print("이미지가 존재하지 않는다")
+                cell.ProFileImage.image = UIImage(named: "profile.png")
+            }
+            cell.ProFileImage.frame.size = CGSize(width: 50, height: 50)
+            cell.ProFileImage.layer.borderWidth = 1.0
+            cell.ProFileImage.layer.masksToBounds = false
+            cell.ProFileImage.layer.cornerRadius = cell.ProFileImage.frame.size.height / 2.0
+            cell.ProFileImage.clipsToBounds = true
+            cell.ProFileImage.contentMode = .scaleToFill
+            cell.Caption.text = "\(dic.username!) : \(dic.caption!)"
+            cell.Caption.enabledTypes = [.hashtag, .mention, .url]
+            cell.Caption.numberOfLines = 0
+            cell.Caption.sizeToFit()
+            cell.Caption.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+            self.captionText.append(dic.caption!)
+            cell.PostImage.sd_setImage(with: URL(string: dic.image!), completed: nil)
+            cell.PostImage.isUserInteractionEnabled = true
+            cell.PostImage.tag = indexPath.row
+            let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap(_:)))
+            cell.PostImage.addGestureRecognizer(tap)
+            cell.TimeLabel.text = dic.timeAgo
+            cell.TimeLabel.font = UIFont(name: "BM DoHyeon OTF", size : 10)!
+            cell.TimeLabel.textColor = UIColor.lightGray
+            cell.UserName.text = dic.username!
+            cell.UserName.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+            cell.CommnetBut.tag = indexPath.row
+            cell.CommnetBut.addTarget(self, action: #selector(CommentView(_:)), for: .touchUpInside)
+            cell.ExceptionBut.tag = indexPath.row
+            cell.ExceptionBut.addTarget(self, action: #selector(ExceptionMenu(_:)), for: .touchUpInside)
+            cell.LikeBut.tag = indexPath.row
+            cell.LikeBut.addTarget(self, action: #selector(likePressed(_:)), for: .touchUpInside)
+            cell.LikeCountLabel.text = "좋아요 \(dic.numberOfLikes!)개"
+            //좋아요 체크
+            ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                if snapshot.value is NSNull {
+                    print("Nothing")
+                } else {
+                    if let item = snapshot.value as? [String : AnyObject] { //있으면 중복 체크를 위해 데이터 가져옴
+                        for (_ ,value) in item {
+                            if value["postID"] as? String == self.HomePost[indexPath.row].PostId! {
+                                print("씨발아")
+                                if value["LikePeople"] as? [String : AnyObject] != nil { //좋아요가 있어!
+                                    for (_, value1) in (value["LikePeople"] as? [String : String])! {
+                                        if value1 == (Auth.auth().currentUser?.uid)! { //내가 좋아요를 눌러놨으면 라이크 버튼
+                                            print("씨발아")
+                                            //cell.LikeCountLabel.text = "좋아요 \(self.LikeCount)개"
+                                            cell.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
+                                            break
+                                        } else {
+                                            //cell.LikeCountLabel.text = "좋아요 \(self.LikeCount)개"
+                                            cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
+                                            break
+                                        }
                                     }
+                                } else { //아무것도 좋아요가 없다
+                                    //cell.LikeCountLabel.text = "좋아요가 없습니다."
+                                    cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
+                                    break
                                 }
-                            } else { //아무것도 좋아요가 없다
-                                cell.LikeCountLabel.text = "좋아요가 없습니다."
-                                cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
-                                break
                             }
                         }
                     }
                 }
-            }
-        })
-        ref?.removeAllObservers()
-        return cell
+            })
+            ref?.removeAllObservers()
+            return cell
+        } else {
+           return cell
+        }
     }
 
     // MARK: UICollectionViewDelegate
@@ -275,48 +283,111 @@ extension HomePostCollectionViewController {
                 for(_, value) in item {
                     if let Description = value["Description"] as? String, let Author = value["Author"] as? String, let Date = value["Date"] as? String, let ID = value["ID"] as? String, let image = value["image"] as? String , let postID = value["postID"] as? String {
                         let post = Post()
+                        
                         if ID == self.UserKey {
-                            if value["latitude"] as? String == nil { //위치가 없으면
-                                post.caption = Description
-                                post.Id = ID
-                                post.image = image
-                                post.lat = 0
-                                post.lon = 0
-                                post.username = Author
-                                post.PostId = postID
-                                post.timeAgo = Date
-                                post.timeInterval = 0
-                                post.userprofileimage = self.profileimage
-                                self.HomePost.append(post)
+                            if self.profileimage != "" {
+                                print("27238178412794981023091289490217490129830821094890")
+                                self.imageview.sd_setImage(with: URL(string: self.profileimage), completed: nil)
+                                if self.imageview.image != nil {
+                                    let barImage : UIImage = self.imageview.image!.squareMyImage().resizeMyImage(newWidth: 30).roundMyImage.withRenderingMode(.alwaysOriginal)
+                                    self.tabBarController?.tabBar.items?[4].image = barImage
+                                }
                             } else {
-                                post.caption = Description
-                                post.Id = ID
-                                post.image = image
-                                let lat = value["latitude"] as? String
-                                let lon = value["longitude"] as? String
-                                post.lat = Double(lat!)
-                                post.lon = Double(lon!)
-                                post.username = Author
-                                post.PostId = postID
-                                post.timeAgo = Date
-                                post.timeInterval = 0
-                                post.userprofileimage = self.profileimage
-                                self.HomePost.append(post)
+                                let barImage : UIImage = UIImage(named: "profile.png")!.squareMyImage().resizeMyImage(newWidth: 30).roundMyImage.withRenderingMode(.alwaysOriginal)
+                                self.tabBarController?.tabBar.items?[4].image = barImage
                             }
+                            if value["LikePeople"] as? [String : String] != nil { //좋아요가 존재
+                                self.ref?.child("WholePosts").child(postID).child("LikePeople").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                                    if value["latitude"] as? String == nil { //위치가 없으면
+                                        post.caption = Description
+                                        post.Id = ID
+                                        post.image = image
+                                        post.lat = 0
+                                        post.lon = 0
+                                        post.username = Author
+                                        post.PostId = postID
+                                        post.timeAgo = Date
+                                        post.timeInterval = 0
+                                        post.userprofileimage = self.profileimage
+                                        post.numberOfLikes = Int(snapshot.childrenCount)
+                                        self.HomePost.append(post)
+                                    } else {
+                                        post.caption = Description
+                                        post.Id = ID
+                                        post.image = image
+                                        let lat = value["latitude"] as? String
+                                        let lon = value["longitude"] as? String
+                                        post.lat = Double(lat!)
+                                        post.lon = Double(lon!)
+                                        post.username = Author
+                                        post.PostId = postID
+                                        post.timeAgo = Date
+                                        post.timeInterval = 0
+                                        post.userprofileimage = self.profileimage
+                                        post.numberOfLikes = Int(snapshot.childrenCount)
+                                        self.HomePost.append(post)
+                                    }
+                                })
+                            } else { //좋아요가 없다
+                                if value["latitude"] as? String == nil { //위치가 없으면
+                                    print("djqwidjoqdiowqji0dj0qwjonjdwnq9j1oo")
+                                    print(self.LikeCount)
+                                    post.caption = Description
+                                    post.Id = ID
+                                    post.image = image
+                                    post.lat = 0
+                                    post.lon = 0
+                                    post.username = Author
+                                    post.PostId = postID
+                                    post.timeAgo = Date
+                                    post.timeInterval = 0
+                                    post.userprofileimage = self.profileimage
+                                    post.numberOfLikes = 0
+                                    self.HomePost.append(post)
+                                } else {
+                                    print("위치가 있는거 같은데?")
+                                    post.caption = Description
+                                    post.Id = ID
+                                    post.image = image
+                                    let lat = value["latitude"] as? String
+                                    let lon = value["longitude"] as? String
+                                    post.lat = Double(lat!)
+                                    post.lon = Double(lon!)
+                                    post.username = Author
+                                    post.PostId = postID
+                                    post.timeAgo = Date
+                                    post.timeInterval = 0
+                                    post.userprofileimage = self.profileimage
+                                    post.numberOfLikes = 0
+                                    self.HomePost.append(post)
+                                }
+                            }
+                            
                         }
                     }
                 }
-                //self.collectionView?.reloadData()
             }
         })
         ref?.removeAllObservers()
+        
         FetchPost()
     }
     func fetchUser(_ id : String) {
-        
         ref?.child("User").child(id).child("UserProfile").observe(.value, with: { (snapshot) in
             if let item = snapshot.value as? [String : String] {
-                self.profileimage = item["ProFileImage"]!
+                if item["ProFileImage"] != nil { // 프로필 이미지가 있으면
+                    self.profileimage = item["ProFileImage"]!
+                    if id == self.UserKey {
+                        self.imageview.sd_setImage(with: URL(string: self.profileimage), completed: nil)
+                        if self.imageview.image != nil {
+                            let barImage : UIImage = self.imageview.image!.squareMyImage().resizeMyImage(newWidth: 30).roundMyImage.withRenderingMode(.alwaysOriginal)
+                            self.tabBarController?.tabBar.items?[4].image = barImage
+                        }
+                    }
+                } else {
+                    print("이미지가 없다 오바.")
+                    return
+                }
             }
         })
         ref?.removeAllObservers()
@@ -326,6 +397,7 @@ extension HomePostCollectionViewController {
             if snapshot.value is NSNull {
                 //바로 내 포스트만 따러 가 ~
                 print("dlfcl hghghgygyghgy")
+                self.DateFetch()
             } else { // 팔로잉 중인 사람이 있다.
                 if let item = snapshot.value as? [String : String] { //팔로잉 한명 당 게시물 따기
                     for(_, value) in item {
@@ -338,33 +410,73 @@ extension HomePostCollectionViewController {
                                         print("불일치 ")
                                         if ID ==  value { // 팔로잉 하는 사람과 일치하면
                                             print("일치")
+                                            self.profileimage = ""
                                             self.fetchUser(value) //그사람 프로필 따고 게시물 따고
-                                            if value1["latitude"] as? String == nil { //위치가 없으면
-                                                post.caption = Description
-                                                post.Id = ID
-                                                post.image = image
-                                                post.lat = 0
-                                                post.lon = 0
-                                                post.username = Author
-                                                post.PostId = postID
-                                                post.timeAgo = Date
-                                                post.timeInterval = 0
-                                                post.userprofileimage = self.profileimage
-                                                self.HomePost.append(post)
-                                            } else {
-                                                post.caption = Description
-                                                post.Id = ID
-                                                post.image = image
-                                                let lat = value1["latitude"] as? String
-                                                let lon = value1["longitude"] as? String
-                                                post.lat = Double(lat!)
-                                                post.lon = Double(lon!)
-                                                post.username = Author
-                                                post.PostId = postID
-                                                post.timeAgo = Date
-                                                post.timeInterval = 0
-                                                post.userprofileimage = self.profileimage
-                                                self.HomePost.append(post)
+                                            if value1["LikePeople"] as? [String : String] != nil { //좋아요가 존재
+                                                self.ref?.child("WholePosts").child(postID).child("LikePeople").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                                                    if value1["latitude"] as? String == nil { //위치가 없으면
+                                                        post.caption = Description
+                                                        post.Id = ID
+                                                        post.image = image
+                                                        post.lat = 0
+                                                        post.lon = 0
+                                                        post.username = Author
+                                                        post.PostId = postID
+                                                        post.timeAgo = Date
+                                                        post.timeInterval = 0
+                                                        post.userprofileimage = self.profileimage
+                                                        post.numberOfLikes = Int(snapshot.childrenCount)
+                                                        self.HomePost.append(post)
+                                                    } else {
+                                                        post.caption = Description
+                                                        post.Id = ID
+                                                        post.image = image
+                                                        let lat = value1["latitude"] as? String
+                                                        let lon = value1["longitude"] as? String
+                                                        post.lat = Double(lat!)
+                                                        post.lon = Double(lon!)
+                                                        post.username = Author
+                                                        post.PostId = postID
+                                                        post.timeAgo = Date
+                                                        post.timeInterval = 0
+                                                        post.userprofileimage = self.profileimage
+                                                        post.numberOfLikes = Int(snapshot.childrenCount)
+                                                        self.HomePost.append(post)
+                                                    }
+                                                })
+                                            } else { //좋아요가 없다
+                                                if value1["latitude"] as? String == nil { //위치가 없으면
+                                                    print("djqwidjoqdiowqji0dj0qwjonjdwnq9j1oo")
+                                                    print(self.LikeCount)
+                                                    post.caption = Description
+                                                    post.Id = ID
+                                                    post.image = image
+                                                    post.lat = 0
+                                                    post.lon = 0
+                                                    post.username = Author
+                                                    post.PostId = postID
+                                                    post.timeAgo = Date
+                                                    post.timeInterval = 0
+                                                    post.userprofileimage = self.profileimage
+                                                    post.numberOfLikes = 0
+                                                    self.HomePost.append(post)
+                                                } else {
+                                                    print("위치가 있는거 같은데?")
+                                                    post.caption = Description
+                                                    post.Id = ID
+                                                    post.image = image
+                                                    let lat = value1["latitude"] as? String
+                                                    let lon = value1["longitude"] as? String
+                                                    post.lat = Double(lat!)
+                                                    post.lon = Double(lon!)
+                                                    post.username = Author
+                                                    post.PostId = postID
+                                                    post.timeAgo = Date
+                                                    post.timeInterval = 0
+                                                    post.userprofileimage = self.profileimage
+                                                    post.numberOfLikes = 0
+                                                    self.HomePost.append(post)
+                                                }
                                             }
                                         }
                                     }
@@ -401,7 +513,7 @@ extension HomePostCollectionViewController {
                                 self.HashTagPostLike(self.Hash, 0, sender.tag)
                             }
                         } else { //버튼을 누른 사용자의 데이터가 없다. 즉, 이 글 좋아요
-                            self.ref?.child("WholePosts").child(self.HomePost[sender.tag].PostId!).child("LikePeople").setValue(dic)
+                            self.ref?.child("WholePosts").child(self.HomePost[sender.tag].PostId!).child("LikePeople").updateChildValues(dic)
                             sender.setImage(UIImage(named: "like.png"), for: .normal)
                             self.Hash = self.captionText[sender.tag]._tokens(from: HashtagTokenizer())
                             if self.Hash != nil {
@@ -414,6 +526,7 @@ extension HomePostCollectionViewController {
             }
         })
         ref?.removeAllObservers()
+        FetchMyPost()
     }
     func HashTagPostLike(_ Token : [AnyToken], _ index : Int, _ tag : Int) {
         for i in 0..<Token.count {
@@ -479,6 +592,7 @@ extension HomePostCollectionViewController {
         return
     }
     func DateFetch() { // 날짜 따오기
+        print("왔다")
         let date = Date()
         let format = DateFormatter()
         TimeZone.ReferenceType.default = TimeZone(abbreviation: "KST")!
@@ -512,5 +626,39 @@ extension HomePostCollectionViewController {
         }
         DateSort()
         return
+    }
+}
+extension UIImage{
+    
+    var roundMyImage: UIImage {
+        let rect = CGRect(origin:CGPoint(x: 0, y: 0), size: self.size)
+        UIGraphicsBeginImageContextWithOptions(self.size, false, 1)
+        UIBezierPath(
+            roundedRect: rect,
+            cornerRadius: self.size.height
+            ).addClip()
+        self.draw(in: rect)
+        return UIGraphicsGetImageFromCurrentImageContext()!
+    }
+    func resizeMyImage(newWidth: CGFloat) -> UIImage {
+        let scale = newWidth / self.size.width
+        let newHeight = self.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        
+        self.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+    func squareMyImage() -> UIImage {
+        UIGraphicsBeginImageContext(CGSize(width: self.size.width, height: self.size.width))
+        
+        self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.width))
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
     }
 }

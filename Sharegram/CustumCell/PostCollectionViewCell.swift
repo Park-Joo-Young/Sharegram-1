@@ -26,7 +26,7 @@ class PostCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.frame.size = CGSize(width: CommonVariable.screenWidth, height: CommonVariable.screenHeight)
+        self.frame.size = CGSize(width: CommonVariable.screenWidth, height: CommonVariable.screenHeight-50)
         self.addSubview(Caption)
         ProFileImage.snp.makeConstraints { (make) in
             make.top.equalTo(self).offset(5)
@@ -78,7 +78,7 @@ class PostCollectionViewCell: UICollectionViewCell {
         }
         TimeLabel.snp.makeConstraints { (make) in
             make.size.equalTo(LikeCountLabel)
-            make.bottom.equalTo(self.snp.bottom).offset(-20)
+            make.top.equalTo(Caption.snp.bottom).offset(20)
             make.left.equalTo(LikeBut)
         }
         

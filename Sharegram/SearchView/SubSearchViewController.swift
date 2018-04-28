@@ -189,6 +189,8 @@ extension SubSearchViewController : UITableViewDelegate {
                 cell.imageView?.clipsToBounds = true
                 cell.imageView?.contentMode = .scaleToFill
                 cell.imageView?.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
+            } else { //이미지가 없다ㅋ
+                
             }
             return cell
         }
@@ -199,7 +201,7 @@ extension SubSearchViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.index = indexPath.row
         if segment.selectedSegmentIndex == 1 { // 사람인 상태에서 검색에서 누를 시
-            //self.UserKeyForPrepare(self.SearchList[indexPath.row])
+            self.UserKeyForPrepare(self.SearchList[indexPath.row]["사용자 명"]!)
         } else if segment.selectedSegmentIndex == 2 { //태그 검색하고 누르면
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "HashTagView") as! HashTagViewController
             vc.HashTagName = self.SearchTagList[self.index]["Tag"]!

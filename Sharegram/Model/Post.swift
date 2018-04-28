@@ -16,7 +16,7 @@ class Post :NSObject// 게시물 구조체
     var timeAgo: String? // Date
     var caption: String? // Description
     var image: String? // Postimage
-    var numberOfLikes: String? // like
+    var numberOfLikes: Int? // like
     var lat : Double? //위도
     var lon : Double? //경도
     var Id : String?

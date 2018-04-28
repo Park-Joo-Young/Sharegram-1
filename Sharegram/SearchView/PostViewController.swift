@@ -76,6 +76,7 @@ class PostViewController: UIViewController {
             make.top.equalTo(NextBut)
         }
         LikeBut.addTarget(self, action: #selector(likePressed), for: .touchUpInside)
+        LikeBut.tintColor = UIColor.white
         //Do any additional setup after loading the view.
     }
 
@@ -157,6 +158,7 @@ extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
         postview.CommentBut.addTarget(self, action: #selector(DetailViewPresent), for: .touchUpInside)
         postview.ExceptionBut.tag = index
         postview.ExceptionBut.addTarget(self, action: #selector(ExceptionMenu(_:)), for: .touchUpInside)
+        postview.ExceptionBut.tintColor = UIColor.black
         return postview
     }
     
@@ -365,7 +367,9 @@ extension PostViewController {
         
         ref?.child("User").child(id).child("UserProfile").observe(.value, with: { (snapshot) in
             if let item = snapshot.value as? [String : String] {
-                self.ProFileUrl = item["ProFileImage"]!
+                if item["ProFileImage"] != nil {
+                   self.ProFileUrl = item["ProFileImage"]!
+                }
             }
         })
         ref?.removeAllObservers()
@@ -436,6 +440,10 @@ extension PostViewController {
                 print(subinterval)
                 if subinterval > 60 { // 1시간 이상
                    self.Posts[i].timeAgo = "\(Int(subinterval / 60))시간 전"
+                } else if subinterval < 60 {
+                    self.Posts[i].timeAgo = "\(subinterval)분 전"
+                } else if subinterval == 0 {
+                    self.Posts[i].timeAgo = "방금 전"
                 }
                 //print(interval)
                 self.Posts[i].timeAgo = "\(subinterval)분 전"
