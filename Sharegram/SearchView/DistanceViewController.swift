@@ -105,6 +105,7 @@ extension DistanceViewController : UICollectionViewDelegate, UICollectionViewDat
 }
 extension DistanceViewController {
     func DistancePostFetch() { // 100미터 반경안에 있는 게시물들 한 번에 모으기
+        print(distance)
         self.DistanceArray.removeAll()
         ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.value is NSNull {
@@ -118,8 +119,9 @@ extension DistanceViewController {
                                 let lon = value["longitude"] as? String
                                 let Location = CLLocation(latitude: Double(lat!)!, longitude: Double(lon!)!)
                                 let meter = self.PostLocation.distance(from: Location)
+                                print(meter)
                                 let post = Post()
-                                if meter <= self.distance { //100미터 반경안에 들어오면
+                                if meter <= self.distance { //250미터 반경안에 들어오면
                                     post.caption = Description
                                     post.Id = ID
                                     post.image = image
@@ -130,15 +132,15 @@ extension DistanceViewController {
                                     post.timeAgo = Date
                                     post.timeInterval = 0
                                     self.DistanceArray.append(post)
-                                            print(self.DistanceArray)
                                 } else {
                                     continue
                                 }
                             }
                             
                         }
+                        self.DistancePostView.reloadData()
                     }
-                    self.DistancePostView.reloadData()
+                    
                 }
             }
         })

@@ -840,7 +840,7 @@
         <scene sceneID="zAV-yW-lNg">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="TQj-EF-hYL" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="Camera.png" id="br1-nv-rVO">
+                    <tabBarItem key="tabBarItem" title="" image="camera.png" id="br1-nv-rVO">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -1033,11 +1033,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Camera.png" width="24" height="24"/>
         <image name="Next.png" width="32" height="32"/>
         <image name="Previous.png" width="32" height="32"/>
         <image name="activity.png" width="24" height="24"/>
         <image name="backarrow.png" width="24" height="24"/>
+        <image name="camera.png" width="24" height="24"/>
         <image name="cameraBut.png" width="32" height="32"/>
         <image name="filter.png" width="32" height="32"/>
         <image name="home.png" width="24" height="24"/>

@@ -18,19 +18,24 @@ class AccurateLocationMapViewController: UIViewController {
     var item = [MTMapPOIItem]()
     var location : CLLocation!
     override func viewWillAppear(_ animated: Bool) {
-        self.view.addSubview(MapView)
-        MapView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.view)
-            make.width.equalTo(CommonVariable.screenWidth)
-            make.bottom.equalTo(self.view)
-        }
-        MapView.delegate = self
-        MapView.baseMapType = .standard
-        MapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: object.lat, longitude: object.lon)), zoomLevel: 3, animated: false) //맵 중심을 이전에 사진찍었던거에서 잡고
+        
 
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.addSubview(MapView)
+        MapView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.view)
+            make.width.equalTo(CommonVariable.screenWidth)
+            make.height.equalTo(CommonVariable.screenHeight)
+            make.bottom.equalTo(self.view)
+            make.left.equalTo(self.view)
+            make.right.equalTo(self.view)
+            make.centerX.equalTo(self.view)
+        }
+        MapView.delegate = self
+        MapView.baseMapType = .standard
+        MapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: object.lat, longitude: object.lon)), zoomLevel: 3, animated: false) //맵 중심을 이전에 사진찍었던거에서 잡고
         self.item.append(poiItem(latitude: object.lat, longitude: object.lon))
         self.MapView.addPOIItems(self.item)
         // Do any additional setup after loading the view.
@@ -88,8 +93,6 @@ extension AccurateLocationMapViewController : MTMapViewDelegate {
         self.item.append(poiItem(latitude: mapPoint.mapPointGeo().latitude, longitude: mapPoint.mapPointGeo().longitude))
         self.MapView.addPOIItems(self.item)
         location = CLLocation(latitude: mapPoint.mapPointGeo().latitude, longitude: mapPoint.mapPointGeo().longitude)
-        //object.lat = mapPoint.mapPointGeo().latitude
-        //object.lon = mapPoint.mapPointGeo().longitude
         if location != nil && self.item.count != 0 { //위치와 마커가 둘 다 표시가 됐으면
           convertToAddressWith(coordinate: location)
         }

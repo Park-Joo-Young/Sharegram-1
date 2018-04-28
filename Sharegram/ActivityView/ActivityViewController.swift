@@ -19,20 +19,19 @@ class ActivityViewController: UIViewController {
     var item = [MTMapPOIItem]()
     
     override func viewWillAppear(_ animated: Bool) {
-        isAuthorizedtoGetUserLocation() //위치 인증
+         //위치 인증
+        MapView.removeAllPOIItems()
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.distanceFilter = 200.0
             locationManager.requestWhenInUseAuthorization()
-            locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
-            
         }
-        MapView.removeAllPOIItems()
-
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        isAuthorizedtoGetUserLocation()
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
         self.view.addSubview(segment)
         self.view.addSubview(MapView)
@@ -59,6 +58,10 @@ class ActivityViewController: UIViewController {
             make.width.equalTo(CommonVariable.screenWidth)
             make.height.equalTo(CommonVariable.screenHeight)
             make.top.equalTo(segment.snp.bottom)
+            make.bottom.equalTo(self.view)
+            make.left.equalTo(self.view)
+            make.right.equalTo(self.view)
+            make.centerX.equalTo(self.view)
         }
         MapView.delegate = self
         

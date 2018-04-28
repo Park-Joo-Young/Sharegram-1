@@ -269,7 +269,6 @@ extension HomePostCollectionViewController {
         }
     }
     @objc func CommentView(_ sender : UIButton) {
-
         let tag = sender.tag
         print(tag)
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "SingleComment") as! SingleCommentViewController
@@ -281,11 +280,13 @@ extension HomePostCollectionViewController {
         self.HomePost.removeAll()
         self.fetchUser(self.UserKey)
         self.ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.value is NSNull {
+                return
+            }
             if let item = snapshot.value as? [String : AnyObject] {
                 for(_, value) in item {
                     if let Description = value["Description"] as? String, let Author = value["Author"] as? String, let Date = value["Date"] as? String, let ID = value["ID"] as? String, let image = value["image"] as? String , let postID = value["postID"] as? String {
                         let post = Post()
-                        
                         if ID == self.UserKey {
                             if self.profileimage != "" {
                                 self.imageview.sd_setImage(with: URL(string: self.profileimage), completed: nil)
@@ -363,14 +364,24 @@ extension HomePostCollectionViewController {
                                     self.HomePost.append(post)
                                 }
                             }
-                            
+                        } else { //나랑 일치하는 게시물이 없음녀
+                            if self.profileimage != "" {
+                                self.imageview.sd_setImage(with: URL(string: self.profileimage), completed: nil)
+                                if self.imageview.image != nil {
+                                    let barImage : UIImage = self.imageview.image!.squareMyImage().resizeMyImage(newWidth: 30).roundMyImage.withRenderingMode(.alwaysOriginal)
+                                    self.tabBarController?.tabBar.items?[4].image = barImage
+                                }
+                            } else {
+                                let barImage : UIImage = UIImage(named: "profile.png")!.squareMyImage().resizeMyImage(newWidth: 30).roundMyImage.withRenderingMode(.alwaysOriginal)
+                                self.tabBarController?.tabBar.items?[4].image = barImage
+                            }
+                            print("일치하지않아.")
                         }
                     }
                 }
             }
         })
         ref?.removeAllObservers()
-        
         FetchPost()
     }
     func fetchUser(_ id : String) {
@@ -496,10 +507,15 @@ extension HomePostCollectionViewController {
     @objc func likePressed(_ sender : UIButton) { //좋아요 눌렀을 때
         let key = ref?.child("HashTagPosts").childByAutoId().key
         let dic = [key! : (Auth.auth().currentUser?.uid)!]
+        print(self.HomePost[sender.tag].PostId!)
+       print(self.HomePost.count)
         ref?.child("WholePosts").child(self.HomePost[sender.tag].PostId!).child("LikePeople").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.value is NSNull { //첫 좋아요면 무조건 저장
+                print(sender.tag)
+                print(self.HomePost.count)
                 self.ref?.child("WholePosts").child(self.HomePost[sender.tag].PostId!).child("LikePeople").setValue(dic)
-                let cell = self.collectionView?.cellForItem(at: IndexPath(row: sender.tag, section: 0)) //해당 셀 가져와서
+                
+                //let cell = self.collectionView?.cellForItem(at: IndexPath(row: sender.tag, section: 0)) //해당 셀 가져와서
                 sender.setImage(UIImage(named: "like.png"), for: .normal)
                 self.Hash = self.captionText[sender.tag]._tokens(from: HashtagTokenizer())
                 self.HashTagPostLike(self.Hash, 1, sender.tag)
@@ -594,6 +610,9 @@ extension HomePostCollectionViewController {
     }
     func DateFetch() { // 날짜 따오기
         print("왔다")
+        if self.HomePost.count == 0 {
+            return
+        }
         let date = Date()
         let format = DateFormatter()
         TimeZone.ReferenceType.default = TimeZone(abbreviation: "KST")!

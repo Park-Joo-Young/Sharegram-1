@@ -226,8 +226,12 @@ extension SinglePostViewController {
         
         ref?.child("User").child(self.UserPost.Id!).child("UserProfile").observe(.value, with: { (snapshot) in
             if let item = snapshot.value as? [String : String] {
-                self.ProFileImage.sd_setImage(with: URL(string: item["ProFileImage"]!), completed: nil)
-                self.UserPost.userprofileimage = item["ProFileImage"]!
+                if item["ProFileImage"] != nil {
+                    self.ProFileImage.sd_setImage(with: URL(string: item["ProFileImage"]!), completed: nil)
+                    self.UserPost.userprofileimage = item["ProFileImage"]!
+                } else {
+                    self.ProFileImage.image = UIImage(named: "profile.png")
+                }
             }
         })
         ref?.removeAllObservers()
