@@ -23,6 +23,7 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
     var CommentBut = UIButton()
     var Caption = ActiveLabel()
     var TimeLabel = UILabel()
+    var Likecount = UILabel()
     var width = CommonVariable.screenWidth
     var height = CommonVariable.screenHeight
     var ref : DatabaseReference?
@@ -64,6 +65,7 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
         self.view.addSubview(CommentBut)
         self.view.addSubview(Caption)
         self.view.addSubview(TimeLabel)
+        self.view.addSubview(Likecount)
         
         ProFileImage.snp.makeConstraints { (make) in
             make.width.equalTo(width/6)
@@ -118,10 +120,18 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
         }
         CommentBut.setImage(UIImage(named: "comment.png"), for: .normal)
         CommentBut.addTarget(self, action: #selector(PresentCommentView), for: .touchUpInside)
+        Likecount.snp.makeConstraints { (make) in
+            make.width.equalTo(width/2)
+            make.height.equalTo(height/33)
+            make.top.equalTo(LikeBut.snp.bottom).offset(2)
+            make.left.equalTo(LikeBut)
+        }
+        Likecount.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+        
         Caption.snp.makeConstraints { (make) in
             make.width.equalTo(width)
             make.height.lessThanOrEqualTo(height/10)
-            make.top.equalTo(LikeBut.snp.bottom)
+            make.top.equalTo(Likecount.snp.bottom).offset(5)
             make.left.equalTo(LikeBut)
             make.right.equalTo(self.view)
         }
@@ -136,7 +146,7 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
             make.bottom.equalTo(self.view.snp.bottom).offset(-20)
             make.left.equalTo(Caption)
         }
-        TimeLabel.tintColor = UIColor.lightGray
+        TimeLabel.textColor = UIColor.lightGray
         TimeLabel.text = UserPost.timeAgo!
         TimeLabel.font = UIFont(name: "BM DoHyeon OTF", size : 17)!
         // Do any additional setup after loading the view.
@@ -160,6 +170,16 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
 
 }
 extension SinglePostViewController {
+    func LikeCount() {
+        ref?.child("WholePosts").child(self.UserPost.PostId!).child("LikePeople").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.value is NSNull { //좋아요 음다
+                self.Likecount.text = "좋아요 0개"
+            } else { //있따.
+                self.Likecount.text = "좋아요 \(snapshot.childrenCount)개"
+                print(snapshot.childrenCount)
+            }
+        })
+    }
     @objc func imageTap() {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ExtendImage") as! ExtendImageViewController
             vc.image = self.UserPost.image!
@@ -212,46 +232,7 @@ extension SinglePostViewController {
         })
         ref?.removeAllObservers()
     }
-//    func FetchPost() {
-//        ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-//            if snapshot.value is NSNull {
-//                print("Nothing")
-//            } else {
-//                if let item = snapshot.value as? [String : AnyObject] {
-//                    for(_, value) in item {
-//                        if let Description = value["Description"] as? String, let Author = value["Author"] as? String, let Date = value["Date"] as? String, let ID = value["ID"] as? String, let Like = value["Like"] as? String, let image = value["image"] as? String , let postID = value["postID"] as? String , let latitude = value["latitude"] as? String, let longitude = value["longitude"] as? String {
-//                            if postID == self.postID { //같은 값의 포스트 아이디를 가진 단일 포스트 가져오기
-//                                self.PostImage.sd_setImage(with: URL(string: image), completed: nil)
-//                                self.UserName.text = Author
-//                                self.fetchUser()
-//                                self.Caption.text = Description
-//                                self.TimeLabel.text = Date
-//                                self.User.PostID = postID
-//                                self.User.AuthorCaption = Description
-//                                self.User.AuthorName = Author
-//                                if value["LikePeople"] as? [String : AnyObject] != nil {
-//                                    for (_, value1) in (value["LikePeople"] as? [String : String])! {
-//                                        if value1 == (Auth.auth().currentUser?.uid)! { //내가 좋아요를 눌러놨으면 라이크 버튼
-//                                            print("씨발아")
-//                                            self.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
-//                                            break
-//                                        } else {
-//                                            self.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
-//                                            break
-//                                        }
-//                                    }
-//                                } else { //아무것도 좋아요가 없다
-//                                    self.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
-//                                    break
-//                                }
-//                            }
-//                    }
-//                }
-//              }
-//            }
-//        })
-//        ref?.removeAllObservers()
-//    }
+
     @objc func likePressed() { //좋아요 눌렀을 때
         let key = ref?.child("HashTagPosts").childByAutoId().key
         let dic = [key! : (Auth.auth().currentUser?.uid)!]

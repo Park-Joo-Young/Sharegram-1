@@ -131,9 +131,11 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
             cell.CommnetBut.addTarget(self, action: #selector(CommentView(_:)), for: .touchUpInside)
             cell.ExceptionBut.tag = indexPath.row
             cell.ExceptionBut.addTarget(self, action: #selector(ExceptionMenu(_:)), for: .touchUpInside)
+            cell.ExceptionBut.setImage(UIImage(named: "exception.png"), for: .normal)
             cell.LikeBut.tag = indexPath.row
             cell.LikeBut.addTarget(self, action: #selector(likePressed(_:)), for: .touchUpInside)
             cell.LikeCountLabel.text = "좋아요 \(dic.numberOfLikes!)개"
+            cell.LikeCountLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             //좋아요 체크
             ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
                 if snapshot.value is NSNull {

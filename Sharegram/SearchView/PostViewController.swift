@@ -324,86 +324,47 @@ extension PostViewController {
     }
     func fetchPost(){
         self.Posts.removeAll()
-        self.fetchUser(self.Id)
         ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-            if let item = snapshot.value as? [String : AnyObject] {
-                for(_, value) in item {
-                    if let Description = value["Description"] as? String, let Author = value["Author"] as? String, let Date = value["Date"] as? String, let ID = value["ID"] as? String, let image = value["image"] as? String , let postID = value["postID"] as? String {
-                        let post = Post()
-                        if ID == self.Id {
-                            if value["LikePeople"] as? [String : String] != nil { //좋아요가 존재
-                                self.ref?.child("WholePosts").child(postID).child("LikePeople").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-                                    if value["latitude"] as? String == nil { //위치가 없으면
-                                        post.caption = Description
-                                        post.Id = ID
-                                        post.image = image
-                                        post.lat = 0
-                                        post.lon = 0
-                                        post.username = Author
-                                        post.PostId = postID
-                                        post.timeAgo = Date
-                                        post.timeInterval = 0
-                                        post.userprofileimage = self.ProFileUrl
-                                        post.numberOfLikes = Int(snapshot.childrenCount)
-                                        self.Posts.append(post)
-                                    } else {
-                                        post.caption = Description
-                                        post.Id = ID
-                                        post.image = image
-                                        let lat = value["latitude"] as? String
-                                        let lon = value["longitude"] as? String
-                                        post.lat = Double(lat!)
-                                        post.lon = Double(lon!)
-                                        post.username = Author
-                                        post.PostId = postID
-                                        post.timeAgo = Date
-                                        post.timeInterval = 0
-                                        post.userprofileimage = self.ProFileUrl
-                                        post.numberOfLikes = Int(snapshot.childrenCount)
-                                        self.Posts.append(post)
-                                    }
-                                })
-                            } else { //좋아요가 없다
-                                if value["latitude"] as? String == nil { //위치가 없으면
-                                    post.caption = Description
-                                    post.Id = ID
-                                    post.image = image
-                                    post.lat = 0
-                                    post.lon = 0
-                                    post.username = Author
-                                    post.PostId = postID
-                                    post.timeAgo = Date
-                                    post.timeInterval = 0
-                                    post.userprofileimage = self.ProFileUrl
-                                    post.numberOfLikes = 0
-                                    self.Posts.append(post)
-                                } else {
-                                    post.caption = Description
-                                    post.Id = ID
-                                    post.image = image
-                                    let lat = value["latitude"] as? String
-                                    let lon = value["longitude"] as? String
-                                    post.lat = Double(lat!)
-                                    post.lon = Double(lon!)
-                                    post.username = Author
-                                    post.PostId = postID
-                                    post.timeAgo = Date
-                                    post.timeInterval = 0
-                                    post.userprofileimage = self.ProFileUrl
-                                    post.numberOfLikes = 0
-                                    self.Posts.append(post)
-                                }
-                                
-                            }
+            let item = snapshot.value as! [String : AnyObject]
+            
+            for (_, value) in item {
+                if let Description = value["Description"] as? String, let Author = value["Author"] as? String, let Date = value["Date"] as? String, let ID = value["ID"] as? String, let image = value["image"] as? String , let postID = value["postID"] as? String {
+                    let post = Post()
+                    
+                    if ID == self.Id { // 그 당사자의 아이디와 일치하는 게시물들만 포스트에 넣기
+                        if value["latitude"] as? String == nil { //위치가 없으면
+                            post.caption = Description
+                            post.Id = ID
+                            post.image = image
+                            post.lat = 0
+                            post.lon = 0
+                            post.username = Author
+                            post.PostId = postID
+                            post.timeAgo = Date
+                            post.timeInterval = 0
+                            self.Posts.append(post)
+                        } else {
+                            post.caption = Description
+                            post.Id = ID
+                            post.image = image
+                            let lat = value["latitude"] as? String
+                            let lon = value["longitude"] as? String
+                            post.lat = Double(lat!)
+                            post.lon = Double(lon!)
+                            post.username = Author
+                            post.PostId = postID
+                            post.timeAgo = Date
+                            post.timeInterval = 0
+                            self.Posts.append(post)
                         }
                     }
+                    
                 }
-                
             }
             self.DateFetch()
         })
         ref?.removeAllObservers()
-        
+
     }
     func fetchUser(_ id : String) {
         
@@ -481,8 +442,8 @@ extension PostViewController {
                 let end = CommonVariable.formatter.date(from: self.Posts[i].timeAgo!)!.addingTimeInterval(32400)
                 let subinterval = Int(start.timeIntervalSince(end) / 60.0) //분 단위 계산
                 self.Posts[i].timeInterval = Int(subinterval * 60) // 초 차이
+                print(subinterval)
                 if subinterval > 60 { // 1시간 이상
-                    print("몇시간이야?")
                    self.Posts[i].timeAgo = "\(Int(subinterval / 60))시간 전"
                 } else if subinterval < 60 {
                     self.Posts[i].timeAgo = "\(subinterval)분 전"
