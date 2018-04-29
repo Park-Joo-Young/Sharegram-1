@@ -340,7 +340,7 @@ extension HomePostCollectionViewController {
                                 }
                                 
                             })
-                            ref?.removeAllObservers()
+                            self.ref?.removeAllObservers()
                         }
                     }
                 }
@@ -461,7 +461,7 @@ extension HomePostCollectionViewController {
                                                 }
                                             }
                                         })
-                                        ref?.removeAllObservers()
+                                        self.ref?.removeAllObservers()
                                     }
                                 }
                                 
