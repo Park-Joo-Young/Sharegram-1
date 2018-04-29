@@ -22,4 +22,5 @@ class Post :NSObject// 게시물 구조체
     var Id : String?
     var PostId : String?
     var timeInterval : Int?
+    var PeopleWhoLike : [String] = [String]()
 }

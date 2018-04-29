@@ -108,7 +108,8 @@ class PostViewController: UIViewController {
 }
 extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
     func kolodaDidRunOutOfCards(_ koloda: KolodaView) {
-        return
+        koloda.revertAction()
+        self.LikeCheck()
     }
     
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {

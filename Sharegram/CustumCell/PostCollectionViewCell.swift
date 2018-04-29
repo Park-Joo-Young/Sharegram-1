@@ -22,7 +22,10 @@ class PostCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var LikeCountLabel: UILabel!
     @IBOutlet weak var TimeLabel: UILabel!
     var Caption = ActiveLabel()
-    
+    override func prepareForReuse() {
+        self.ProFileImage.image = nil
+        super.prepareForReuse()
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -98,7 +98,7 @@ class WriteViewController: UIViewController{
                             
                         } else { // 1
                             
-                            self.PostArray = ["image" : url.absoluteString, "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!, "postID" : (self.ref?.child("WholePosts").childByAutoId().key)!]
+                            self.PostArray = ["image" : url.absoluteString, "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!, "postID" : self.key]
                         }
 
                     }
