@@ -37,12 +37,10 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
     var FollowingList : [String] = []
     override func viewWillAppear(_ animated: Bool) {
         
-        if self.HomePost.count == 0 {
             self.collectionView?.register(UINib(nibName: "PostCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
             collectionView?.collectionViewLayout.invalidateLayout()
             collectionView?.reloadData()
            Feed()
-        }
     }
 
     override func viewDidLoad() {
@@ -122,6 +120,12 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
             cell.Caption.numberOfLines = 0
             cell.Caption.sizeToFit()
             cell.Caption.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+            cell.Caption.handleHashtagTap({ (hashtag) in
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "HashTagView") as! HashTagViewController
+                vc.HashTagName = hashtag
+                vc.modalTransitionStyle = .crossDissolve
+                self.present(vc, animated: true, completion: nil)
+            })
             self.captionText.append(dic.caption!)
             cell.PostImage.sd_setImage(with: URL(string: dic.image!), completed: nil)
             cell.PostImage.isUserInteractionEnabled = true
@@ -129,7 +133,7 @@ class HomePostCollectionViewController: UICollectionViewController, UICollection
             let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap(_:)))
             cell.PostImage.addGestureRecognizer(tap)
             cell.TimeLabel.text = dic.timeAgo
-            cell.TimeLabel.font = UIFont(name: "BM DoHyeon OTF", size : 10)!
+            cell.TimeLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             cell.TimeLabel.textColor = UIColor.lightGray
             cell.UserName.text = dic.username!
             cell.UserName.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
@@ -530,39 +534,5 @@ extension HomePostCollectionViewController {
         }
         DateSort()
         return
-    }
-}
-extension UIImage{
-    
-    var roundMyImage: UIImage {
-        let rect = CGRect(origin:CGPoint(x: 0, y: 0), size: self.size)
-        UIGraphicsBeginImageContextWithOptions(self.size, false, 1)
-        UIBezierPath(
-            roundedRect: rect,
-            cornerRadius: self.size.height
-            ).addClip()
-        self.draw(in: rect)
-        return UIGraphicsGetImageFromCurrentImageContext()!
-    }
-    func resizeMyImage(newWidth: CGFloat) -> UIImage {
-        let scale = newWidth / self.size.width
-        let newHeight = self.size.height * scale
-        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
-        
-        self.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage!
-    }
-    func squareMyImage() -> UIImage {
-        UIGraphicsBeginImageContext(CGSize(width: self.size.width, height: self.size.width))
-        
-        self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.width))
-        
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage!
     }
 }

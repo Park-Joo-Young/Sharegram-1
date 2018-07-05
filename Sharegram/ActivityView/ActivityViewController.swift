@@ -2,8 +2,8 @@
 //  ActivityViewController.swift
 //  Sharegram
 //
-//  Created by 박주영 on 2018. 1. 11..
-//  Copyright © 2018년 박주영. All rights reserved.
+//  Created by 이창화 on 2018. 1. 11..
+//  Copyright © 2018년 이창화. All rights reserved.
 //
 
 import UIKit

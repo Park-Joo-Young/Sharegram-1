@@ -30,7 +30,6 @@ class PostViewController: UIViewController {
     
     @IBOutlet weak var NextBut: UIButton!
     @IBOutlet weak var PreviousBut: UIButton!
-    @IBOutlet weak var LikeCountLabel: UILabel!
     override func viewWillLayoutSubviews() {
         postview.Caption.sizeToFit()
     }
@@ -39,8 +38,6 @@ class PostViewController: UIViewController {
         
         fetchUser(Id)
         fetchPost()
-        LikeCheck()
-        print(self.Id)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,28 +53,14 @@ class PostViewController: UIViewController {
             make.top.equalTo(self.view).offset(100)
         }
         NextBut.snp.makeConstraints { (make) in
-            make.left.equalTo(LikeBut.snp.right).offset(30)
+            make.left.equalTo(self.view.snp.centerX).offset(30)
             make.top.equalTo(Kolodaview.snp.bottom).offset(20)
         }
         PreviousBut.snp.makeConstraints { (make) in
-            make.right.equalTo(LikeBut.snp.left).offset(-30)
+            make.right.equalTo(self.view.snp.centerX).offset(-30)
             make.top.equalTo(NextBut)
         }
-        LikeCountLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.view).offset(70)
-            make.centerX.equalTo(self.view.snp.centerX)
-        }
-        LikeCountLabel.adjustsFontSizeToFitWidth = true
-        LikeCountLabel.textColor = UIColor.white
         self.view.backgroundColor = UIColor.black
-        LikeBut.snp.makeConstraints { (make) in
-            make.width.equalTo(CommonVariable.screenWidth/10)
-            make.height.equalTo(CommonVariable.screenHeight/20)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(NextBut)
-        }
-        LikeBut.addTarget(self, action: #selector(likePressed), for: .touchUpInside)
-        LikeBut.tintColor = UIColor.white
         //Do any additional setup after loading the view.
     }
 
@@ -109,7 +92,6 @@ class PostViewController: UIViewController {
 extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
     func kolodaDidRunOutOfCards(_ koloda: KolodaView) {
         koloda.revertAction()
-        self.LikeCheck()
     }
     
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
@@ -148,7 +130,6 @@ extension PostViewController: KolodaViewDelegate, KolodaViewDataSource {
             self.present(vc, animated: true, completion: nil)
             }
         postview.Caption.font = UIFont(name: "BM DoHyeon OTF", size : 13)!
-        LikeCountLabel.text = "마음에 드신다면 하트를 눌러주세요"
 
         postview.UserName.isUserInteractionEnabled = true
         if postview.UserName.isUserInteractionEnabled == true {
@@ -210,116 +191,116 @@ extension PostViewController {
         alert.view.tintColor = UIColor.red
         present(alert, animated: true, completion: nil)
     }
-    func LikeCheck() {
-        ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.value is NSNull {
-                print("Nothing")
-            } else {
-                if let item = snapshot.value as? [String : AnyObject] { //있으면 중복 체크를 위해 데이터 가져옴
-                    for (_ ,value) in item {
-                        if value["postID"] as? String == self.Posts[self.Kolodaview.currentCardIndex].PostId {
-                            print("씨발아")
-                            if value["LikePeople"] as? [String : AnyObject] != nil {
-                                for (_, value1) in (value["LikePeople"] as? [String : String])! {
-                                    if value1 == (Auth.auth().currentUser?.uid)! { //내가 좋아요를 눌러놨으면 라이크 버튼
-                                        print("씨발아")
-                                        self.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
-                                        break
-                                    } else {
-                                        self.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
-                                        break
-                                    }
-                                }
-                            } else { //아무것도 좋아요가 없다
-                                self.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
-                                break
-                            }
-                        }
-                    }
-                }
-            }
-        })
-        ref?.removeAllObservers()
-    }
-    func HashTagPostLike(_ Token : [AnyToken], _ index : Int) {
-            for i in 0..<Token.count {
-                let str = Token[i].text.replacingOccurrences(of: "#", with: "")
-                let key = ref?.child("HashTagPosts").childByAutoId().key
-                if index == 1 { // 저장
-                    ref?.child("HashTagPosts").child(str).child("Posts").observe(.childAdded, with: { (snapshot) in
-                        if let item = snapshot.value as? [String : String] {
-                            
-                            if self.Posts[self.Kolodaview.currentCardIndex].PostId == item["postID"] {
-                                let dic = [key! : (Auth.auth().currentUser?.uid)!]
-                                print(snapshot.key)
-                                self.ref?.child("HashTagPosts").child(str).child("Posts").child(snapshot.key).child("LikePeople").setValue(dic)
-                                
-                            }
-                        }
-                    })
-                    ref?.removeAllObservers()
-                } else { // 데이터 삭제
-                    ref?.child("HashTagPosts").child(str).child("Posts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-                        if snapshot.value is NSNull {
-                            print("아무것도 없습니다.")
-                        } else {
-                            if let item = snapshot.value as? [String : AnyObject] {
-                                for (key , value) in item {
-                                    if value["postID"] as? String == self.Posts[self.Kolodaview.currentCardIndex].PostId {
-                                        if value["LikePeople"] as? [String : AnyObject] != nil { //좋아요가 존재한다.
-                                            self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople").observe(.value, with: { (snapshot) in
-                                                if let item = snapshot.value as? [String : String] {
-                                                    for (key1, value1) in item {
-                                                        if value1 == self.UserKey {
-                                                            self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople/\(key1)").removeValue()
-                                                        }
-                                                    }
-                                                }
-                                            })
-                                        }
-                                    }
-                                    
-                                }
-                            }
-                        }
-                    })
-                    ref?.removeAllObservers()
-                }
-            }
-    }
-    @objc func likePressed() { //좋아요 눌렀을 때
-       let key = ref?.child("HashTagPosts").childByAutoId().key
-       let dic = [key! : (Auth.auth().currentUser?.uid)!]
-        ref?.child("WholePosts").child(Posts[Kolodaview.currentCardIndex].PostId!).child("LikePeople").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.value is NSNull { //첫 좋아요면 무조건 저장
-                self.ref?.child("WholePosts").child(self.Posts[self.Kolodaview.currentCardIndex].PostId!).child("LikePeople").setValue(dic)
-                self.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
-                self.Hash = self.Posts[self.Kolodaview.currentCardIndex].caption!._tokens(from: HashtagTokenizer())
-                self.HashTagPostLike(self.Hash, 1)
-            } else { //좋아요가 하나라도 존재 할 시
-                if let item = snapshot.value as? [String : String] {
-                    for (key, value) in item {
-                        if value == (Auth.auth().currentUser?.uid)! { //좋아요 취소
-                            self.ref?.child("WholePosts").child(self.Posts[self.Kolodaview.currentCardIndex].PostId!).child("LikePeople/\(key)").removeValue() // WholePosts 데이터 삭제
-                            self.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
-                            if self.Hash != nil {
-                               self.HashTagPostLike(self.Hash, 0)
-                            }
-                        } else { //버튼을 누른 사용자의 데이터가 없다. 즉, 이 글 좋아요
-                            self.ref?.child("WholePosts").child(self.Posts[self.Kolodaview.currentCardIndex].PostId!).child("LikePeople").setValue(dic)
-                            self.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
-                            self.Hash = self.Posts[self.Kolodaview.currentCardIndex].caption!._tokens(from: HashtagTokenizer())
-                            if self.Hash != nil {
-                               self.HashTagPostLike(self.Hash, 1)
-                            }
-
-                        }
-                    }
-                }
-            }
-        })
-        ref?.removeAllObservers()
-    }
+//    func LikeCheck() {
+//        ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+//            if snapshot.value is NSNull {
+//                print("Nothing")
+//            } else {
+//                if let item = snapshot.value as? [String : AnyObject] { //있으면 중복 체크를 위해 데이터 가져옴
+//                    for (_ ,value) in item {
+//                        if value["postID"] as? String == self.Posts[self.Kolodaview.currentCardIndex].PostId {
+//                            print("씨발아")
+//                            if value["LikePeople"] as? [String : AnyObject] != nil {
+//                                for (_, value1) in (value["LikePeople"] as? [String : String])! {
+//                                    if value1 == (Auth.auth().currentUser?.uid)! { //내가 좋아요를 눌러놨으면 라이크 버튼
+//                                        print("씨발아")
+//                                        self.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
+//                                        break
+//                                    } else {
+//                                        self.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
+//                                        break
+//                                    }
+//                                }
+//                            } else { //아무것도 좋아요가 없다
+//                                self.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
+//                                break
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        })
+//        ref?.removeAllObservers()
+//    }
+//    func HashTagPostLike(_ Token : [AnyToken], _ index : Int) {
+//            for i in 0..<Token.count {
+//                let str = Token[i].text.replacingOccurrences(of: "#", with: "")
+//                let key = ref?.child("HashTagPosts").childByAutoId().key
+//                if index == 1 { // 저장
+//                    ref?.child("HashTagPosts").child(str).child("Posts").observe(.childAdded, with: { (snapshot) in
+//                        if let item = snapshot.value as? [String : String] {
+//
+//                            if self.Posts[self.Kolodaview.currentCardIndex].PostId == item["postID"] {
+//                                let dic = [key! : (Auth.auth().currentUser?.uid)!]
+//                                print(snapshot.key)
+//                                self.ref?.child("HashTagPosts").child(str).child("Posts").child(snapshot.key).child("LikePeople").setValue(dic)
+//
+//                            }
+//                        }
+//                    })
+//                    ref?.removeAllObservers()
+//                } else { // 데이터 삭제
+//                    ref?.child("HashTagPosts").child(str).child("Posts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+//                        if snapshot.value is NSNull {
+//                            print("아무것도 없습니다.")
+//                        } else {
+//                            if let item = snapshot.value as? [String : AnyObject] {
+//                                for (key , value) in item {
+//                                    if value["postID"] as? String == self.Posts[self.Kolodaview.currentCardIndex].PostId {
+//                                        if value["LikePeople"] as? [String : AnyObject] != nil { //좋아요가 존재한다.
+//                                            self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople").observe(.value, with: { (snapshot) in
+//                                                if let item = snapshot.value as? [String : String] {
+//                                                    for (key1, value1) in item {
+//                                                        if value1 == self.UserKey {
+//                                                            self.ref?.child("HashTagPosts").child(str).child("Posts").child(key).child("LikePeople/\(key1)").removeValue()
+//                                                        }
+//                                                    }
+//                                                }
+//                                            })
+//                                        }
+//                                    }
+//
+//                                }
+//                            }
+//                        }
+//                    })
+//                    ref?.removeAllObservers()
+//                }
+//            }
+//    }
+//    @objc func likePressed() { //좋아요 눌렀을 때
+//       let key = ref?.child("HashTagPosts").childByAutoId().key
+//       let dic = [key! : (Auth.auth().currentUser?.uid)!]
+//        ref?.child("WholePosts").child(Posts[Kolodaview.currentCardIndex].PostId!).child("LikePeople").queryOrderedByKey().observe(.value, with: { (snapshot) in
+//            if snapshot.value is NSNull { //첫 좋아요면 무조건 저장
+//                self.ref?.child("WholePosts").child(self.Posts[self.Kolodaview.currentCardIndex].PostId!).child("LikePeople").setValue(dic)
+//                self.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
+//                self.Hash = self.Posts[self.Kolodaview.currentCardIndex].caption!._tokens(from: HashtagTokenizer())
+//                self.HashTagPostLike(self.Hash, 1)
+//            } else { //좋아요가 하나라도 존재 할 시
+//                if let item = snapshot.value as? [String : String] {
+//                    for (key, value) in item {
+//                        if value == (Auth.auth().currentUser?.uid)! { //좋아요 취소
+//                            self.ref?.child("WholePosts").child(self.Posts[self.Kolodaview.currentCardIndex].PostId!).child("LikePeople/\(key)").removeValue() // WholePosts 데이터 삭제
+//                            self.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
+//                            if self.Hash != nil {
+//                               self.HashTagPostLike(self.Hash, 0)
+//                            }
+//                        } else { //버튼을 누른 사용자의 데이터가 없다. 즉, 이 글 좋아요
+//                            self.ref?.child("WholePosts").child(self.Posts[self.Kolodaview.currentCardIndex].PostId!).child("LikePeople").updateChildValues(dic)
+//                            self.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
+//                            self.Hash = self.Posts[self.Kolodaview.currentCardIndex].caption!._tokens(from: HashtagTokenizer())
+//                            if self.Hash != nil {
+//                               self.HashTagPostLike(self.Hash, 1)
+//                            }
+//
+//                        }
+//                    }
+//                }
+//            }
+//        })
+//        ref?.removeAllObservers()
+//    }
     func fetchPost(){
         self.Posts.removeAll()
         ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
@@ -382,16 +363,12 @@ extension PostViewController {
         Kolodaview.revertAction()
         if self.Kolodaview.currentCardIndex == 0 {
             return
-        } else {
-            LikeCheck()
         }
     }
     @IBAction func Next(_ sender: UIButton) {
         Kolodaview.swipe(.right, force: false)
         if self.Kolodaview.currentCardIndex == self.Posts.count {
             return
-        } else {
-            LikeCheck()
         }
     }
     @objc func UserNameTap() {

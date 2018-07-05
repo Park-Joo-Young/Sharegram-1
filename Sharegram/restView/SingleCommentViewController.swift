@@ -11,8 +11,12 @@ import SnapKit
 import Firebase
 import ActiveLabel
 import CDAlertView
+import Popover
 
-class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 창
+protocol GetUserName {
+    func getName(_ name : String)
+}
+class SingleCommentViewController: UIViewController, GetUserName { //단일 뷰 의 댓글 창
     
     @IBOutlet var navi: UINavigationBar!
     @IBAction func Back(_ sender: UIBarButtonItem) {
@@ -41,6 +45,17 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
     var CommentList : [[String : String]] = [[:]]
     var width = CommonVariable.screenWidth
     var height = CommonVariable.screenHeight
+    var Mentionview = UITableView()
+    var strr : String = ""
+    var result : [[String : String]] = []
+    var resultString : String = ""
+    var username : [String] = []
+    fileprivate var texts = ["Edit", "Delete", "Report"]
+    fileprivate var popover: Popover!
+    fileprivate var popoverOptions: [PopoverOption] = [
+        .type(.up),
+        .blackOverlayColor(UIColor(white: 0.0, alpha: 0.0))
+    ]
     override func viewWillLayoutSubviews() {
         self.PostUserName.sizeToFit()
         self.PostUserCaption.sizeToFit()
@@ -49,13 +64,14 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
         ref = Database.database().reference()
         FetchUser()
         FetchComment()
-        
-        
+        //observerUser()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        PostUserProFileImage.layer.cornerRadius = 30
-        PostUserProFileImage.clipsToBounds = true
+        CommentTable.tag = 0
+        
+        self.Mentionview.register(UINib(nibName: "UserTableViewCell", bundle: nil), forCellReuseIdentifier: "usercell")
+        self.Mentionview.tag = 1
         navi.snp.makeConstraints { (make) in
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
@@ -81,14 +97,21 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
         PostCaptionView.addSubview(PostUserCaption)
         
         PostUserProFileImage.snp.makeConstraints { (make) in
-            make.width.equalTo(width/5)
-            make.height.equalTo(PostCaptionView.bounds.height/3)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
             make.left.equalTo(PostCaptionView.snp.left).offset(10)
             make.top.equalTo(PostCaptionView.snp.top).offset(10)
         }
-        PostUserProFileImage.sd_setImage(with: URL(string: self.UserPost.userprofileimage!), completed: nil)
-        PostUserProFileImage.layer.borderWidth = 1
-        PostUserProFileImage.layer.borderColor = UIColor.lightGray.cgColor
+        
+        if self.UserPost.userprofileimage != nil {
+           PostUserProFileImage.sd_setImage(with: URL(string: self.UserPost.userprofileimage!), completed: nil)
+        } else {
+            PostUserProFileImage.image = UIImage(named: "profile.png")
+        }
+        PostUserProFileImage.frame.size = CGSize(width: 50, height: 50)
+        PostUserProFileImage.layer.masksToBounds = false
+        PostUserProFileImage.layer.cornerRadius = self.PostUserProFileImage.frame.size.height / 2.0
+        PostUserProFileImage.clipsToBounds = true
         PostUserProFileImage.contentMode = .scaleToFill
         
         PostUserName.snp.makeConstraints { (make) in
@@ -117,15 +140,15 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
         CommentView.layer.borderColor = UIColor.lightGray.cgColor
         CommentView.backgroundColor = UIColor.white
         CommentProfileImage.snp.makeConstraints { (make) in
-            make.width.equalTo(CommentView.bounds.width/5)
-            make.height.equalTo(CommentView.bounds.height/1.3)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
             make.centerY.equalTo(CommentView)
         }
-        CommentProfileImage.layer.cornerRadius = 30
-        CommentProfileImage.sizeToFit()
+        CommentProfileImage.frame.size = CGSize(width: 50, height: 50)
+        CommentProfileImage.layer.cornerRadius = CommentProfileImage.frame.size.height / 2.0
+        CommentProfileImage.layer.masksToBounds = false
         CommentProfileImage.clipsToBounds = true
-        CommentProfileImage.layer.borderWidth = 1.0
-        CommentProfileImage.layer.borderColor = UIColor.white.cgColor
+        CommentProfileImage.contentMode = .scaleToFill
         CommentTextfield.snp.makeConstraints { (make) in
             make.width.equalTo(CommentView.bounds.width/1.6)
             make.height.equalTo(CommentView.bounds.height/2.5)
@@ -140,6 +163,8 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
         CommentTextfield.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
         CommentTextfield.leftViewMode = .always
         CommentTextfield.font = UIFont(name: "BM DoHyeon OTF", size : 17)!
+        CommentTextfield.delegate = self
+        CommentTextfield.tag = 0
         CommentBut.snp.makeConstraints { (make) in
             make.width.equalTo(CommentView.bounds.width/7)
             make.height.equalTo(CommentView.bounds.height/3)
@@ -170,60 +195,76 @@ class SingleCommentViewController: UIViewController { //단일 뷰 의 댓글 �
 }
 extension SingleCommentViewController : UITableViewDataSource , UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return CommentList.count
+          return CommentList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let dic = self.CommentList[indexPath.row]
-        print(indexPath.row)
         if dic["Type"] == "Comment" {
-            print(dic)
-            let cell = Bundle.main.loadNibNamed("CommentTableViewCell", owner: self, options: nil)?.first as! CommentTableViewCell
-            cell.ProFileImage.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
-            cell.ProFileImage.layer.cornerRadius = 15.0
-            cell.ProFileImage.clipsToBounds = true
-            cell.Comment.text = "\(dic["Author"]!) \(dic["Comment"]!)"
-            cell.Comment.numberOfLines = 0
-            cell.Comment.enabledTypes = [.hashtag, .mention, .url]
-            cell.Comment.handleMentionTap { (hashtag) in
-                let alertview = CDAlertView(title: "현재 위치는 ", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
-                let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
+                print(dic)
+                let cell = Bundle.main.loadNibNamed("CommentTableViewCell", owner: self, options: nil)?.first as! CommentTableViewCell
+                cell.ProFileImage.frame.size = CGSize(width: 50, height: 50)
+                if dic["ProFileImage"] != nil {
+                    cell.ProFileImage.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
+                } else {
+                    cell.ProFileImage.image = UIImage(named: "profile.png")
+                }
+                cell.ProFileImage.layer.masksToBounds = false
+                cell.ProFileImage.layer.cornerRadius = cell.ProFileImage.frame.size.height / 2.0
+                cell.ProFileImage.clipsToBounds = true
+                cell.ProFileImage.contentMode = .scaleToFill
+                cell.Comment.text = "\(dic["Author"]!) \(dic["Comment"]!)"
+                cell.Comment.numberOfLines = 0
+                cell.Comment.enabledTypes = [.hashtag, .mention, .url]
+                cell.Comment.handleMentionTap { (hashtag) in
+                    let alertview = CDAlertView(title: "현재 위치는 ", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
+                    let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
+                        return
+                    })
+                    alertview.add(action: OKAction)
+                    alertview.show()
                     return
-                })
-                alertview.add(action: OKAction)
-                alertview.show()
-                return
-            }
-            cell.Comment.sizeToFit()
-            cell.ReplyBut.tag = indexPath.row
-            cell.ReplyBut.setTitle("답글 달기", for: .normal)
-            cell.ReplyBut.tintColor = UIColor.lightGray
-            cell.ReplyBut.addTarget(self, action: #selector(SetCommentReply), for: .touchUpInside)
-            cell.TimeAgo.text = dic["Date"]
-            cell.TimeAgo.font = UIFont.systemFont(ofSize: 12)
-            return cell
-        } else {
-            let cell = Bundle.main.loadNibNamed("CommentReplyTableViewCell", owner: self, options: nil)?.first as! CommentReplyTableViewCell
-            cell.ProFileImage.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
-            cell.ProFileImage.layer.cornerRadius = 15.0
-            cell.ProFileImage.clipsToBounds = true
-            cell.Comment.text = "\(dic["Author"]!) \(dic["Reply"]!)"
-            cell.Comment.numberOfLines = 0
-            cell.Comment.enabledTypes = [.hashtag, .mention, .url]
-            cell.Comment.handleMentionTap { (hashtag) in
-                let alertview = CDAlertView(title: "현재 위치는 ", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
-                let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
+                }
+                cell.Comment.sizeToFit()
+                cell.Comment.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+                cell.ReplyBut.tag = indexPath.row
+                cell.ReplyBut.setTitle("답글 달기", for: .normal)
+                cell.ReplyBut.tintColor = UIColor.lightGray
+                cell.ReplyBut.addTarget(self, action: #selector(SetCommentReply), for: .touchUpInside)
+                cell.ReplyBut.titleLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 12)!
+                cell.TimeAgo.text = dic["Date"]
+                cell.TimeAgo.font = UIFont(name: "BM DoHyeon OTF", size : 10)!
+                return cell
+            } else {
+                let cell = Bundle.main.loadNibNamed("CommentReplyTableViewCell", owner: self, options: nil)?.first as! CommentReplyTableViewCell
+                cell.ProFileImage.frame.size = CGSize(width: 50, height: 50)
+                if dic["ProFileImage"] != nil {
+                    cell.ProFileImage.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
+                } else {
+                    cell.ProFileImage.image = UIImage(named: "profile.png")
+                }
+                cell.ProFileImage.layer.masksToBounds = false
+                cell.ProFileImage.layer.cornerRadius = cell.ProFileImage.frame.size.height / 2.0
+                cell.ProFileImage.clipsToBounds = true
+                cell.ProFileImage.contentMode = .scaleToFill
+                cell.Comment.text = "\(dic["Author"]!) \(dic["Reply"]!)"
+                cell.Comment.numberOfLines = 0
+                cell.Comment.enabledTypes = [.hashtag, .mention, .url]
+                cell.Comment.handleMentionTap { (hashtag) in
+                    let alertview = CDAlertView(title: "현재 위치는 ", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
+                    let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
+                        return
+                    })
+                    alertview.add(action: OKAction)
+                    alertview.show()
                     return
-                })
-                alertview.add(action: OKAction)
-                alertview.show()
-                return
+                }
+                cell.Comment.sizeToFit()
+                cell.Comment.font = UIFont(name: "BM DoHyeon OTF", size : 15)
+                cell.TimeAgo.text = dic["Date"]
+                cell.TimeAgo.font = UIFont(name: "BM DoHyeon OTF", size : 10)
+                return cell
             }
-            cell.Comment.sizeToFit()
-            cell.TimeAgo.text = dic["Date"]
-            cell.TimeAgo.font = UIFont.systemFont(ofSize: 12)
-            return cell
-        }
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return CommentView
@@ -240,18 +281,63 @@ extension SingleCommentViewController : UITableViewDataSource , UITableViewDeleg
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete { //삭제~
+            let dic = self.CommentList[indexPath.row]
+        
+            ref?.child("Comment").child(dic["PostKey"]!).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                if let item = snapshot.value as? [String : AnyObject] {
+                    for (key, _) in item {
+                        if key == dic["CommentKey"] { //똑같은 댓글을 찾았다. 삭제
+                            print("삭제 됐는데[?")
+                            self.ref?.child("Comment/\(dic["PostKey"]!)/\(key)").removeValue()
+                            self.CommentList.remove(at: indexPath.row)
+                            tableView.deleteRows(at: [indexPath], with: .fade)
+                            print("삭제 됐는데[?")
+                        }
+                    }
+                }
+                
+                self.FetchComment()
+            })
+            ref?.removeAllObservers()
+        }
+    }
 }
-extension SingleCommentViewController {
+extension SingleCommentViewController : UIPopoverPresentationControllerDelegate {
+    func getName(_ name: String) {
+        let item = self.CommentTextfield.text!.components(separatedBy: "@")
+        let trim = self.CommentTextfield.text!.replacingOccurrences(of: item.last!, with: "", options: .caseInsensitive, range: nil)
+        self.CommentTextfield.text = trim + name + " "
+    }
+    func MentionTable() {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "UserList") as! UserListViewController
+        vc.modalPresentationStyle = .popover
+        vc.preferredContentSize = CGSize(width: CommonVariable.screenWidth, height: 200)
+        vc.delegate = self
+        vc.List = self.result
+        let popover = vc.popoverPresentationController!
+        popover.delegate = self
+        popover.permittedArrowDirections = .down
+        popover.sourceView = CommentView
+        popover.sourceRect = CommentView.bounds
+        self.present(vc, animated: true, completion: nil)
+    }
     func FetchUser() { //프로필 따오기 댓글창 형성
         ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("UserProfile").observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.value is NSNull {
                 self.CommentProfileImage.image = UIImage(named: "Man.png")
             } else {
                 if let item = snapshot.value as? [String : String] {
-                    if item["ProFileImage"]! == nil {
-                        self.CommentProfileImage.image = UIImage(named: "Man.png")
-                    } else {
+                    if item["ProFileImage"] != nil {
                         self.CommentProfileImage.sd_setImage(with: URL(string: item["ProFileImage"]!), completed: nil)
+                        
+                    } else {
+                        self.CommentProfileImage.image = UIImage(named: "profile.png")
                     }
                     self.Profileimage = item["ProFileImage"]!
                     self.CommentName = item["사용자 명"]!
@@ -272,7 +358,6 @@ extension SingleCommentViewController {
                         if let dic = value as? [String : AnyObject] { //기존 댓글 한 번 따고
                             var list = dic
                             list.removeValue(forKey: "Reply")
-                            print(list)
                             self.CommentList.append(list as! [String : String])
                             print("들오와")
                         }
@@ -314,10 +399,12 @@ extension SingleCommentViewController {
         
         let alert = CDAlertView(title: "\(self.CommentList[tag]["Author"]!)님에게 답글", message: nil, type: CDAlertViewType.notification)
         alert.isTextFieldHidden = false
+        alert.textFieldText = "@" + self.CommentList[tag]["Author"]!
         print(alert.textFieldText!)
         let write = CDAlertViewAction(title: "작성", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white) { (action) in
             let ReplyArray = ["Author" : self.CommentName, "Date" : Date, "ReplyKey" : key, "Type" : "Reply", "ProFileImage" : self.Profileimage, "Reply" : alert.textFieldText!, "PostKey" : self.UserPost.PostId!]
             self.ref?.child("Comment").child(self.UserPost.PostId!).child(self.CommentList[tag]["CommentKey"]!).child("Reply").updateChildValues([key : ReplyArray])
+            self.FetchComment()
             return
         }
         let cancel = CDAlertViewAction(title: "취소", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white) { (action) in
@@ -328,6 +415,90 @@ extension SingleCommentViewController {
         alert.show()
         
         return
+    }
+    func CreateAutoCompleteMentionTable() { // 해쉬태그 자동완성 팝업 뷰
+        self.Mentionview = UITableView(frame: CGRect(x: 0, y: 0, width: CommonVariable.screenWidth, height: CommonVariable.screenHeight/3))
+        self.Mentionview.delegate = self
+        self.Mentionview.dataSource = self
+        self.Mentionview.isScrollEnabled = false
+        self.popover = Popover(options: self.popoverOptions)
+        self.popover.willShowHandler = {
+            print("willShowHandler")
+        }
+        self.popover.didShowHandler = {
+            print("didDismissHandler")
+        }
+        self.popover.willDismissHandler = {
+            self.result.removeAll()
+            print("willDismissHandler")
+        }
+        self.popover.didDismissHandler = {
+            self.result.removeAll()
+            print("didDismissHandler")
+        }
+    }
+    func observerUser(_ str : String) {
+        self.result.removeAll()
+        ref?.child("User").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if let item = snapshot.value as? [String : AnyObject] {
+                for(_, value) in item {
+                    if let user = value["UserProfile"] as? [String : String] {
+                        if user["사용자 명"]!.contains(str) {
+                            self.result.append(user)
+                            continue
+                        }
+                    }
+                }
+            }
+            if self.result.count != 0 {
+               self.MentionTable()
+            }
+            
+        })
+        ref?.removeAllObservers()
+    }
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
+}
+//extension SingleCommentViewController : UITableViewDelegate, UITableViewDataSource {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return self.result.count
+//    }
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        observerData()
+//        let cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
+//        cell.imageView?.image = UIImage(named: "HashTag.png")
+//        cell.textLabel?.text = self.result[indexPath.row]
+//        return cell
+//    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let item = self.writeDescription.text.components(separatedBy: "@")
+//        let selectedCell : UITableViewCell = tableView.cellForRow(at: indexPath)!
+//        let selectedText = selectedCell.textLabel?.text as String!
+//        let selected = selectedText?.replacingOccurrences(of: "@", with: "")
+//        let trim = self.writeDescription.text.replacingOccurrences(of: item.last!, with: "", options: .caseInsensitive, range: nil)
+//        self.writeDescription.text = trim + selected! + " "
+//        self.popover.dismiss()
+//        self.result.removeAll()
+//    }
+//}
+extension SingleCommentViewController : UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField.tag == 0 {
+            print("들어옴")
+            strr = self.CommentTextfield.text! //현재 쓰는 댓글의 텍스트 바당와서
+            let mentionitems = strr.components(separatedBy: "@")
+            if mentionitems.count > 1 {
+                self.observerUser(mentionitems.last!)
+                print(mentionitems.last!)
+            }
+        }
+        if (string == "\n") {
+            textField.endEditing(true)
+            return false
+        }
+        return true
     }
 }
 extension UIImageView {

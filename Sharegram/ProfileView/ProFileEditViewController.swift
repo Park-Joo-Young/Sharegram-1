@@ -14,7 +14,6 @@ import SDWebImage
 
 class ProFileEditViewController: UIViewController {
 
-    @IBOutlet weak var naviBar: UINavigationBar!
     @IBOutlet weak var ProFileEditTableView: UITableView!
     var ref : DatabaseReference?
     var storageRef : StorageReference?
@@ -24,14 +23,9 @@ class ProFileEditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
-        storageRef = Storage.storage().reference()
-//        
-//        naviBar.snp.makeConstraints { (make) in
-//            make.top.equalTo(self.view)
-//            make.left.equalTo(self.view)
-//            make.right.equalTo(self.view)
-//        }
+        storageRef = Storage.storage().reference()  
         self.navigationItem.setRightBarButton(UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(CompleteEdit)), animated: true)
+        self.navigationController?.navigationBar.tintColor = UIColor.black
         ProFileEditTableView.snp.makeConstraints { (make) in
             make.top.equalTo(self.view).offset(70)
             make.width.equalTo(CommonVariable.screenWidth)
@@ -59,7 +53,7 @@ class ProFileEditViewController: UIViewController {
                 } else { //성공적으로 저장되면
                     let str = metadata?.downloadURL()?.absoluteString
                     self.ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("UserProfile").updateChildValues(["ProFileImage" : str!])
-                    self.dismiss(animated: true, completion: nil)
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
             })
         }
@@ -111,7 +105,9 @@ extension ProFileEditViewController : UITableViewDelegate, UITableViewDataSource
             }
 
             cell.EditBut.addTarget(self, action: #selector(imagePick), for: .touchUpInside)
-            
+            cell.EditBut.setTitle("프로필 사진 수정하기", for: .normal)
+            cell.EditBut.titleLabel?.font = UIFont(name: "BM DoHyeon OTF", size : 13)!
+            cell.EditBut.tintColor = UIColor.black
             return cell
         }
             

@@ -14,7 +14,6 @@
 		181C14AA2053F92B00BCA077 /* Previous.png in Resources */ = {isa = PBXBuildFile; fileRef = 181C14A82053F92B00BCA077 /* Previous.png */; };
 		181C14AB2053F92B00BCA077 /* Next.png in Resources */ = {isa = PBXBuildFile; fileRef = 181C14A92053F92B00BCA077 /* Next.png */; };
 		181C14AD205400A600BCA077 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181C14AC205400A600BCA077 /* PostViewController.swift */; };
-		181C14AE2054050400BCA077 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186348C420527B6000188D6C /* PostView.xib */; };
 		1826ECB7204926670066F470 /* ProFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1826ECB6204926670066F470 /* ProFileView.swift */; };
 		182C972A20107D8F002E5311 /* Mustard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182C972820107D8F002E5311 /* Mustard.swift */; };
 		184457ED20942E040067A7F8 /* filter.png in Resources */ = {isa = PBXBuildFile; fileRef = 184457E720942E020067A7F8 /* filter.png */; };
@@ -122,6 +121,13 @@
 		3AA85BE6200738E300BAB348 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BE5200738E300BAB348 /* CameraViewController.swift */; };
 		3AA85BE8200738F100BAB348 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BE7200738F100BAB348 /* ActivityViewController.swift */; };
 		3AA85BEA2007390500BAB348 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BE92007390500BAB348 /* ProfileViewController.swift */; };
+		9D21B30A20DADFD6009250B9 /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D21B30820DADFD6009250B9 /* UserListViewController.swift */; };
+		9D21B30B20DADFD6009250B9 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D21B30920DADFD6009250B9 /* ListViewController.swift */; };
+		9D21B30E20DADFF7009250B9 /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D21B30C20DADFF7009250B9 /* UserTableViewCell.xib */; };
+		9D21B30F20DADFF7009250B9 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D21B30D20DADFF7009250B9 /* UserTableViewCell.swift */; };
+		9D21B31220DAE019009250B9 /* CollectionViewCell1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D21B31020DAE018009250B9 /* CollectionViewCell1.swift */; };
+		9D21B31320DAE019009250B9 /* CollectionViewCell1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D21B31120DAE019009250B9 /* CollectionViewCell1.xib */; };
+		9D21B31520DAE0A2009250B9 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D21B31420DAE0A2009250B9 /* PostView.xib */; };
 		CA31797A1D22B7B4B2A5B24E /* Pods_Sharegram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C80C7A8F3875C069B9BA89 /* Pods_Sharegram.framework */; };
 /* End PBXBuildFile section */
 
@@ -150,7 +156,6 @@
 		18612E8A2080C92F0033B9BD /* exception.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exception.png; sourceTree = "<group>"; };
 		18612E8D2080E8D90033B9BD /* SingleCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleCommentViewController.swift; sourceTree = "<group>"; };
 		186348C020527A7500188D6C /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
-		186348C420527B6000188D6C /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PostView.xib; path = /Users/apple/Desktop/Sharegram/Sharegram/CustumCell/PostView.xib; sourceTree = "<absolute>"; };
 		186348CC205281D900188D6C /* Cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cancel.png; sourceTree = "<group>"; };
 		1864CCD82049111E007228E8 /* ProFileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProFileView.xib; sourceTree = "<group>"; };
 		1864CCDC20491A55007228E8 /* UnKnown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnKnown.png; sourceTree = "<group>"; };
@@ -247,6 +252,13 @@
 		3AA85BE7200738F100BAB348 /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		3AA85BE92007390500BAB348 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		69C80C7A8F3875C069B9BA89 /* Pods_Sharegram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sharegram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D21B30820DADFD6009250B9 /* UserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
+		9D21B30920DADFD6009250B9 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		9D21B30C20DADFF7009250B9 /* UserTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewCell.xib; sourceTree = "<group>"; };
+		9D21B30D20DADFF7009250B9 /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
+		9D21B31020DAE018009250B9 /* CollectionViewCell1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell1.swift; sourceTree = "<group>"; };
+		9D21B31120DAE019009250B9 /* CollectionViewCell1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell1.xib; sourceTree = "<group>"; };
+		9D21B31420DAE0A2009250B9 /* PostView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PostView.xib; path = ../../../../Downloads/PostView.xib; sourceTree = "<group>"; };
 		A1A04668B4D3F8297119E91E /* Pods-Sharegram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sharegram.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sharegram/Pods-Sharegram.release.xcconfig"; sourceTree = "<group>"; };
 		C904A152F4121E1B714F329E /* Pods-Sharegram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sharegram.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sharegram/Pods-Sharegram.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -275,6 +287,10 @@
 			isa = PBXGroup;
 			children = (
 				04AD8E0C202C2B8E00FD1733 /* PostCell.swift */,
+				9D21B30D20DADFF7009250B9 /* UserTableViewCell.swift */,
+				9D21B30C20DADFF7009250B9 /* UserTableViewCell.xib */,
+				9D21B31020DAE018009250B9 /* CollectionViewCell1.swift */,
+				9D21B31120DAE019009250B9 /* CollectionViewCell1.xib */,
 				04AD8E0D202C2B8E00FD1733 /* PostHeaderCell.swift */,
 				18757E6F207A4831007E4A3D /* CommentReplyTableViewCell.swift */,
 				18757E70207A4831007E4A3D /* CommentReplyTableViewCell.xib */,
@@ -283,7 +299,7 @@
 				18A88816203E8B9C004E4814 /* PostCollectionViewCell.swift */,
 				18A88817203E8B9C004E4814 /* PostCollectionViewCell.xib */,
 				186348C020527A7500188D6C /* PostView.swift */,
-				186348C420527B6000188D6C /* PostView.xib */,
+				9D21B31420DAE0A2009250B9 /* PostView.xib */,
 				18708F9A20853D1F008F6B8F /* CollectionViewCell.swift */,
 				18708F9B20853D1F008F6B8F /* CollectionViewCell.xib */,
 			);
@@ -306,6 +322,8 @@
 				18612E8D2080E8D90033B9BD /* SingleCommentViewController.swift */,
 				189E1BC220821C100078A299 /* HashTagViewController.swift */,
 				186660962085B75600DF043C /* ExtendImageViewController.swift */,
+				9D21B30920DADFD6009250B9 /* ListViewController.swift */,
+				9D21B30820DADFD6009250B9 /* UserListViewController.swift */,
 			);
 			path = restView;
 			sourceTree = "<group>";
@@ -574,7 +592,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "박주영";
 				TargetAttributes = {
 					3A76C18C20046761004253CF = {
@@ -650,6 +668,7 @@
 				1883949A20779E7800945460 /* CommentTableViewCell.xib in Resources */,
 				1864CCE320491DEA007228E8 /* Man.png in Resources */,
 				18AA513E205BD58D003A93AD /* map_present_direction.png in Resources */,
+				9D21B31320DAE019009250B9 /* CollectionViewCell1.xib in Resources */,
 				18AA512B205BD58D003A93AD /* daum_copyright.png in Resources */,
 				18839496207765A900945460 /* edit.png in Resources */,
 				18612E8B2080C92F0033B9BD /* exception.png in Resources */,
@@ -657,8 +676,9 @@
 				1864CCDD20491A55007228E8 /* UnKnown.png in Resources */,
 				186850572031682C00BF50C4 /* searchBar.png in Resources */,
 				181C14AB2053F92B00BCA077 /* Next.png in Resources */,
-				181C14AE2054050400BCA077 /* PostView.xib in Resources */,
+				9D21B31520DAE0A2009250B9 /* PostView.xib in Resources */,
 				18AA5142205BD58D003A93AD /* point_sprite.png in Resources */,
+				9D21B30E20DADFF7009250B9 /* UserTableViewCell.xib in Resources */,
 				184457FC2094692E0067A7F8 /* camera.png in Resources */,
 				18AA5135205BD58D003A93AD /* map_pin_red@3x.png in Resources */,
 				18AA5137205BD58D003A93AD /* map_pin_shadow@3x.png in Resources */,
@@ -768,11 +788,13 @@
 				1874E5B42032D2EA00D94576 /* ADVSegmentedControl.swift in Sources */,
 				1865576A203AB8DC00831EAF /* SubSearchViewController.swift in Sources */,
 				18777FFE204AC8AC004EE278 /* ProFileIntrodutionTableViewCell.swift in Sources */,
+				9D21B31220DAE019009250B9 /* CollectionViewCell1.swift in Sources */,
 				04AD8E0F202C2B8E00FD1733 /* PostHeaderCell.swift in Sources */,
 				186FDFEF2005E60D007A454C /* LoginViewController.swift in Sources */,
 				186FDFF32005E6B7007A454C /* Variable.swift in Sources */,
 				1877A38D2063C8AE007F2614 /* AccurateLocationMapViewController.swift in Sources */,
 				18777FF7204AC287004EE278 /* ProFileEditViewController.swift in Sources */,
+				9D21B30F20DADFF7009250B9 /* UserTableViewCell.swift in Sources */,
 				3AA85BE4200738D500BAB348 /* SearchViewController.swift in Sources */,
 				18AA5149205BD714003A93AD /* objcClass.m in Sources */,
 				18A88818203E8B9C004E4814 /* PostCollectionViewCell.swift in Sources */,
@@ -784,6 +806,7 @@
 				186FDFF12005E61D007A454C /* CreateUserViewController.swift in Sources */,
 				3A76C19320046761004253CF /* ViewController.swift in Sources */,
 				1865D5FA207FD45B00923EA5 /* SinglePostViewController.swift in Sources */,
+				9D21B30B20DADFD6009250B9 /* ListViewController.swift in Sources */,
 				186660972085B75600DF043C /* ExtendImageViewController.swift in Sources */,
 				3AA85BEA2007390500BAB348 /* ProfileViewController.swift in Sources */,
 				185CAAD3205ECAFA00AE138D /* UserProFileViewController.swift in Sources */,
@@ -803,6 +826,7 @@
 				185EECDC2058FED100B3826E /* PostTableViewController.swift in Sources */,
 				186348C120527A7500188D6C /* PostView.swift in Sources */,
 				189E1BC320821C100078A299 /* HashTagViewController.swift in Sources */,
+				9D21B30A20DADFD6009250B9 /* UserListViewController.swift in Sources */,
 				04AD8E13202C2BA200FD1733 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -843,6 +867,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -850,6 +875,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -900,6 +926,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -907,6 +934,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -942,6 +970,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NF58AE9U4V;
 				ENABLE_BITCODE = NO;
@@ -954,10 +983,10 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = apple.Sharegram;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "Sharegram-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
-				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -968,6 +997,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NF58AE9U4V;
 				ENABLE_BITCODE = NO;
@@ -980,9 +1010,9 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = apple.Sharegram;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "Sharegram-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
-				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

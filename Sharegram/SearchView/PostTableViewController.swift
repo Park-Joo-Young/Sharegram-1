@@ -13,7 +13,7 @@ import SnapKit
 import CDAlertView
 import CoreLocation
 
-class PostTableViewController: UITableViewController { //댓글창과 지도를 보이기 위함.
+class PostTableViewController: UITableViewController, GetUserName { //댓글창과 지도를 보이기 위함.
     var Posts = Post()
     var PostImageView = UIImageView()
     var button = UIButton()
@@ -32,6 +32,8 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
     var ref : DatabaseReference?
     var DistanceArray : [[String : String]] = []
     var PostLocation = CLLocation()
+    var result : [[String : String]] = []
+    var strr : String = ""
     
     override func viewWillAppear(_ animated: Bool) {
         ref = Database.database().reference()
@@ -99,15 +101,15 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
         CommentView.backgroundColor = UIColor.white
         
         CommentProfileImage.snp.makeConstraints { (make) in
-            make.width.equalTo(CommentView.bounds.width/5)
-            make.height.equalTo(CommentView.bounds.height/1.3)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
             make.centerY.equalTo(CommentView)
         }
-        CommentProfileImage.layer.cornerRadius = 20
-        CommentProfileImage.sizeToFit()
+        CommentProfileImage.frame.size = CGSize(width: 50, height: 50)
+        CommentProfileImage.layer.cornerRadius = CommentProfileImage.frame.size.height / 2.0
+        CommentProfileImage.layer.masksToBounds = false
         CommentProfileImage.clipsToBounds = true
-        CommentProfileImage.layer.borderWidth = 1.0
-        CommentProfileImage.layer.borderColor = UIColor.white.cgColor
+        CommentProfileImage.contentMode = .scaleToFill
         CommentTextfield.snp.makeConstraints { (make) in
             make.width.equalTo(CommentView.bounds.width/1.6)
             make.height.equalTo(CommentView.bounds.height/2.5)
@@ -178,9 +180,16 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
             if dic["Type"] == "Comment" {
                 print(dic)
                 let cell = Bundle.main.loadNibNamed("CommentTableViewCell", owner: self, options: nil)?.first as! CommentTableViewCell
-                cell.ProFileImage.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
-                cell.ProFileImage.layer.cornerRadius = 15.0
+                cell.ProFileImage.frame.size = CGSize(width: 50, height: 50)
+                if dic["ProFileImage"] != nil {
+                    cell.ProFileImage.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
+                } else {
+                    cell.ProFileImage.image = UIImage(named: "profile.png")
+                }
+                cell.ProFileImage.layer.masksToBounds = false
+                cell.ProFileImage.layer.cornerRadius = cell.ProFileImage.frame.size.height / 2.0
                 cell.ProFileImage.clipsToBounds = true
+                cell.ProFileImage.contentMode = .scaleToFill
                 cell.Comment.text = "\(dic["Author"]!) \(dic["Comment"]!)"
                 cell.Comment.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
                 cell.Comment.numberOfLines = 0
@@ -206,9 +215,16 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
                 return cell
             } else {
                 let cell = Bundle.main.loadNibNamed("CommentReplyTableViewCell", owner: self, options: nil)?.first as! CommentReplyTableViewCell
-                cell.ProFileImage.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
-                cell.ProFileImage.layer.cornerRadius = 15.0
+                cell.ProFileImage.frame.size = CGSize(width: 50, height: 50)
+                if dic["ProFileImage"] != nil {
+                    cell.ProFileImage.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
+                } else {
+                    cell.ProFileImage.image = UIImage(named: "profile.png")
+                }
+                cell.ProFileImage.layer.masksToBounds = false
+                cell.ProFileImage.layer.cornerRadius = cell.ProFileImage.frame.size.height / 2.0
                 cell.ProFileImage.clipsToBounds = true
+                cell.ProFileImage.contentMode = .scaleToFill
                 cell.Comment.text = "\(dic["Author"]!) \(dic["Reply"]!)"
                 cell.Comment.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
                 cell.Comment.numberOfLines = 0
@@ -233,25 +249,42 @@ class PostTableViewController: UITableViewController { //댓글창과 지도를 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
+ 
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            let dic = self.CommentList[indexPath.row]
+            
+            ref?.child("Comment").child(dic["PostKey"]!).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                if let item = snapshot.value as? [String : AnyObject] {
+                    for (key, _) in item {
+                        if key == dic["CommentKey"] { //똑같은 댓글을 찾았다. 삭제
+                            print("삭제 됐는데[?")
+                            self.ref?.child("Comment/\(dic["PostKey"]!)/\(key)").removeValue()
+                            self.CommentList.remove(at: indexPath.row)
+                            tableView.deleteRows(at: [indexPath], with: .fade)
+                            print("삭제 됐는데[?")
+                        }
+                    }
+                }
+                
+                self.FetchComment()
+            })
+            ref?.removeAllObservers()
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+ 
 
     /*
     // Override to support rearranging the table view.
@@ -303,7 +336,46 @@ extension PostTableViewController : MTMapViewDelegate, UINavigationControllerDel
         return true
     }
 }
-extension PostTableViewController {
+extension PostTableViewController : UIPopoverPresentationControllerDelegate {
+    func getName(_ name: String) {
+        let item = self.CommentTextfield.text!.components(separatedBy: "@")
+        let trim = self.CommentTextfield.text!.replacingOccurrences(of: item.last!, with: "", options: .caseInsensitive, range: nil)
+        self.CommentTextfield.text = trim + name + " "
+    }
+    func MentionTable() {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "UserList") as! UserListViewController
+        vc.modalPresentationStyle = .popover
+        vc.preferredContentSize = CGSize(width: CommonVariable.screenWidth, height: 200)
+        vc.delegate = self
+        vc.List = self.result
+        let popover = vc.popoverPresentationController!
+        popover.delegate = self
+        popover.permittedArrowDirections = .down
+        popover.sourceView = CommentView
+        popover.sourceRect = CommentView.bounds
+        self.present(vc, animated: true, completion: nil)
+    }
+    func observerUser(_ str : String) {
+        self.result.removeAll()
+        ref?.child("User").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if let item = snapshot.value as? [String : AnyObject] {
+                for(_, value) in item {
+                    if let user = value["UserProfile"] as? [String : String] {
+                        if user["사용자 명"]!.contains(str) {
+                            self.result.append(user)
+                            continue
+                        }
+                    }
+                }
+            }
+            if self.result.count != 0 {
+                self.MentionTable()
+            }
+            
+        })
+        ref?.removeAllObservers()
+    }
     func FetchComment() { // 댓글 가져오기
         self.CommentList.removeAll()
         ref?.child("Comment").child(self.Posts.PostId!).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
@@ -362,10 +434,8 @@ extension PostTableViewController {
         let write = CDAlertViewAction(title: "작성", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white) { (action) in
             let ReplyArray = ["Author" : self.CommentName, "Date" : Date, "ReplyKey" : key, "Type" : "Reply", "ProFileImage" : self.Profileimage, "Reply" : alert.textFieldText!, "PostKey" : self.Posts.PostId!]
             self.ref?.child("Comment").child(self.Posts.PostId!).child(self.CommentList[tag]["CommentKey"]!).child("Reply").updateChildValues([key : ReplyArray])
-            return
         }
         let cancel = CDAlertViewAction(title: "취소", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white) { (action) in
-            return
         }
         alert.add(action: write)
         alert.add(action: cancel)
@@ -379,7 +449,12 @@ extension PostTableViewController {
                 self.CommentProfileImage.image = UIImage(named: "Man.png")
             } else {
                 if let item = snapshot.value as? [String : String] {
-                    self.CommentProfileImage.sd_setImage(with: URL(string: item["ProFileImage"]!), completed: nil)
+                    if item["ProFileImage"] != nil {
+                        self.CommentProfileImage.sd_setImage(with: URL(string: item["ProFileImage"]!), completed: nil)
+                        
+                    } else {
+                        self.CommentProfileImage.image = UIImage(named: "profile.png")
+                    }
                     self.Profileimage = item["ProFileImage"]!
                     self.CommentName = item["사용자 명"]!
                 }
@@ -389,4 +464,21 @@ extension PostTableViewController {
     }
     
 }
-
+extension PostTableViewController : UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField.tag == 0 {
+            print("들어옴")
+            strr = self.CommentTextfield.text! //현재 쓰는 댓글의 텍스트 바당와서
+            let mentionitems = strr.components(separatedBy: "@")
+            if mentionitems.count > 1 {
+                self.observerUser(mentionitems.last!)
+                print(mentionitems.last!)
+            }
+        }
+        if (string == "\n") {
+            textField.endEditing(true)
+            return false
+        }
+        return true
+    }
+}

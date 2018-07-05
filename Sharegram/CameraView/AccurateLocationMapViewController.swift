@@ -17,10 +17,7 @@ class AccurateLocationMapViewController: UIViewController {
     var delegate : GetAccurateLocation?
     var item = [MTMapPOIItem]()
     var location : CLLocation!
-    override func viewWillAppear(_ animated: Bool) {
-        
-
-    }
+    var locationManager = CLLocationManager()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(MapView)
@@ -38,6 +35,17 @@ class AccurateLocationMapViewController: UIViewController {
         MapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: object.lat, longitude: object.lon)), zoomLevel: 3, animated: false) //맵 중심을 이전에 사진찍었던거에서 잡고
         self.item.append(poiItem(latitude: object.lat, longitude: object.lon))
         self.MapView.addPOIItems(self.item)
+        if object.lat == 0.0 { //위치가 없는 게시물이면 현재 위치 받아옴
+            print("가자!")
+            if CLLocationManager.locationServicesEnabled() {
+                locationManager.delegate = self
+                locationManager.distanceFilter = 200.0
+                locationManager.requestWhenInUseAuthorization()
+                locationManager.desiredAccuracy = kCLLocationAccuracyBest
+                locationManager.startUpdatingLocation()
+            }
+            
+        }
         // Do any additional setup after loading the view.
     }
 
@@ -74,12 +82,11 @@ extension AccurateLocationMapViewController {
             }
             address = addrList.joined(separator: " ")
             let alertview = CDAlertView(title: address, message: "이 위치가 맞으십니까?", type: CDAlertViewType.notification)
-            let OKAction = CDAlertViewAction(title: "Ok", font: UIFont(name: "BM DoHyeon OTF", size : 16)!, textColor: UIColor.black, backgroundColor: UIColor.clear, handler: { (action) in
+            let OKAction = CDAlertViewAction(title: "Ok", font: UIFont(name: "BM DoHyeon OTF", size : 16)!, textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
                 self.delegate?.getLocation(self.location.coordinate.latitude, self.location.coordinate.longitude)
                 self.navigationController?.popViewController(animated: true) //이전 화면으로 돌아간다 위치와 함께
             })
-            let Cancel = CDAlertViewAction(title: "Ok", font: UIFont(name: "BM DoHyeon OTF", size : 16)!, textColor: UIColor.black, backgroundColor: UIColor.clear, handler: { (action) in
-                return
+            let Cancel = CDAlertViewAction(title: "Cancel", font: UIFont(name: "BM DoHyeon OTF", size : 16)!, textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
             })
             alertview.add(action: OKAction)
             alertview.add(action: Cancel)
@@ -106,5 +113,23 @@ extension AccurateLocationMapViewController : MTMapViewDelegate {
         item.showAnimationType = .noAnimation
         item.customImageAnchorPointOffset = .init(offsetX: 30, offsetY: 0)    // 마커 위치 조정
         return item
+    }
+}
+extension AccurateLocationMapViewController : CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        //위치가 업데이트될때마다
+        let location1 = locations.last! as CLLocation
+        print(location1)
+        location = CLLocation(latitude: location1.coordinate.latitude, longitude: location1.coordinate.longitude)
+        self.item.append(poiItem(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude))
+        MapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)), zoomLevel: 3, animated: false) //맵 중심을 이전에 사진찍었던거에서 잡고
+        print(self.item)
+        self.MapView.addPOIItems(self.item)
+        locationManager.stopUpdatingLocation()
+    }
+    func isAuthorizedtoGetUserLocation() {
+        if CLLocationManager.authorizationStatus() != .authorizedWhenInUse {
+            locationManager.requestWhenInUseAuthorization()
+        }
     }
 }

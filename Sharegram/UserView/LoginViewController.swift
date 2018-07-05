@@ -38,6 +38,7 @@ class LoginViewController: UIViewController {
         }
         let attr = NSDictionary(object: UIFont(name: "BM DoHyeon OTF", size : 15)!, forKey: NSAttributedStringKey.font as NSCopying)
         segment.setTitleTextAttributes(attr as? [NSAttributedStringKey : Any], for: .normal)
+        segment.tintColor = UIColor.black
         
         EmailText.snp.makeConstraints({ (make) in
             make.width.equalTo(CommonVariable.screenWidth/1.5)

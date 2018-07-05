@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import SnapKit
 import ScrollableSegmentedControl
+import CoreLocation
 
 class UserProFileViewController: UIViewController { //다른 사람이 사람을 검색하거나 눌러서 들어올 때
 
@@ -25,7 +26,10 @@ class UserProFileViewController: UIViewController { //다른 사람이 사람을
     var profileimage : String = ""
     var Hash : [AnyToken]!
     var captionText : [String] = []
-    
+    var FollowerList : [String ] = []
+    var FollowingList : [String] = []
+    var UserName : String = ""
+    var TagPost = [Post]()
     override func viewWillAppear(_ animated: Bool) {
         
         //self.navigationController?.isNavigationBarHidden = true
@@ -34,7 +38,14 @@ class UserProFileViewController: UIViewController { //다른 사람이 사람을
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
+        navi.snp.makeConstraints { (make) in
+            make.top.equalTo(self.view).offset(10)
+            make.left.equalTo(self.view)
+            make.right.equalTo(self.view)
+        }
         FetchPost()
+        
         profileview = Bundle.main.loadNibNamed("ProFileView", owner: self, options: nil)?.first as! ProFileView
         self.view.addSubview(profileview)
         profileview.snp.makeConstraints { (make) in
@@ -45,7 +56,7 @@ class UserProFileViewController: UIViewController { //다른 사람이 사람을
             make.right.equalTo(self.view)
             make.top.equalTo(self.view).offset(70)
         }
-        profileview.ProFileImage.frame.size = CGSize(width: 100, height: 100)
+        profileview.ProFileImage.frame.size = CGSize(width: 70, height: 70)
         profileview.ProFileImage.layer.borderWidth = 1.0
         profileview.ProFileImage.layer.masksToBounds = false
         profileview.ProFileImage.layer.cornerRadius = self.profileview.ProFileImage.frame.size.height / 2.0
@@ -54,9 +65,16 @@ class UserProFileViewController: UIViewController { //다른 사람이 사람을
         profileview.FollowerCount.snp.makeConstraints { (make) in
             make.left.equalTo(profileview.ProFileImage.snp.right).offset(70)
         }
+        let followerTap = UITapGestureRecognizer(target: self, action: #selector(clickFollower))
+        let followingTap = UITapGestureRecognizer(target: self, action: #selector(clickFollowing))
         profileview.FollowerCount.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+        profileview.FollowerCount.isUserInteractionEnabled = true
+        profileview.FollowerCount.addGestureRecognizer(followerTap)
         profileview.FollowerLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+        
         profileview.FollowingCount.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+        profileview.FollowingCount.isUserInteractionEnabled = true
+        profileview.FollowingCount.addGestureRecognizer(followingTap)
         profileview.FollowingLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
         
         profileview.ProFileEditBut.setTitle("팔로잉", for: .normal)
@@ -100,6 +118,28 @@ class UserProFileViewController: UIViewController { //다른 사람이 사람을
 
 }
 extension UserProFileViewController {
+    @objc func clickFollower() {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "List") as! ListViewController
+        vc.modalPresentationStyle = .overCurrentContext
+        //vc.modalTransitionStyle = .crossDissolve
+        vc.List = self.FollowerList
+        if self.FollowerList.count == 0 {
+            return
+        } else {
+            present(vc, animated: true, completion: nil)
+        }
+    }
+    @objc func clickFollowing() {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "List") as! ListViewController
+        vc.modalPresentationStyle = .overCurrentContext
+        //vc.modalTransitionStyle = .crossDissolve
+        vc.List = self.FollowingList
+        if self.FollowingList.count == 0 {
+            return
+        } else {
+           present(vc, animated: true, completion: nil)
+        }
+    }
     @objc func CommentView(_ sender : UIButton) {
         
         let tag = sender.tag
@@ -122,7 +162,6 @@ extension UserProFileViewController {
         present(alert, animated: true, completion: nil)
     }
     func PostReport(_ index : Int) { //게시물 신고
-        let bool : Bool = false
         let key = (ref?.child("WholePosts").childByAutoId().key)!
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 15)!]), forKey: "attributedTitle")
@@ -155,54 +194,84 @@ extension UserProFileViewController {
     }
 
     @objc func likePressed(_ sender : UIButton) { //좋아요 눌렀을 때
-        let key = ref?.child("HashTagPosts").childByAutoId().key
+        let key = ref?.child("WholePosts").childByAutoId().key
         let dic = [key! : (Auth.auth().currentUser?.uid)!]
-        ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).child("LikePeople").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).child("LikePeople").observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.value is NSNull { //첫 좋아요면 무조건 저장
+                
                 self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).child("LikePeople").setValue(dic)
-                sender.setImage(UIImage(named: "like.png"), for: .normal)
+                
                 self.Hash = self.captionText[sender.tag]._tokens(from: HashtagTokenizer())
-                self.HashTagPostLike(self.Hash, 1, sender.tag)
+                if self.Hash.isEmpty {
+                    self.FetchPost()
+                    sender.setImage(UIImage(named: "like.png"), for: .normal)
+                    return
+                } else { //해쉬태그까지 있으면
+                    self.HashTagPostLike(self.Hash, 0, sender.tag)
+                    sender.setImage(UIImage(named: "like.png"), for: .normal)
+                    return
+                }
             } else { //좋아요가 하나라도 존재 할 시
+                
                 if let item = snapshot.value as? [String : String] {
-                    for (key, value) in item {
-                        if value == (Auth.auth().currentUser?.uid)! { //좋아요 취소
-                            self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).child("LikePeople/\(key)").removeValue() // WholePosts 데이터 삭제
-                            sender.setImage(UIImage(named: "unlike.png"), for: .normal)
-                            if self.Hash != nil {
+                    print(item)
+                    for (key1, value) in item {
+                        print(value)
+                        print(self.UserKey)
+                        if value == self.UserKey { //좋아요 취소
+                            print(key1)
+                            self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).child("LikePeople/\(key1)").removeValue() // WholePosts 데이터 삭제
+                            self.Hash = self.captionText[sender.tag]._tokens(from: HashtagTokenizer())
+                            if self.Hash.isEmpty {
+                                self.FetchPost()
+                                sender.setImage(UIImage(named: "unlike.png"), for: .normal)
+                                return
+                            } else { //해쉬태그까지 있으면
                                 self.HashTagPostLike(self.Hash, 0, sender.tag)
+                                sender.setImage(UIImage(named: "unlike.png"), for: .normal)
+                                return
                             }
                         } else { //버튼을 누른 사용자의 데이터가 없다. 즉, 이 글 좋아요
-                            self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).child("LikePeople").setValue(dic)
-                            sender.setImage(UIImage(named: "like.png"), for: .normal)
-                            self.Hash = self.captionText[sender.tag]._tokens(from: HashtagTokenizer())
-                            if self.Hash != nil {
-                                self.HashTagPostLike(self.Hash, 1, sender.tag)
-                            }
-                            
+                            continue
                         }
+                    } //다 검사하고 나왔는데도 안에 값이 없으면 ! 좋아요
+                    self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).child("LikePeople").updateChildValues(dic)
+                    self.Hash = self.captionText[sender.tag]._tokens(from: HashtagTokenizer())
+                    if self.Hash.isEmpty {
+                        self.FetchPost()
+                        sender.setImage(UIImage(named: "like.png"), for: .normal)
+                        return
+                    } else { //해쉬태그까지 있으면
+                        self.HashTagPostLike(self.Hash, 0, sender.tag)
+                        sender.setImage(UIImage(named: "like.png"), for: .normal)
+                        return
                     }
                 }
             }
         })
         ref?.removeAllObservers()
+        
     }
     func HashTagPostLike(_ Token : [AnyToken], _ index : Int, _ tag : Int) {
         for i in 0..<Token.count {
             let str = Token[i].text.replacingOccurrences(of: "#", with: "")
             let key = ref?.child("HashTagPosts").childByAutoId().key
             if index == 1 { // 저장
-                ref?.child("HashTagPosts").child(str).child("Posts").observe(.childAdded, with: { (snapshot) in
-                    if let item = snapshot.value as? [String : String] {
-                        
-                        if self.UserPost[tag].PostId! == item["postID"] {
-                            let dic = [key! : (Auth.auth().currentUser?.uid)!]
-                            print(snapshot.key)
-                            self.ref?.child("HashTagPosts").child(str).child("Posts").child(snapshot.key).child("LikePeople").setValue(dic)
-                            
+                ref?.child("HashTagPosts").child(str).child("Posts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                    if let item = snapshot.value as? [String : AnyObject] {
+                        for(_, value) in item {
+                            if self.UserPost[tag].PostId! == value["postID"] as? String {
+                                let dic = [key! : (Auth.auth().currentUser?.uid)!]
+                                print(snapshot.key)
+                                self.ref?.child("HashTagPosts").child(str).child("Posts").child((value["postID"] as? String)!).child("LikePeople").setValue(dic)
+                            }
                         }
+                        
                     }
+                    self.FetchPost()
                 })
+                
                 ref?.removeAllObservers()
             } else { // 데이터 삭제
                 ref?.child("HashTagPosts").child(str).child("Posts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
@@ -228,6 +297,7 @@ extension UserProFileViewController {
                             }
                         }
                     }
+                    self.FetchPost()
                 })
                 ref?.removeAllObservers()
             }
@@ -243,6 +313,9 @@ extension UserProFileViewController {
         }
     }
     func fetchUser() {
+        self.FollowerList.removeAll()
+        self.FollowingList.removeAll()
+        
         ref?.child("User").child(self.UserKey).child("UserProfile").observe(.value, with: { (snapshot) in
             if let item = snapshot.value as? [String : String] {
                 if item["ProFileImage"] != nil {
@@ -258,6 +331,11 @@ extension UserProFileViewController {
             if snapshot.value is NSNull {
                 self.profileview.FollowerCount.text = "0"
             } else {
+                if let item = snapshot.value as? [String : String] {
+                    for(_, value) in item {
+                        self.FollowerList.append(value)
+                    }
+                }
                 self.profileview.FollowerCount.text = "\(snapshot.childrenCount)"
             }
         })
@@ -267,6 +345,11 @@ extension UserProFileViewController {
             if snapshot.value is NSNull {
                 self.profileview.FollowingCount.text = "0"
             } else {
+                if let item = snapshot.value as? [String : String] {
+                    for(_, value) in item {
+                        self.FollowingList.append(value)
+                    }
+                }
                 self.profileview.FollowingCount.text = "\(snapshot.childrenCount)"
             }
         })
@@ -274,6 +357,7 @@ extension UserProFileViewController {
     }
     func FetchPost() {
         fetchUser()
+        print("앙?")
         self.UserPost.removeAll()
         ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if let item = snapshot.value as? [String : AnyObject] {
@@ -283,6 +367,7 @@ extension UserProFileViewController {
                         
                         if ID == self.UserKey { // 그 당사자의 아이디와 일치하는 게시물들만 포스트에 넣기
                             if value["latitude"] as? String == nil { //위치가 없으면
+                                //self.countLike(postID)
                                 post.caption = Description
                                 post.Id = ID
                                 post.image = image
@@ -293,8 +378,18 @@ extension UserProFileViewController {
                                 post.timeAgo = Date
                                 post.timeInterval = 0
                                 post.userprofileimage = self.profileimage
+                                if let people = value["LikePeople"] as? [String : AnyObject] { //좋아요 누른 인간까지 같이 따기
+                                    for (_, user) in people {
+                                        post.PeopleWhoLike.append(user as! String)
+                                    }
+                                }
+                                if Description.contains(Author) { //내이름이 포함된 게시물이 있따! 즉 태그
+                                    self.TagPost.append(post)
+                                    print("??시발")
+                                }
                                 self.UserPost.append(post)
                             } else {
+                                //self.countLike(postID)
                                 post.caption = Description
                                 post.Id = ID
                                 post.image = image
@@ -307,15 +402,88 @@ extension UserProFileViewController {
                                 post.timeAgo = Date
                                 post.timeInterval = 0
                                 post.userprofileimage = self.profileimage
+                                if let people = value["LikePeople"] as? [String : AnyObject] { //좋아요 누른 인간까지 같이 따기
+                                    for (_, user) in people {
+                                        post.PeopleWhoLike.append(user as! String)
+                                    }
+                                }
+                                if Description.contains(Author) { //내이름이 포함된 게시물이 있따! 즉 태그
+                                    self.TagPost.append(post)
+                                    print("??시발")
+                                }
                                 self.UserPost.append(post)
                             }
                         }
                     }
                 }
-                self.profileview.MyFostCollectionView.reloadData()
+                
             }
+            if self.UserPost.count != 0 {
+               self.DateFetch()
+            }
+            self.navi.topItem?.title = self.UserName
+            self.navi.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
+            self.navigationItem.title = self.UserName
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIFont(name: "BM DoHyeon OTF", size : 17)!]
         })
-     }
+        ref?.removeAllObservers()
+        
+    }
+    func DateSort() { //날짜 순 정렬 구조체 반환 함수
+        for i in (1..<self.UserPost.count).reversed() {
+            for j in 0..<i {
+                if self.UserPost[j].timeInterval! < self.UserPost[j+1].timeInterval! { //맨 앞값이 작으면 가장 최근 포스트이기에
+                    print("제일 작다는디?")
+                    continue
+                }
+                else if self.UserPost[j].timeInterval! > self.UserPost[j+1].timeInterval! { //뒤에 값이 작으면
+                    let postTemp = self.UserPost[j]
+                    self.UserPost[j] = self.UserPost[j+1]
+                    self.UserPost[j+1] = postTemp
+                }
+            }
+        }
+        self.profileview.MyFostCollectionView.reloadData()
+        return
+    }
+    func DateFetch() { // 날짜 따오기
+        let date = Date()
+        let format = DateFormatter()
+        TimeZone.ReferenceType.default = TimeZone(abbreviation: "KST")!
+        format.dateFormat = "yyyy-MM-dd"
+        format.timeZone = TimeZone.ReferenceType.default
+        CommonVariable.formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        CommonVariable.formatter.locale = Locale(identifier: "ko_kr")
+        //CommonVariable.formatter.timeZone = TimeZone.init(abbreviation: "KST")
+        for i in 0..<self.UserPost.count {
+            let Date = format.string(from: date)
+            let caption = self.UserPost[i].timeAgo!.components(separatedBy: " ").map{ String($0) }
+            let StartDate = format.date(from: Date)!.addingTimeInterval(32400)
+            let endDate = format.date(from: caption[0])!.addingTimeInterval(32400) //게시물 작성한 날짜 일자로 계산
+            let interval = StartDate.timeIntervalSince(endDate)
+            if interval < 1 { // 하루 미만이면
+                let start = CommonVariable.formatter.date(from: CommonVariable.formatter.string(from: date))!.addingTimeInterval(32400)
+                let end = CommonVariable.formatter.date(from: self.UserPost[i].timeAgo!)!.addingTimeInterval(32400)
+                let subinterval = Int(start.timeIntervalSince(end) / 60.0) //분 단위 계산
+                self.UserPost[i].timeInterval = Int(subinterval * 60) // 초 차이
+                print(subinterval)
+                if subinterval > 60 { // 1시간 이상
+                    self.UserPost[i].timeAgo = "\(Int(subinterval / 60))시간 전"
+                } else if subinterval < 60 {
+                    self.UserPost[i].timeAgo = "\(subinterval)분 전"
+                } else if subinterval == 0 {
+                    self.UserPost[i].timeAgo = "방금 전"
+                }
+                //print(interval)
+                continue
+            }
+            self.UserPost[i].timeInterval = Int(interval)
+        }
+        if self.UserPost.count != 0 {
+            DateSort()
+        }
+        return
+    }
     @objc func Following() { //팔로잉 합시다.
         let AutoKey = ref?.child("User").childByAutoId().key
         ref?.child("User").child(UserKey).child("Follower").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
@@ -378,6 +546,20 @@ extension UserProFileViewController {
             }
         })
     }
+    @objc func imageTap(_ sender : UITapGestureRecognizer) {
+        if self.UserPost[(sender.view?.tag)!].lat == 0 {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ExtendImage") as! ExtendImageViewController
+            vc.image = self.UserPost[(sender.view?.tag)!].image!
+            vc.modalTransitionStyle = .crossDissolve
+            present(vc, animated: true, completion: nil)
+        } else { //위치 있으면
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "DistanceView") as! DistanceViewController
+            vc.PostLocation = CLLocation(latitude: self.UserPost[(sender.view?.tag)!].lat!, longitude: self.UserPost[(sender.view?.tag)!].lon!)
+            vc.modalPresentationStyle = .overCurrentContext
+            vc.distance = 250.0
+            present(vc, animated: true, completion: nil)
+        }
+    }
 }
 extension UserProFileViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -394,26 +576,49 @@ extension UserProFileViewController : UICollectionViewDelegate, UICollectionView
         } else if profileview.Segment.selectedSegmentIndex == 1 { //싱글포스트
             let cell = self.profileview.MyFostCollectionView.dequeueReusableCell(withReuseIdentifier: "Postcell", for: indexPath) as! PostCollectionViewCell
             cell.ProFileImage.frame.size = CGSize(width: 50, height: 50)
+            if dic.userprofileimage != "" { //프로필 이미지가 있으면
+                cell.ProFileImage.sd_setImage(with: URL(string: dic.userprofileimage!), completed: nil)
+            } else {
+                cell.ProFileImage.image = UIImage(named: "profile.png")
+            }
             cell.ProFileImage.layer.borderWidth = 1.0
             cell.ProFileImage.layer.masksToBounds = false
             cell.ProFileImage.layer.cornerRadius = cell.ProFileImage.frame.size.height / 2.0
             cell.ProFileImage.clipsToBounds = true
             cell.ProFileImage.contentMode = .scaleToFill
-            cell.ProFileImage.sd_setImage(with: URL(string: dic.userprofileimage!), completed: nil)
+            //cell.ProFileImage.sd_setImage(with: URL(string: dic.userprofileimage!), completed: nil)
             cell.Caption.text = "\(dic.username!) : \(dic.caption!)"
             cell.Caption.enabledTypes = [.hashtag, .mention, .url]
             cell.Caption.numberOfLines = 0
             cell.Caption.sizeToFit()
+            cell.Caption.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+            self.captionText.append(dic.caption!)
             cell.PostImage.sd_setImage(with: URL(string: dic.image!), completed: nil)
-            cell.LikeCountLabel.text = "0"
+            cell.PostImage.isUserInteractionEnabled = true
+            cell.PostImage.tag = indexPath.row
+            let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap(_:)))
+            cell.PostImage.addGestureRecognizer(tap)
+            cell.LikeCountLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             cell.TimeLabel.text = dic.timeAgo
+            cell.TimeLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+            cell.TimeLabel.textColor = UIColor.lightGray
             cell.UserName.text = dic.username!
+            cell.UserName.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+            cell.ExceptionBut.tag = indexPath.row
+            cell.ExceptionBut.addTarget(self, action: #selector(ExceptionMenu), for: .touchUpInside)
             cell.LikeBut.tag = indexPath.row
             cell.LikeBut.addTarget(self, action: #selector(likePressed(_:)), for: .touchUpInside)
             cell.CommnetBut.tag = indexPath.row
             cell.CommnetBut.addTarget(self, action: #selector(CommentView(_:)), for: .touchUpInside)
-            cell.ExceptionBut.tag = indexPath.row
-            cell.ExceptionBut.addTarget(self, action: #selector(ExceptionMenu(_:)), for: .touchUpInside)
+            cell.LikeBut.setImage(UIImage(named: "unlike.png"), for: .normal)
+            for people in dic.PeopleWhoLike {
+                if people == self.UserKey {
+                    cell.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
+                    break
+                }
+            }
+            cell.LikeCountLabel.text = "좋아요 \(dic.PeopleWhoLike.count)개"
+            cell.LikeCountLabel.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             return cell
         } else { //2
             let cell = Bundle.main.loadNibNamed("CollectionViewCell", owner: self, options: nil)?.first as! CollectionViewCell
@@ -434,5 +639,14 @@ extension UserProFileViewController : UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1.0
     }
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if profileview.Segment.selectedSegmentIndex == 1 {
+            
+        } else {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "SinglePost") as! SinglePostViewController
+            vc.UserPost = self.UserPost[indexPath.row]
+            vc.modalTransitionStyle = .crossDissolve
+            present(vc, animated: true, completion: nil)
+        }
+    }
 }

@@ -23,8 +23,8 @@ class CommentTableViewCell: UITableViewCell {
         self.addSubview(Comment)
         ProFileImage.snp.makeConstraints { (make) in
             make.left.equalTo(self)
-            make.width.equalTo(self.bounds.width/5)
-            make.height.equalTo(self.bounds.height-20)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
             make.centerY.equalTo(self)
         }
         Comment.snp.makeConstraints { (make) in
