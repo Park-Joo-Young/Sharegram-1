@@ -270,6 +270,7 @@ extension ProfileViewController {
             let remove = CDAlertViewAction(title: "삭제", font: UIFont(name: "BM DoHyeon OTF", size : 15)!, textColor: UIColor.red, backgroundColor: UIColor.white, handler: { (action) in
                 self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).removeValue()
                 self.HashTagPostRemove(sender.tag)
+                return true
             })
             let cancel = CDAlertViewAction(title: "취소", font: UIFont(name: "BM DoHyeon OTF", size : 15)!, textColor: UIColor.black, backgroundColor: UIColor.white, handler: nil)
             confirm.add(action: remove)

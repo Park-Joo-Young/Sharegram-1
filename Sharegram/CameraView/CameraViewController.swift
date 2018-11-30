@@ -219,6 +219,7 @@ extension CameraViewController {
         let alertview = CDAlertView(title: "현재 위치는 \(convertToAddressWith(coordinate: location))", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
         let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.clear, handler: { (action) in
             self.performSegue(withIdentifier: "AccurateLocation", sender: self) //이전 화면으로 돌아간다 위치와 함께
+            return true
         })
         let Cancel = CDAlertViewAction(title: "Cancel")
         alertview.add(action: OKAction)
@@ -287,6 +288,7 @@ extension CameraViewController {
             let alertview = CDAlertView(title: "현재 위치는 \(self.address))", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
             let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
                 self.performSegue(withIdentifier: "AccurateLocation", sender: self) //위치를 찍으러 출발
+                return true
             })
             let Cancel = CDAlertViewAction(title: "Cancel", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in //그대로 괜찮으면 라이브러리에 exif데이터와 함께 위치 저장
                 PHPhotoLibrary.shared().performChanges({
@@ -294,6 +296,7 @@ extension CameraViewController {
                     let request = PHAssetChangeRequest.creationRequestForAsset(from: self.capture!)
                     request.location = self.location
                 }, completionHandler: nil)
+                return true
             })
             alertview.add(action: OKAction)
             alertview.add(action: Cancel)

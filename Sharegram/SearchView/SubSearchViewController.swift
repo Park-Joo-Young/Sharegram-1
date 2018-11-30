@@ -103,12 +103,12 @@ class SubSearchViewController: UIViewController {
         segment.backgroundColor = UIColor.white
         segment.selectedSegmentIndex = 0
         
-        let largerRedTextHighlightAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: UIColor.blue]
-        let largerRedTextSelectAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: UIColor.orange]
+        let largerRedTextHighlightAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.blue]
+        let largerRedTextSelectAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.orange]
         segment.setTitleTextAttributes(largerRedTextHighlightAttributes, for: .highlighted)
         segment.setTitleTextAttributes(largerRedTextSelectAttributes, for: .selected)
-        let attr = NSDictionary(object: UIFont(name: "BM DoHyeon OTF", size : 15)!, forKey: NSAttributedStringKey.font as NSCopying)
-        segment.setTitleTextAttributes(attr as? [NSAttributedStringKey : Any], for: .normal)
+        let attr = NSDictionary(object: UIFont(name: "BM DoHyeon OTF", size : 15)!, forKey: NSAttributedString.Key.font as NSCopying)
+        segment.setTitleTextAttributes(attr as? [NSAttributedString.Key : Any], for: .normal)
         //navi.topItem?.titleView = SearchController.searchBar
         
         //self.navigationItem.titleView = SearchController.sea rchBar

@@ -197,7 +197,7 @@ class PostTableViewController: UITableViewController, GetUserName { //댓글창�
                 cell.Comment.handleMentionTap { (mention) in
                     let alertview = CDAlertView(title: "현재 위치는 ", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
                     let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
-                        return
+                        return true
                     })
                     alertview.add(action: OKAction)
                     alertview.show()
@@ -232,7 +232,7 @@ class PostTableViewController: UITableViewController, GetUserName { //댓글창�
                 cell.Comment.handleMentionTap { (hashtag) in
                     let alertview = CDAlertView(title: "현재 위치는 ", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
                     let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
-                        return
+                        return true
                     })
                     alertview.add(action: OKAction)
                     alertview.show()
@@ -434,8 +434,10 @@ extension PostTableViewController : UIPopoverPresentationControllerDelegate {
         let write = CDAlertViewAction(title: "작성", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white) { (action) in
             let ReplyArray = ["Author" : self.CommentName, "Date" : Date, "ReplyKey" : key, "Type" : "Reply", "ProFileImage" : self.Profileimage, "Reply" : alert.textFieldText!, "PostKey" : self.Posts.PostId!]
             self.ref?.child("Comment").child(self.Posts.PostId!).child(self.CommentList[tag]["CommentKey"]!).child("Reply").updateChildValues([key : ReplyArray])
+            return true
         }
         let cancel = CDAlertViewAction(title: "취소", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white) { (action) in
+            return true
         }
         alert.add(action: write)
         alert.add(action: cancel)

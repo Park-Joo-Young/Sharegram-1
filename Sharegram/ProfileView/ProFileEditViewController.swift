@@ -43,6 +43,7 @@ class ProFileEditViewController: UIViewController {
     }
     @objc func CompleteEdit() {
         if capture != nil {
+            
             let uploadImage = UIImageJPEGRepresentation(capture, 0.9)!
             let metadata1 = StorageMetadata()
             metadata1.contentType = "image/jpeg"
@@ -51,9 +52,12 @@ class ProFileEditViewController: UIViewController {
                     print(error!.localizedDescription)
                     return
                 } else { //성공적으로 저장되면
-                    let str = metadata?.downloadURL()?.absoluteString
-                    self.ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("UserProfile").updateChildValues(["ProFileImage" : str!])
-                    self.navigationController?.popToRootViewController(animated: true)
+                    self.storageRef?.downloadURL(completion: { (url, error) in
+                        if let url = url {
+                            self.ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("UserProfile").updateChildValues(["ProFileImage" : url.absoluteString])
+                            self.navigationController?.popToRootViewController(animated: true)
+                        }
+                    })
                 }
             })
         }

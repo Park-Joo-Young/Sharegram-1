@@ -36,8 +36,8 @@ class LoginViewController: UIViewController {
             make.centerX.equalTo(su)
             make.top.equalTo(su).offset(100)
         }
-        let attr = NSDictionary(object: UIFont(name: "BM DoHyeon OTF", size : 15)!, forKey: NSAttributedStringKey.font as NSCopying)
-        segment.setTitleTextAttributes(attr as? [NSAttributedStringKey : Any], for: .normal)
+        let attr = NSDictionary(object: UIFont(name: "BM DoHyeon OTF", size : 15)!, forKey: NSAttributedString.Key.font as NSCopying)
+        segment.setTitleTextAttributes(attr as? [NSAttributedString.Key : Any], for: .normal)
         segment.tintColor = UIColor.black
         
         EmailText.snp.makeConstraints({ (make) in

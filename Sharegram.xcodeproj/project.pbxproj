@@ -50,7 +50,6 @@
 		18708F9C20853D1F008F6B8F /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18708F9A20853D1F008F6B8F /* CollectionViewCell.swift */; };
 		18708F9D20853D1F008F6B8F /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18708F9B20853D1F008F6B8F /* CollectionViewCell.xib */; };
 		18708F9F20854F6D008F6B8F /* ActivityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18708F9E20854F6D008F6B8F /* ActivityTableViewController.swift */; };
-		18708FA120855597008F6B8F /* HomePostCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18708FA020855597008F6B8F /* HomePostCollectionViewController.swift */; };
 		1874E5B42032D2EA00D94576 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1874E5B32032D2EA00D94576 /* ADVSegmentedControl.swift */; };
 		18757E71207A4831007E4A3D /* CommentReplyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18757E6F207A4831007E4A3D /* CommentReplyTableViewCell.swift */; };
 		18757E72207A4831007E4A3D /* CommentReplyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18757E70207A4831007E4A3D /* CommentReplyTableViewCell.xib */; };
@@ -76,7 +75,6 @@
 		18AA50F5205BCD8E003A93AD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18AA50F4205BCD8E003A93AD /* SystemConfiguration.framework */; };
 		18AA50F7205BCD98003A93AD /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18AA50F6205BCD98003A93AD /* CoreLocation.framework */; };
 		18AA50F9205BCD9F003A93AD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18AA50F8205BCD9F003A93AD /* QuartzCore.framework */; };
-		18AA50FB205BCDA6003A93AD /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18AA50FA205BCDA6003A93AD /* libstdc++.6.tbd */; };
 		18AA50FD205BCDAE003A93AD /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18AA50FC205BCDAE003A93AD /* libxml2.tbd */; };
 		18AA50FF205BCDB7003A93AD /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18AA50FE205BCDB6003A93AD /* libsqlite3.tbd */; };
 		18AA5129205BD58D003A93AD /* DaumMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18AA510C205BD58D003A93AD /* DaumMap.framework */; };
@@ -121,6 +119,7 @@
 		3AA85BE6200738E300BAB348 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BE5200738E300BAB348 /* CameraViewController.swift */; };
 		3AA85BE8200738F100BAB348 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BE7200738F100BAB348 /* ActivityViewController.swift */; };
 		3AA85BEA2007390500BAB348 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA85BE92007390500BAB348 /* ProfileViewController.swift */; };
+		9D06990221B1070E00FA6CAC /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D06990121B1070E00FA6CAC /* libc++.tbd */; };
 		9D21B30A20DADFD6009250B9 /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D21B30820DADFD6009250B9 /* UserListViewController.swift */; };
 		9D21B30B20DADFD6009250B9 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D21B30920DADFD6009250B9 /* ListViewController.swift */; };
 		9D21B30E20DADFF7009250B9 /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D21B30C20DADFF7009250B9 /* UserTableViewCell.xib */; };
@@ -176,7 +175,6 @@
 		18708F9A20853D1F008F6B8F /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		18708F9B20853D1F008F6B8F /* CollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
 		18708F9E20854F6D008F6B8F /* ActivityTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTableViewController.swift; sourceTree = "<group>"; };
-		18708FA020855597008F6B8F /* HomePostCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePostCollectionViewController.swift; sourceTree = "<group>"; };
 		1874E5B32032D2EA00D94576 /* ADVSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADVSegmentedControl.swift; sourceTree = "<group>"; };
 		18757E6F207A4831007E4A3D /* CommentReplyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentReplyTableViewCell.swift; sourceTree = "<group>"; };
 		18757E70207A4831007E4A3D /* CommentReplyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentReplyTableViewCell.xib; sourceTree = "<group>"; };
@@ -252,6 +250,7 @@
 		3AA85BE7200738F100BAB348 /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		3AA85BE92007390500BAB348 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		69C80C7A8F3875C069B9BA89 /* Pods_Sharegram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sharegram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D06990121B1070E00FA6CAC /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9D21B30820DADFD6009250B9 /* UserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		9D21B30920DADFD6009250B9 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		9D21B30C20DADFF7009250B9 /* UserTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewCell.xib; sourceTree = "<group>"; };
@@ -268,9 +267,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D06990221B1070E00FA6CAC /* libc++.tbd in Frameworks */,
 				18AA50FF205BCDB7003A93AD /* libsqlite3.tbd in Frameworks */,
 				18AA50FD205BCDAE003A93AD /* libxml2.tbd in Frameworks */,
-				18AA50FB205BCDA6003A93AD /* libstdc++.6.tbd in Frameworks */,
 				18AA50F9205BCD9F003A93AD /* QuartzCore.framework in Frameworks */,
 				18AA50F7205BCD98003A93AD /* CoreLocation.framework in Frameworks */,
 				18AA50F5205BCD8E003A93AD /* SystemConfiguration.framework in Frameworks */,
@@ -405,7 +404,6 @@
 			isa = PBXGroup;
 			children = (
 				3AA85BE1200738C100BAB348 /* HomeViewController.swift */,
-				18708FA020855597008F6B8F /* HomePostCollectionViewController.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -549,6 +547,7 @@
 		D2939EF5E945A8028B3BC578 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D06990121B1070E00FA6CAC /* libc++.tbd */,
 				18AA510B205BD58D003A93AD /* DaumMap.embeddedframework */,
 				18AA50FE205BCDB6003A93AD /* libsqlite3.tbd */,
 				18AA50FC205BCDAE003A93AD /* libxml2.tbd */,
@@ -727,7 +726,7 @@
 				"${BUILT_PRODUCTS_DIR}/ActiveLabel/ActiveLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/CDAlertView/CDAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Koloda/Koloda.framework",
 				"${BUILT_PRODUCTS_DIR}/Popover/Popover.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -744,7 +743,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ActiveLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CDAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Koloda.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Popover.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -800,7 +799,6 @@
 				3A76C19920046761004253CF /* Sharegram.xcdatamodeld in Sources */,
 				3AA85BE2200738C100BAB348 /* HomeViewController.swift in Sources */,
 				185EECDA2058EEB100B3826E /* DistanceViewController.swift in Sources */,
-				18708FA120855597008F6B8F /* HomePostCollectionViewController.swift in Sources */,
 				3A76C19120046761004253CF /* AppDelegate.swift in Sources */,
 				3AA85BE6200738E300BAB348 /* CameraViewController.swift in Sources */,
 				18708F9F20854F6D008F6B8F /* ActivityTableViewController.swift in Sources */,
