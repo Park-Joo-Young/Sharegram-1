@@ -37,20 +37,19 @@ class SubSearchViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        delay(0.01) {
-            self.SearchController.searchBar.becomeFirstResponder()
-        }
      }
     
     override func viewWillAppear(_ animated: Bool) {
-        //self.navigationItem.hidesBackButton = true
+        self.SearchList.removeAll()
         ref = Database.database().reference()
-        print("여기가 처음")
         if segment.selectedSegmentIndex == 0 {
             self.PopularList()
         }
+        SearchController.searchBar.becomeFirstResponder()
     }
-
+    override func viewDidDisappear(_ animated: Bool) {
+        SearchController.searchBar.endEditing(true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.SearchResultTable.register(UINib(nibName: "UserTableViewCell", bundle: nil), forCellReuseIdentifier: "usercell")
@@ -83,15 +82,12 @@ class SubSearchViewController: UIViewController {
         
         let SwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(SwipeLeftAction))
         SwipeLeft.direction = .left
-        //SearchResultTable.addGestureRecognizer(SwipeLeft)
         let SwipeRight = UISwipeGestureRecognizer(target: self, action: #selector(SwipeRightAction))
         SwipeRight.direction = .right
-        //SearchResultTable.addGestureRecognizer(SwipeRight)
         SearchResultTable.separatorStyle = .none
         SearchResultTable.rowHeight = 70
         SearchResultTable.estimatedRowHeight = UITableViewAutomaticDimension
         
-        //self.navigationItem.titleView = SearchController.searchBar
         segment.segmentStyle = .textOnly
         segment.insertSegment(withTitle: "인기", at: 0)
         segment.insertSegment(withTitle: "사람", at: 1)
@@ -167,7 +163,6 @@ extension SubSearchViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print("ddd")
         print(self.SearchList)
-        
         let cell = self.SearchResultTable.dequeueReusableCell(withIdentifier: "usercell", for: indexPath) as! UserTableViewCell
         if segment.selectedSegmentIndex == 2 { //해쉬태그
             let dic = self.SearchTagList[indexPath.row]
@@ -175,7 +170,6 @@ extension SubSearchViewController : UITableViewDelegate {
             cell.name.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             cell.followercount.text = "\(dic["Count"]!)게시물"
             cell.followercount.font = UIFont(name: "BM DoHyeon OTF", size : 12)!
-            //cell.profile.frame.size = CGSize(width: 100, height: 100)
             cell.profile.image = UIImage(named: "HashTag.png")
             cell.profile.layer.borderWidth = 1.0
             cell.profile.layer.masksToBounds = false
@@ -229,32 +223,34 @@ extension SubSearchViewController : UITableViewDelegate {
                 cell.profile.contentMode = .scaleToFill
             }
             return cell
-        } else {
-            let dic = self.SearchList[indexPath.row]
-            cell.name.text = dic["사용자 명"]
-            cell.name.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
-            if dic["ProFileImage"] != nil {
-                cell.profile.frame.size = CGSize(width: 50, height: 50)
-                cell.profile.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
-                cell.profile.layer.borderWidth = 1.0
-                cell.profile.layer.masksToBounds = false
-                cell.profile.layer.cornerRadius = (cell.profile.frame.size.width) / 2.0
-                cell.profile.layer.borderColor = UIColor.black.cgColor
-                cell.profile.clipsToBounds = true
-                cell.profile.contentMode = .scaleToFill
-                
-            } else { //이미지가 없다ㅋ
-                cell.profile.frame.size = CGSize(width: 50, height: 50)
-                cell.profile.image = UIImage(named: "profile.png")
-                cell.profile.layer.borderWidth = 1.0
-                cell.profile.layer.masksToBounds = false
-                cell.profile.layer.cornerRadius = (cell.profile.frame.size.width) / 2.0
-                cell.profile.layer.borderColor = UIColor.black.cgColor
-                cell.profile.clipsToBounds = true
-                cell.profile.contentMode = .scaleToFill
+        } else { //인기
+            if !(SearchList.isEmpty) {
+                let dic = SearchList[indexPath.row]
+                cell.name.text = dic["사용자 명"]
+                cell.name.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
+                if dic["ProFileImage"] != nil {
+                    cell.profile.frame.size = CGSize(width: 50, height: 50)
+                    cell.profile.sd_setImage(with: URL(string: dic["ProFileImage"]!), completed: nil)
+                    cell.profile.layer.borderWidth = 1.0
+                    cell.profile.layer.masksToBounds = false
+                    cell.profile.layer.cornerRadius = (cell.profile.frame.size.width) / 2.0
+                    cell.profile.layer.borderColor = UIColor.black.cgColor
+                    cell.profile.clipsToBounds = true
+                    cell.profile.contentMode = .scaleToFill
+                    
+                } else { //이미지가 없다ㅋ
+                    cell.profile.frame.size = CGSize(width: 50, height: 50)
+                    cell.profile.image = UIImage(named: "profile.png")
+                    cell.profile.layer.borderWidth = 1.0
+                    cell.profile.layer.masksToBounds = false
+                    cell.profile.layer.cornerRadius = (cell.profile.frame.size.width) / 2.0
+                    cell.profile.layer.borderColor = UIColor.black.cgColor
+                    cell.profile.clipsToBounds = true
+                    cell.profile.contentMode = .scaleToFill
+                }
+                cell.followercount.text = "팔로워 \(self.popularList[indexPath.row]["count"]!)명"
+                cell.followercount.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             }
-            cell.followercount.text = "팔로워 \(self.popularList[indexPath.row]["count"]!)명"
-            cell.followercount.font = UIFont(name: "BM DoHyeon OTF", size : 15)!
             return cell
         }
         //cell.imageView?.image
@@ -299,6 +295,8 @@ extension SubSearchViewController {
     @objc func ActSegmentClick() {
         if segment.selectedSegmentIndex == 0 {
             self.SearchController.searchBar.text = ""
+            self.popularList.removeAll()
+            self.SearchResultTable.reloadData()
             self.PopularList()
         } else if segment.selectedSegmentIndex == 1 {
             self.SearchController.searchBar.text = ""
@@ -324,11 +322,14 @@ extension SubSearchViewController {
                             continue
                         }
                     }
-                    self.SearchResultTable.reloadData()
+                    if self.SearchList.count == 3 {
+                        self.SearchResultTable.reloadData()
+                    }
                 }
                 
             })
         }
+        
     }
     func Sort() {
         for i in (1..<self.popularList.count).reversed() {
@@ -358,7 +359,6 @@ extension SubSearchViewController {
                     self.followerList.removeAll()//다 넣고 삭제하고
                 }
                 //이 반복문이 끝나면 정렬하러 들어간다.
-                print(self.popularList)
                 self.Sort()
             }
         })
@@ -463,7 +463,6 @@ extension SubSearchViewController {
         for i in 0..<array.count {
             self.CountingTag(array[i])
         }
-        print(self.SearchTagList)
         self.SearchResultTable.reloadData()
     }
 

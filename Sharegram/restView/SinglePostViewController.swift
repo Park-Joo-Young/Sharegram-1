@@ -95,7 +95,7 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
             make.right.equalTo(self.view).offset(-10)
             make.centerY.equalTo(UserName)
         }
-        ExceptionBut.setImage(UIImage(named: "exception.png"), for: .normal)
+        ExceptionBut.isEnabled = false
         PostImage.snp.makeConstraints { (make) in
             make.width.equalTo(width)
             make.height.equalTo(height/2)
@@ -174,7 +174,7 @@ class SinglePostViewController: UIViewController { //PostId 만 받으면 다 �
 
 }
 extension SinglePostViewController {
-    func LikeCount() {
+    func LikeCount() { // 좋아요 갯수 함수
         ref?.child("WholePosts").child(self.UserPost.PostId!).child("LikePeople").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.value is NSNull { //좋아요 음다
                 self.Likecount.text = "좋아요 0개"
@@ -184,7 +184,7 @@ extension SinglePostViewController {
             }
         })
     }
-    @objc func imageTap() {
+    @objc func imageTap() { // 이미지 클릭 시 확대 함수
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ExtendImage") as! ExtendImageViewController
             vc.image = self.UserPost.image!
             vc.modalTransitionStyle = .crossDissolve
@@ -196,7 +196,7 @@ extension SinglePostViewController {
         vc.UserPost = self.UserPost
         present(vc, animated: true, completion: nil)
     }
-    func LikeCheck() {
+    func LikeCheck() { // 좋아요를 눌렀는지의 여부에 대한 체크 함수
         ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.value is NSNull {
                 print("Nothing")
@@ -207,7 +207,6 @@ extension SinglePostViewController {
                             if value["LikePeople"] as? [String : AnyObject] != nil {
                                 for (_, value1) in (value["LikePeople"] as? [String : String])! {
                                     if value1 == (Auth.auth().currentUser?.uid)! { //내가 좋아요를 눌러놨으면 라이크 버튼
-                                        print("씨발아")
                                         self.LikeBut.setImage(UIImage(named: "like.png"), for: .normal)
                                         break
                                     } else {
@@ -226,7 +225,7 @@ extension SinglePostViewController {
         })
         ref?.removeAllObservers()
     }
-    func fetchUser() {
+    func fetchUser() { // 유저 정보를 가져오기 위함
         
         ref?.child("User").child(self.UserPost.Id!).child("UserProfile").observe(.value, with: { (snapshot) in
             if let item = snapshot.value as? [String : String] {
@@ -240,7 +239,7 @@ extension SinglePostViewController {
         })
         ref?.removeAllObservers()
     }
-    func fetchpost() {
+    func fetchpost() { // 해당하는 포스트 id에 맞는 게시물 로드
         self.UserPost.PeopleWhoLike.removeAll()
         ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if let item = snapshot.value as? [String : AnyObject] {
@@ -274,7 +273,7 @@ extension SinglePostViewController {
                 self.ref?.child("WholePosts").child(self.UserPost.PostId!).child("LikePeople").setValue(dic)
                 
                 self.Hash = self.UserPost.caption!._tokens(from: HashtagTokenizer())
-                if self.Hash.isEmpty {
+                if self.Hash.isEmpty { // 해시태그가 비어있따
                     //self.FetchPost()
                     self.fetchpost()
                     sender.setImage(UIImage(named: "like.png"), for: .normal)

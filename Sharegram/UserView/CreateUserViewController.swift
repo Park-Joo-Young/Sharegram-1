@@ -95,8 +95,8 @@ class CreateUserViewController: UIViewController {
                     //user!.createProfileChangeRequest()
                     let data = ["이메일" : self.EmailText.text!]
                     let data1 = ["사용자 명" : self.DisplayName.text!]
-                    self.ref?.child("User").child(user!.uid).child("UserProfile").setValue(data)
-                self.ref?.child("User").child(user!.uid).child("UserProfile").updateChildValues(data1)
+                    self.ref?.child("User").child((user?.user.uid)!).child("UserProfile").setValue(data)
+                self.ref?.child("User").child((user?.user.uid)!).child("UserProfile").updateChildValues(data1)
                     let user = Auth.auth().currentUser!
                     let changeRequest = user.createProfileChangeRequest()
                         

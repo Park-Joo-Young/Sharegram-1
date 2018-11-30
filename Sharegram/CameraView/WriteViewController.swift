@@ -166,9 +166,8 @@ extension WriteViewController {
         self.performSegue(withIdentifier: "LocationSet", sender: self)
     }
     func SubFuncDataSave() {
-        self.CountUpHasgTag(self.key)
-        self.ref?.child("WholePosts").updateChildValues([self.key : self.PostArray]) // 전체 게시물 등록
-        //self.displayMessage(title: "게시물이", message: "등록되었습니다.")
+        self.CountUpHasgTag(self.key!)
+        self.ref?.child("WholePosts").updateChildValues([self.key! : self.PostArray]) // 전체 게시물 등록
         object.DisplayMessage("게시물이", "등록되었습니다.")
         self.writeimageView.image = nil
         self.writeImage = nil
@@ -176,8 +175,6 @@ extension WriteViewController {
         if self.writeimageView.image == nil {
             self.navigationController?.popToRootViewController(animated: true)
         }
-        
-        return
     }
     func DataSave(_ date : String, identifier : Int) { // 데이터 저장
         self.PostArray.removeAll()
@@ -203,11 +200,9 @@ extension WriteViewController {
                         if identifier == 0 { //위치 공유 할 시
                             let latitude = String(self.object.lat)
                             let LocationPath = latitude.replacingOccurrences(of: ".", with: "_")
-                            //print(metadata?.downloadURL()?.absoluteString)
                             self.PostArray = ["image" : url.absoluteString,"latitude" : "\(self.object.lat)", "longitude" : "\(self.object.lon)", "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!, "Like" : "0", "postID" : self.key]
                             
                         } else { // 1
-                            print(self.key)
                             self.PostArray = ["image" : url.absoluteString, "Author" : (Auth.auth().currentUser?.displayName)!, "Description" : self.writeDescription.text, "Date" : date, "ID" : (Auth.auth().currentUser?.uid)!, "postID" : self.key]
                         }
                         self.SubFuncDataSave()

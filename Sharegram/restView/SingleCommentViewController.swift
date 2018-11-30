@@ -219,7 +219,7 @@ extension SingleCommentViewController : UITableViewDataSource , UITableViewDeleg
                 cell.Comment.handleMentionTap { (hashtag) in
                     let alertview = CDAlertView(title: "현재 위치는 ", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
                     let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
-                        return
+                        return true
                     })
                     alertview.add(action: OKAction)
                     alertview.show()
@@ -253,7 +253,7 @@ extension SingleCommentViewController : UITableViewDataSource , UITableViewDeleg
                 cell.Comment.handleMentionTap { (hashtag) in
                     let alertview = CDAlertView(title: "현재 위치는 ", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
                     let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
-                        return
+                        return true
                     })
                     alertview.add(action: OKAction)
                     alertview.show()
@@ -390,7 +390,7 @@ extension SingleCommentViewController : UIPopoverPresentationControllerDelegate 
             FetchComment()
         }
     }
-    @objc func SetCommentReply(_ sender : UIButton) { //리댓글 저장
+    @objc func SetCommentReply(_ sender : UIButton) { // 리댓글 저장
         let tag = sender.tag
         CommonVariable.formatter.dateFormat = "yyyy-MM-dd HH:mm"
         CommonVariable.formatter.locale = Locale(identifier: "ko_KR")
@@ -405,10 +405,10 @@ extension SingleCommentViewController : UIPopoverPresentationControllerDelegate 
             let ReplyArray = ["Author" : self.CommentName, "Date" : Date, "ReplyKey" : key, "Type" : "Reply", "ProFileImage" : self.Profileimage, "Reply" : alert.textFieldText!, "PostKey" : self.UserPost.PostId!]
             self.ref?.child("Comment").child(self.UserPost.PostId!).child(self.CommentList[tag]["CommentKey"]!).child("Reply").updateChildValues([key : ReplyArray])
             self.FetchComment()
-            return
+            return true
         }
         let cancel = CDAlertViewAction(title: "취소", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white) { (action) in
-            return
+            return true
         }
         alert.add(action: write)
         alert.add(action: cancel)
@@ -416,7 +416,7 @@ extension SingleCommentViewController : UIPopoverPresentationControllerDelegate 
         
         return
     }
-    func CreateAutoCompleteMentionTable() { // 해쉬태그 자동완성 팝업 뷰
+    func CreateAutoCompleteMentionTable() { // 유저태그 자동완성 팝업 뷰
         self.Mentionview = UITableView(frame: CGRect(x: 0, y: 0, width: CommonVariable.screenWidth, height: CommonVariable.screenHeight/3))
         self.Mentionview.delegate = self
         self.Mentionview.dataSource = self
@@ -437,7 +437,7 @@ extension SingleCommentViewController : UIPopoverPresentationControllerDelegate 
             print("didDismissHandler")
         }
     }
-    func observerUser(_ str : String) {
+    func observerUser(_ str : String) { // 유저정보 가져오는 함수
         self.result.removeAll()
         ref?.child("User").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if let item = snapshot.value as? [String : AnyObject] {
@@ -461,28 +461,6 @@ extension SingleCommentViewController : UIPopoverPresentationControllerDelegate 
         return .none
     }
 }
-//extension SingleCommentViewController : UITableViewDelegate, UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return self.result.count
-//    }
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        observerData()
-//        let cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
-//        cell.imageView?.image = UIImage(named: "HashTag.png")
-//        cell.textLabel?.text = self.result[indexPath.row]
-//        return cell
-//    }
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let item = self.writeDescription.text.components(separatedBy: "@")
-//        let selectedCell : UITableViewCell = tableView.cellForRow(at: indexPath)!
-//        let selectedText = selectedCell.textLabel?.text as String!
-//        let selected = selectedText?.replacingOccurrences(of: "@", with: "")
-//        let trim = self.writeDescription.text.replacingOccurrences(of: item.last!, with: "", options: .caseInsensitive, range: nil)
-//        self.writeDescription.text = trim + selected! + " "
-//        self.popover.dismiss()
-//        self.result.removeAll()
-//    }
-//}
 extension SingleCommentViewController : UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField.tag == 0 {

@@ -1,4 +1,4 @@
-//
+    //
 //  AccurateLocationMapViewController.swift
 //  Sharegram
 //
@@ -85,8 +85,11 @@ extension AccurateLocationMapViewController {
             let OKAction = CDAlertViewAction(title: "Ok", font: UIFont(name: "BM DoHyeon OTF", size : 16)!, textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
                 self.delegate?.getLocation(self.location.coordinate.latitude, self.location.coordinate.longitude)
                 self.navigationController?.popViewController(animated: true) //이전 화면으로 돌아간다 위치와 함께
+                return true
+                
             })
             let Cancel = CDAlertViewAction(title: "Cancel", font: UIFont(name: "BM DoHyeon OTF", size : 16)!, textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
+                return true
             })
             alertview.add(action: OKAction)
             alertview.add(action: Cancel)

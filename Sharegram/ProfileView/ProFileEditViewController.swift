@@ -51,8 +51,14 @@ class ProFileEditViewController: UIViewController {
                     print(error!.localizedDescription)
                     return
                 } else { //성공적으로 저장되면
-                    let str = metadata?.downloadURL()?.absoluteString
-                    self.ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("UserProfile").updateChildValues(["ProFileImage" : str!])
+                    var str = ""
+                    self.storageRef?.downloadURL(completion: { (url, error) in
+                        if error == nil {
+                            str = (url?.absoluteString)!
+                        }
+                    })
+                    
+                    self.ref?.child("User").child((Auth.auth().currentUser?.uid)!).child("UserProfile").updateChildValues(["ProFileImage" : str])
                     self.navigationController?.popToRootViewController(animated: true)
                 }
             })

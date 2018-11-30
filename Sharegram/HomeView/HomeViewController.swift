@@ -63,6 +63,7 @@ class HomeViewController: UIViewController {
             make.width.equalTo(CommonVariable.screenWidth)
             make.height.equalTo(CommonVariable.screenHeight)
         }
+        tabBarController?.delegate = self
     }
 }
 extension HomeViewController {
@@ -519,4 +520,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 
 }
-
+extension HomeViewController : UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        self.presentedViewController?.dismiss(animated: false, completion: nil)
+    }
+}

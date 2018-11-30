@@ -11,15 +11,21 @@ import SnapKit
 import Firebase
 
 class LoginViewController: UIViewController {
-    //var Object = variable()
     var EmailText = UITextField()
     var PasswordText = UITextField()
     var LoginBut = UIButton()
     var ref : DatabaseReference?
     var handle : DatabaseHandle?
-    
+    fileprivate var loadingView = UIActivityIndicatorView()
     @IBOutlet weak var segment: UISegmentedControl!
-    
+    override func viewWillLayoutSubviews() {
+        view.addSubview(loadingView)
+        loadingView.snp.makeConstraints { (make) in
+            make.center.equalTo(self.view)
+        }
+        loadingView.activityIndicatorViewStyle = .whiteLarge
+        loadingView.color = UIColor.black
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
@@ -74,7 +80,7 @@ class LoginViewController: UIViewController {
         LoginBut.tintColor = UIColor.white
         LoginBut.addTarget(self, action: #selector(ActLogin), for: .touchUpInside)
         // Do any additional setup after loading the view.
-       
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEdit)))
             
     }
         override func viewDidAppear(_ animated: Bool){
@@ -86,14 +92,19 @@ class LoginViewController: UIViewController {
             
         }
     @objc func ActLogin(sender : UIButton) {
+        loadingView.startAnimating()
         if segment.selectedSegmentIndex == 0 {
             if EmailText.text! != "" && PasswordText.text! != "" { //공백이 아닐 때
                 Auth.auth().signIn(withEmail: EmailText.text!, password: PasswordText.text!, completion: { (user, error) in
                     if user != nil {
                         print("Success")
+                        self.loadingView.stopAnimating()
                         self.performSegue(withIdentifier: "Login", sender: self)
+                        
                     } else {
                         if let myError = error?.localizedDescription {
+                            self.loadingView.stopAnimating()
+                            self.displayErrorMessage(title: "아이디나 비밀번호를", message: "다시 입력해주세요")
                             print(myError)
                         } else {
                             print("error")
@@ -135,4 +146,9 @@ class LoginViewController: UIViewController {
     }
     */
 
+}
+extension LoginViewController {
+    @objc func endEdit() {
+        view.endEditing(true)
+    }
 }

@@ -100,6 +100,7 @@ class ProfileViewController: UIViewController {
         MySettingBut.layer.borderWidth = 1.5
         MySettingBut.layer.borderColor = UIColor.lightGray.cgColor
         MySettingBut.tintColor = UIColor.black
+        MySettingBut.addTarget(self, action: #selector(appSetting(_:)), for: .touchUpInside)
         // Do any additional setup after loading the view.
     }
 
@@ -123,6 +124,11 @@ class ProfileViewController: UIViewController {
 
 }
 extension ProfileViewController {
+    @objc func appSetting(_ sender : UIButton) {
+        if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
+            UIApplication.shared.open(url as URL, completionHandler: nil)
+        }
+    }
     @objc func likePressed(_ sender : UIButton) { //좋아요 눌렀을 때
         let key = ref?.child("WholePosts").childByAutoId().key
         let dic = [key! : (Auth.auth().currentUser?.uid)!]
@@ -270,6 +276,7 @@ extension ProfileViewController {
             let remove = CDAlertViewAction(title: "삭제", font: UIFont(name: "BM DoHyeon OTF", size : 15)!, textColor: UIColor.red, backgroundColor: UIColor.white, handler: { (action) in
                 self.ref?.child("WholePosts").child(self.UserPost[sender.tag].PostId!).removeValue()
                 self.HashTagPostRemove(sender.tag)
+                return true
             })
             let cancel = CDAlertViewAction(title: "취소", font: UIFont(name: "BM DoHyeon OTF", size : 15)!, textColor: UIColor.black, backgroundColor: UIColor.white, handler: nil)
             confirm.add(action: remove)

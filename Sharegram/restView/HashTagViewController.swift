@@ -12,7 +12,7 @@ import Firebase
 import ScrollableSegmentedControl
 import CoreLocation
 
-class HashTagViewController: UIViewController {
+class HashTagViewController: UIViewController { // 해시태그에 해당하는 게시물들을 포함한 뷰 최근과 근처 게시물이 있따.
     
     @IBOutlet var navi: UINavigationBar!
     @IBOutlet var HashTagPostImage: UIImageView!
@@ -73,7 +73,6 @@ class HashTagViewController: UIViewController {
             make.top.equalTo(navi.snp.bottom).offset(20)
             make.left.equalTo(self.view).offset(20)
         }
-        // HashTagPostImage.makeRounded()
         HashTagPostImage.layer.cornerRadius = 30
         HashTagPostImage.clipsToBounds = true
         
@@ -125,14 +124,6 @@ class HashTagViewController: UIViewController {
             make.top.equalTo(segment.snp.bottom)
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -163,7 +154,6 @@ extension HashTagViewController {
         self.LocationPost.removeAll()
         print(self.currentLocation)
         if self.currentLocation != nil { // 위치를 받았으면
-            print("들어오려나")
             for i in 0..<self.HashTagPost.count {
                 if self.HashTagPost[i].lat == 0 { //위치가 없는 게시물이면 넘어가
                     continue
@@ -171,7 +161,6 @@ extension HashTagViewController {
                     let PostLocation = CLLocation(latitude: self.HashTagPost[i].lat!, longitude: self.HashTagPost[i].lon!)
                     let meter = Int(self.currentLocation.distance(from: PostLocation))
                     if meter <= 500 {
-                        print("들어오나?")
                         self.LocationPost.append(self.HashTagPost[i])
                     }
                 }

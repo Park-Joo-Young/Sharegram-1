@@ -19,6 +19,7 @@ class variable {
     func DisplayMessage (_ title : String , _ message : String) {
         let alertview = CDAlertView(title: title, message: message, type: CDAlertViewType.notification)
         let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
+            return true
         })
         alertview.add(action: OKAction)
         alertview.show()

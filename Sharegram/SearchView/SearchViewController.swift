@@ -33,11 +33,9 @@ class SearchViewController: UIViewController{
         ref?.child("WholePosts").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             let item = snapshot.value as! [String : AnyObject]
                 for (_, value) in item {
-                    print("여기좀 와주세요 아저시!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ㄱ")
                     if let Description = value["Description"] as? String, let Author = value["Author"] as? String, let Date = value["Date"] as? String, let ID = value["ID"] as? String, let image = value["image"] as? String , let postID = value["postID"] as? String {
                         let post = Post()
                         if value["latitude"] as? String == nil { //위치가 없으면
-                            print("여기좀 와주세요 아저시!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ㄱ")
                             post.caption = Description
                             post.Id = ID
                             post.image = image
@@ -74,13 +72,8 @@ class SearchViewController: UIViewController{
 
     override func viewWillAppear(_ animated: Bool) {
         self.definesPresentationContext = true
-        //self.Posts.removeAll()
-        //self.definesPresentationContext = true
         ref = Database.database().reference()
-
-        //SearchController.searchBar.resignFirstResponder()
         SnapWholePosts()
-
     }
     override func viewDidAppear(_ animated: Bool) {
         SearchController = UISearchController(searchResultsController: nil)
@@ -126,7 +119,11 @@ class SearchViewController: UIViewController{
         // Get the new view controller using segue.destinationViewController.
         if segue.identifier == "Koloda" {
             let destination = segue.destination as! PostViewController
-            destination.Id = self.Posts[index].Id!
+            if let id = self.Posts[index].Id {
+                destination.Id = id
+            } else { //혹시나 잘못 눌렸을 때
+                destination.Id = self.Posts[0].Id!
+            }
         }
     }
 }
@@ -135,24 +132,18 @@ extension SearchViewController : UISearchControllerDelegate {
 
     func willPresentSearchController(_ searchController: UISearchController) {
           let vc = self.storyboard?.instantiateViewController(withIdentifier: "Search") as! SubSearchViewController
-        print("시발 ..222")
-        performSegue(withIdentifier: "sub", sender: self)
-                //self.definesPresentationContext = false
-        //self.definesPresentationContext = true
-            //self.performSegue(withIdentifier: "sub", sender: self)
-//         vc.modalPresentationStyle = .overCurrentContext
-//         present(vc, animated: false, completion: nil)
-         //self.navigationItem.backBarButtonItem?.title = ""
-         //navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: false)
+        searchController.searchBar.endEditing(true)
     }
     func presentSearchController(_ searchController: UISearchController) {
+        searchController.searchBar.endEditing(true)
+        view.endEditing(false)
     }
 }
 
 extension SearchViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         index = indexPath.row
-        print(index)
         performSegue(withIdentifier: "Koloda", sender: self)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -163,7 +154,6 @@ extension SearchViewController : UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = WholePostCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         let imageView = cell.viewWithTag(1) as? UIImageView
-        print(self.Posts[indexPath.row].timeAgo!)
         imageView?.sd_setImage(with: URL(string: self.Posts[indexPath.row].image!), completed: nil)
         return cell
     }

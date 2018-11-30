@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Q9P-rh-sNn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Q9P-rh-sNn">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -269,8 +267,11 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Min-kv-R89">
                                 <rect key="frame" x="290" y="460" width="86" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" image="rightarrow.png"/>
+                                <state key="normal" title="&gt;">
+                                    <color key="titleColor" red="0.16862745100000001" green="0.16862745100000001" blue="0.16862745100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -770,7 +771,6 @@
                     <connections>
                         <outlet property="WholePostCollectionView" destination="sSe-gl-ohN" id="fT3-eg-o07"/>
                         <segue destination="O3q-ed-yJn" kind="show" identifier="Koloda" id="xZJ-IS-Q3a"/>
-                        <segue destination="AV0-GA-x9O" kind="show" identifier="sub" id="Qyz-Ts-fs6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="676-bI-QDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1086,47 +1086,6 @@
             </objects>
             <point key="canvasLocation" x="3597.5999999999999" y="-1136.5817091454273"/>
         </scene>
-        <!--Home-->
-        <scene sceneID="QrH-nn-koH">
-            <objects>
-                <collectionViewController id="jPa-JC-Rqb" customClass="HomePostCollectionViewController" customModule="Sharegram" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="oI8-gL-dbr">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="DlJ-s3-PtR">
-                            <size key="itemSize" width="375" height="553"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="NX8-f9-Iqe">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="553"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="553"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </view>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="jPa-JC-Rqb" id="LIv-Oc-etd"/>
-                            <outlet property="delegate" destination="jPa-JC-Rqb" id="zRd-gP-qwi"/>
-                        </connections>
-                    </collectionView>
-                    <navigationItem key="navigationItem" title="Home" id="sK7-39-7KI">
-                        <barButtonItem key="leftBarButtonItem" title="LogOut" id="7Q3-Ux-doj">
-                            <connections>
-                                <action selector="LogOut:" destination="jPa-JC-Rqb" id="d3k-mL-Dp6"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AVC-Cx-af5" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4222" y="-1531"/>
-        </scene>
         <!--Activity-->
         <scene sceneID="CnT-RQ-3g6">
             <objects>
@@ -1196,12 +1155,11 @@
         <image name="filter.png" width="32" height="32"/>
         <image name="home.png" width="24" height="24"/>
         <image name="photo.png" width="32" height="32"/>
-        <image name="rightarrow.png" width="32" height="32"/>
         <image name="search.png" width="24" height="24"/>
         <image name="write.png" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Fp4-lL-XdU"/>
+        <segue reference="PrX-HD-SbJ"/>
         <segue reference="mMU-4D-1m2"/>
     </inferredMetricsTieBreakers>
 </document>

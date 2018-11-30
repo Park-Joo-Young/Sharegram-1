@@ -26,6 +26,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, Ge
     @IBOutlet weak var PhotoCollection: UICollectionView!
     
     let locationManager = CLLocationManager()
+    let loadingView = UIActivityIndicatorView()
     var location : CLLocation!
     var object = variable()
     var imageArray = [UIImage]()
@@ -33,7 +34,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, Ge
     var capture : UIImage!
     var flag = false
     var ref : DatabaseReference?
-    var asset : PHAsset?
+    var asset : PHAsset? //앨범 콜렉션에서 선택을 했을 때 값을 받는 집합.
     var index = 0
     var fetchResult : PHFetchResult<PHAsset>!
     var address : String = ""
@@ -44,12 +45,15 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, Ge
     }
     @IBAction func ActCamera(_ sender: UIBarButtonItem) {
         
-        if CLLocationManager.locationServicesEnabled() {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             locationManager.delegate = self
             locationManager.distanceFilter = 200.0
             locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
             locationManager.startUpdatingLocation()
-
+        } else { //로케이션이 안켜져있으면 위치가 안들어와야지
+            locationManager.stopUpdatingLocation()
+            object.lat = 0
+            object.lon = 0
         }
        
         if(UIImagePickerController.isSourceTypeAvailable(.camera)) {
@@ -64,13 +68,19 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, Ge
     }
     
     @IBAction func ActPhoto(_ sender: UIBarButtonItem) {
+        loadingView.startAnimating()
         flag = false
         if flag == false {
             object.lat = 0
             object.lon = 0
         }
-        print("\(object.lat) , \(object.lon)")
-        grabPhotos()
+        grabPhotos { (isSuccess) in
+            if isSuccess {
+                //self.myImageView.image = self.imageArray[0]
+               self.loadingView.stopAnimating()
+            }
+            
+        }
     }
     
     @IBAction func ActNext(_ sender: UIBarButtonItem) { // 다음화면 넘어가기
@@ -84,11 +94,31 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, Ge
     //if we have no permission to access user location, then ask user for permission.
     
     override func viewWillAppear(_ animated: Bool) {
+        print("뷰 윌 어피어")
         if imageArray.count == 0 {
-            grabPhotos()
+            loadingView.startAnimating()
+            DispatchQueue.global(qos: .userInteractive).async {
+                self.grabPhotos(completion: { (isSuccess) in
+                    if isSuccess {
+                        
+                        self.loadingView.stopAnimating()
+                    }
+                })
+            }
         } else {
             return
         }
+        if CLLocationManager.authorizationStatus() != .authorizedWhenInUse {
+            location = nil
+        }
+    }
+    override func viewWillLayoutSubviews() {
+        view.addSubview(loadingView)
+        loadingView.snp.makeConstraints { (make) in
+            make.center.equalTo(self.view)
+        }
+        loadingView.activityIndicatorViewStyle = .whiteLarge
+        loadingView.color = UIColor.blue
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,13 +150,11 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, Ge
         if segue.identifier == "write" {
             let destination = segue.destination as! WriteViewController
             destination.writeImage = myImageView.image
-            if self.asset?.location == nil { //사진 찍고 바로 넘어갔을 때
-                if self.location == nil { //카메라를 찍지 않았다.
-                    asset = fetchResult[0]
+            if self.asset?.location == nil { //사진 찍고 바로 넘어갔을 때, 없다는 뜻은 앨범콜렉션에서 한번도 누르지 않았을 때
+                if self.location == nil { //위치를 사용하지 않았다.
                     destination.object.lat = 0
                     destination.object.lon = 0
-                    return
-                } else { // 카메라를 찍었기때문에 셀프 로케이션이 존재한다.
+                } else { // 카메라를 찍었기때문에 셀프 로케이션이 존재한다. 위치를 사용해서 카메라 이용하고 사진을 찍었다.
                     destination.object.lat = object.lat
                     destination.object.lon = object.lon
                 }
@@ -154,11 +182,15 @@ extension CameraViewController : UIImagePickerControllerDelegate {
 
         self.dismiss(animated: true, completion: nil)
         myImageView.image = capture
-        if CLLocationManager.locationServicesEnabled() {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            print("연결")
             if location != nil {
                 print(location)
                 convertToAddressWith(coordinate: location)
             }
+        } else {
+            print("미연결")
+            location = nil
         }
     }
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -171,7 +203,6 @@ extension CameraViewController : UICollectionViewDelegate, UICollectionViewDataS
         index = indexPath.row
         print(index)
         asset = fetchResult[index]
-        print(asset?.location)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageArray.count
@@ -204,13 +235,12 @@ extension CameraViewController : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Did location updates is called but failed getting location \(error)")
     }
-    //this method is called by the framework on         locationManager.requestLocation();
+    //this method is called by the framework on locationManager.requestLocation();
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         location = locations.last! as CLLocation
-        print("Did location updates is called")
         object.lat = location.coordinate.latitude
         object.lon = location.coordinate.longitude
-        self.locationManager.allowsBackgroundLocationUpdates = false
+        
         //store the user location here to firebase or somewhere
     }
 }
@@ -219,6 +249,7 @@ extension CameraViewController {
         let alertview = CDAlertView(title: "현재 위치는 \(convertToAddressWith(coordinate: location))", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
         let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.clear, handler: { (action) in
             self.performSegue(withIdentifier: "AccurateLocation", sender: self) //이전 화면으로 돌아간다 위치와 함께
+            return true
         })
         let Cancel = CDAlertViewAction(title: "Cancel")
         alertview.add(action: OKAction)
@@ -234,14 +265,11 @@ extension CameraViewController {
         object.lat = lat
         object.lon = lon
         PHPhotoLibrary.shared().performChanges({
-            print("일단찍자?")
             let request = PHAssetChangeRequest.creationRequestForAsset(from: self.capture!)
             request.location = CLLocation(latitude: lat, longitude: lon)
         }, completionHandler: nil)
-        print(object.lat)
-        print(object.lon)
     }
-    func grabPhotos() {
+    func grabPhotos(completion : @escaping (Bool) -> Void) {
         imageArray.removeAll()
         let imgManager = PHImageManager.default()
         let requestOptions = PHImageRequestOptions()
@@ -256,8 +284,9 @@ extension CameraViewController {
             for i in 0..<fetchResult.count {
                 imgManager.requestImage(for: fetchResult.object(at: i) , targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: requestOptions, resultHandler: { (image, error) in
                     self.imageArray.append(image!)
-                    self.myImageView.image = self.imageArray[0]
-                    self.asset = self.fetchResult[0]
+                    DispatchQueue.main.async {
+                        self.myImageView.image = self.imageArray[0]
+                    }
                 })
             }
         } else {
@@ -266,6 +295,7 @@ extension CameraViewController {
         print(imageArray.count)
         DispatchQueue.main.async {
             self.PhotoCollection.reloadData()
+            completion(true)
         }
     }
     func convertToAddressWith(coordinate: CLLocation){
@@ -287,6 +317,7 @@ extension CameraViewController {
             let alertview = CDAlertView(title: "현재 위치는 \(self.address))", message: "다른 위치를 원하십니까?", type: CDAlertViewType.notification)
             let OKAction = CDAlertViewAction(title: "Ok", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in
                 self.performSegue(withIdentifier: "AccurateLocation", sender: self) //위치를 찍으러 출발
+                return true
             })
             let Cancel = CDAlertViewAction(title: "Cancel", font: UIFont.systemFont(ofSize: 16), textColor: UIColor.black, backgroundColor: UIColor.white, handler: { (action) in //그대로 괜찮으면 라이브러리에 exif데이터와 함께 위치 저장
                 PHPhotoLibrary.shared().performChanges({
@@ -294,6 +325,7 @@ extension CameraViewController {
                     let request = PHAssetChangeRequest.creationRequestForAsset(from: self.capture!)
                     request.location = self.location
                 }, completionHandler: nil)
+                return true
             })
             alertview.add(action: OKAction)
             alertview.add(action: Cancel)
